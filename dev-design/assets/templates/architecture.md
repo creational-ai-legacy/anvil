@@ -1,4 +1,4 @@
-# [Project Name] - Design Document
+# [Name] Architecture
 
 ## Overview
 [Brief description of what this system does]

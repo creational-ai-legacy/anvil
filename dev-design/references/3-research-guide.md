@@ -65,4 +65,4 @@ At the end of research, make a clear decision:
 - Underestimating switching costs
 
 ## Next Stage
-→ Stage 4: PoC Design
+→ Stage 4: Milestone Design

@@ -61,4 +61,4 @@ Updates to `docs/north-star.md` and `docs/[name]-architecture.md` with market an
 
 ## After Completion
 
-Make go/no-go decision based on research, then proceed to Stage 4: PoC Design.
+Make go/no-go decision based on research, then proceed to Stage 4: Milestone Design.

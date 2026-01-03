@@ -1,4 +1,4 @@
-# Stage 4: PoC Design
+# Stage 5: PoC Design
 
 ## Goal
 Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices.
@@ -7,7 +7,10 @@ Define what needs to be proven and in what order — with PRODUCTION-GRADE thin 
 NO
 
 ## Input
-- Validated architecture doc (`docs/[name]-architecture.md`)
+- Milestone definition from `docs/milestones.md` (Stage 4 output)
+- Validated architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
+
+**Note**: Run this stage once per milestone, starting with Milestone 1 (Core).
 
 ## Process
 1. Refine architecture with implementation perspective
@@ -17,9 +20,9 @@ NO
 5. Define success criteria for each PoC
 
 ## Output
-`docs/[name]-poc-design.md` using `assets/templates/poc-design.md`
+`docs/[milestone-name]-poc-design.md` using `assets/templates/poc-design.md`
 
-Example: `docs/core-poc-design.md`, `docs/mobile-poc-design.md`
+Example: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
 
 ## Verification Checklist
 - [ ] Each PoC proves one specific thing
@@ -167,4 +170,4 @@ Even at planning stage, think production:
 - Vague success criteria
 
 ## Next Stage
-→ Stage 4b: PoC Implementation Planning (ONE PoC at a time)
+→ PoC Implementation Planning (ONE PoC at a time) via dev-cycle

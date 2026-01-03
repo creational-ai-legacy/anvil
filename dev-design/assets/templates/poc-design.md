@@ -1,7 +1,13 @@
-# [Project Name] - PoC Plan
+# [Milestone Name] PoC Design
 
-## Overview
-[What are we trying to prove overall?]
+## Milestone Overview
+[What does completing this Milestone prove? What capability does it unlock?]
+
+## Project
+[Parent project name - link to docs/north-star.md]
+
+## Size
+[Expected number of PoCs for this milestone: 10-20]
 
 ## PoC Dependency Diagram
 

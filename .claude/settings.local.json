@@ -21,7 +21,9 @@
       "Bash(bash:*)",
       "Bash(grep:*)",
       "Bash(xargs:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(cat:*)",
+      "Bash(head:*)"
     ]
   }
 }

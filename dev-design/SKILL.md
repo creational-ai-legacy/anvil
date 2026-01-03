@@ -6,14 +6,21 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 
 ## Stage Overview
 
-| Stage | Output |
-|-------|--------|
-| 1. North Star | `docs/north-star.md` |
-| 2. Architecture | `docs/[name]-architecture.md` |
-| 3. Research | Market analysis, validation |
-| 4. PoC Design | `docs/[name]-poc-design.md` |
+| Stage | Output | Environment |
+|-------|--------|-------------|
+| 1. North Star | `docs/north-star.md` | Claude Desktop |
+| 2. Architecture | `docs/[name]-architecture.md` | Claude Desktop |
+| 3. Research | Market analysis, validation | Claude Desktop |
+| 4. Milestone Design | `docs/milestones.md` | Claude Code |
+| 5. PoC Design | `docs/[milestone-name]-poc-design.md` | Claude Code |
 
-**Note**: `[name]` can be anything - project name, feature name, module name, etc.
+**Environment Split**:
+- **Claude Desktop** (Stages 1-3): Free-form exploration and research
+- **Claude Code** (Stages 4-5): Template-driven structured design
+
+**File Naming**:
+- `[name]`: For architecture docs (can be anything - project name, feature name, module name)
+- `[milestone-name]`: For PoC design docs (comes from milestone names in `docs/milestones.md`)
 
 **Next**: → Hand off to `dev-cycle` skill for implementation
 
@@ -21,7 +28,7 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 
 ## ⛔ CRITICAL: NO-CODE SKILL
 
-**All stages (1-4) are strictly NO-CODE zones.**
+**All stages (1-5) are strictly NO-CODE zones.**
 
 ### What IS allowed:
 - High-level architecture diagrams
@@ -45,7 +52,7 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 - Forces clear conceptual understanding before coding
 
 ### If Asked to Write Code:
-Respond: "We're in the [North Star/Architecture/Research/PoC Design] stage — let's keep focus on [vision/architecture/validation/design]. Code comes later in the dev-cycle skill. For now, let me describe how this would work at a high level..."
+Respond: "We're in the [North Star/Architecture/Research/Milestone Design/PoC Design] stage — let's keep focus on [vision/architecture/validation/milestones/design]. Code comes later in the dev-cycle skill. For now, let me describe how this would work at a high level..."
 
 ---
 
@@ -138,19 +145,60 @@ If research already exists (from prior sessions, reference docs, or external sou
 - [ ] Pricing validated against market (if applicable)
 - [ ] Go/no-go decision supported by evidence
 
-**Next**: → Stage 4: PoC Design
+**Next**: → Stage 4: Milestone Design
 
 ---
 
-## Stage 4: PoC Design
+## Stage 4: Milestone Design
+
+**Goal**: Break North Star + Architecture into strategic milestones that group related PoCs
+
+**Input**:
+- North Star doc (`docs/north-star.md`)
+- Architecture docs (`docs/[name]-architecture.md`)
+
+**Template**: `assets/templates/milestones.md`
+
+**Output**: `docs/milestones.md`
+
+**Process**:
+1. Start with Milestone 1: Core (always)
+2. Assess path clarity (can you see the giant steps?)
+3. Define 1-3 milestones (Core + others if clear path visible)
+4. Document milestone order and dependencies
+5. Add organic growth notes
+
+**Key Decisions**:
+- **Every project starts with Milestone 1: Core** (core functionality)
+- **Clear path to north star**: Plan 2-3 milestones upfront if you can see the giant steps
+- **Unclear path**: Start with just 1 milestone (Core) - common with small/experimental projects
+- **Milestones grow organically**: Add more as the path becomes clearer
+
+### Stage 4 Complete Checklist
+- [ ] `docs/milestones.md` created using template
+- [ ] Milestone 1: Core defined
+- [ ] Additional milestones defined if path is clear (or noted as unclear)
+- [ ] Milestone order documented
+- [ ] Organic growth strategy noted
+- [ ] Run `/verify-doc docs/milestones.md`
+
+**Next**: → Stage 5: PoC Design (run once per milestone, starting with Core)
+
+---
+
+## Stage 5: PoC Design
 
 **Goal**: Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices
 
-**Input**: Validated architecture doc (`docs/[name]-architecture.md`)
+**Input**:
+- Milestone definition from `docs/milestones.md`
+- Validated architecture doc (`docs/[name]-architecture.md`)
 
 **Template**: `assets/templates/poc-design.md`
 
-**Naming**: `docs/[name]-poc-design.md` where `[name]` matches your architecture doc prefix
+**Naming**: `docs/[milestone-name]-poc-design.md` where `[milestone-name]` comes from your milestone in `docs/milestones.md`
+
+**Examples**: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
 
 **Process**:
 1. Refine architecture with implementation perspective
@@ -168,15 +216,15 @@ Each PoC must be:
 
 **Golden Rule**: One feature = One PoC (minimize the number of PoCs; group related work)
 
-**Output**: `docs/[name]-poc-design.md`
+**Output**: `docs/[milestone-name]-poc-design.md`
 
-### Stage 4 Complete Checklist
-- [ ] `docs/[name]-poc-design.md` created using template
+### Stage 5 Complete Checklist
+- [ ] `docs/[milestone-name]-poc-design.md` created using template
 - [ ] Each PoC proves one specific thing
 - [ ] Dependencies mapped (which PoCs unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
-- [ ] Run `/verify-doc docs/[name]-poc-design.md`
+- [ ] Run `/verify-doc docs/[milestone-name]-poc-design.md`
 
 **Next**: → Hand off to **dev-cycle skill** for implementation
 
@@ -184,7 +232,7 @@ Each PoC must be:
 
 ## Next: Hand Off to dev-cycle
 
-Once you have `docs/[name]-poc-design.md` completed, hand off to the **dev-cycle** skill for implementation.
+Once you have `docs/[milestone-name]-poc-design.md` completed, hand off to the **dev-cycle** skill for implementation.
 
 **dev-cycle** handles all development work through a repeating cycle: plan work items → execute step-by-step → test → repeat.
 
@@ -196,4 +244,5 @@ For detailed guidance on each stage:
 - `references/1-north-star-guide.md` - Stage 1 process
 - `references/2-architecture-guide.md` - Stage 2 process
 - `references/3-research-guide.md` - Stage 3 process
-- `references/4-poc-design-guide.md` - Stage 4 process
+- `references/4-milestone-design-guide.md` - Stage 4 process
+- `references/5-poc-design-guide.md` - Stage 5 process
