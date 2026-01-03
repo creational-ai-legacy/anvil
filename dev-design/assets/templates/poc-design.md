@@ -6,9 +6,6 @@
 ## Project
 [Parent project name - link to docs/north-star.md]
 
-## Size
-[Expected number of PoCs for this milestone: 10-20]
-
 ## PoC Dependency Diagram
 
 ```

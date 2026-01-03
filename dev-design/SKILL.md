@@ -165,21 +165,18 @@ If research already exists (from prior sessions, reference docs, or external sou
 1. Start with Milestone 1: Core (always)
 2. Assess path clarity (can you see the giant steps?)
 3. Define 1-3 milestones (Core + others if clear path visible)
-4. Document milestone order and dependencies
-5. Add organic growth notes
+4. Document milestone order (sequential: 1 → 2 → 3)
 
 **Key Decisions**:
 - **Every project starts with Milestone 1: Core** (core functionality)
 - **Clear path to north star**: Plan 2-3 milestones upfront if you can see the giant steps
 - **Unclear path**: Start with just 1 milestone (Core) - common with small/experimental projects
-- **Milestones grow organically**: Add more as the path becomes clearer
 
 ### Stage 4 Complete Checklist
 - [ ] `docs/milestones.md` created using template
 - [ ] Milestone 1: Core defined
 - [ ] Additional milestones defined if path is clear (or noted as unclear)
 - [ ] Milestone order documented
-- [ ] Organic growth strategy noted
 - [ ] Run `/verify-doc docs/milestones.md`
 
 **Next**: → Stage 5: PoC Design (run once per milestone, starting with Core)

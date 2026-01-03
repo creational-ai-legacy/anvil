@@ -45,8 +45,7 @@ Follow the guidance in `4-milestone-design-guide.md`:
 1. Start with Milestone 1: Core (always)
 2. Assess path clarity (can you see the giant steps?)
 3. Define 1-3 milestones (Core + others if clear path visible)
-4. Document milestone order and dependencies
-5. Add organic growth notes
+4. Document milestone order (sequential: 1 → 2 → 3)
 
 ## Output
 
@@ -60,8 +59,6 @@ Creates:
 **Clear path to north star**: Plan 2-3 milestones upfront if you can see the giant steps
 
 **Unclear path**: Start with just 1 milestone (Core) - common with small/experimental projects
-
-**Milestones grow organically**: Add more as the path becomes clearer
 
 ## After Completion
 

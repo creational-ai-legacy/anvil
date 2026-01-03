@@ -17,7 +17,6 @@ NO - This is pure strategic planning
 
 **Every project starts with Milestone 1: Core**
 - Focus: Core functionality that proves the product works
-- Size: 10-20 PoCs typically
 - Status: Planning (at this stage)
 
 ### 2. Assess Path Clarity
@@ -48,30 +47,19 @@ For each milestone (starting with Core):
 - Core: "The product works and solves the problem"
 - Others: "We can scale to 10K users", "Mobile experience is solid", etc.
 
-**Size**: Expected PoC count (typically 10-20 per milestone)
-
-**Dependencies**: Which milestones must complete first?
-
 ### 4. Document Milestone Order
 
-Explain the sequence:
-1. Why Core comes first
-2. Why Milestone 2 comes next (if applicable)
-3. Why Milestone 3 follows (if applicable)
+Milestones are sequential. Simply note the order:
 
-Include:
-- Dependencies between milestones
-- What each milestone unlocks
-- Rationale for the order
+1. Core (always first)
+2. [Next milestone] - why it comes second
+3. [Next milestone] - why it comes third
+
+No complex dependencies. Complete one, start the next.
 
 ### 5. Add Notes
 
-**Organic Growth Note**: Always include reminder that milestones grow organically
-- Document starts minimal
-- Add more as project evolves
-- Path becomes clearer with progress
-
-**Dependencies & Risks**: Document any technical constraints or risks
+**Risks**: Document any risks that could impact milestone completion
 
 ## Output
 
@@ -81,10 +69,7 @@ Include:
 
 - [ ] Milestone 1: Core is defined
 - [ ] Each milestone has clear focus and proof point
-- [ ] Milestone order makes sense (dependencies clear)
-- [ ] Size estimates reasonable (10-20 PoCs each)
-- [ ] Organic growth note included
-- [ ] Clear vs unclear path decision documented
+- [ ] Milestone order makes sense (sequential)
 - [ ] Run `/verify-doc docs/milestones.md`
 
 ## Examples
@@ -95,12 +80,12 @@ Include:
 ## Milestone 1: Core MVP (Current)
 Focus: Core functionality that proves the product works
 Proves: Local project management with MCP tools works end-to-end
-Size: 14 PoCs
+Status: Planning
 
 ## Milestone 2: Cloud Deployment
 Focus: Scale and multi-tenant access
 Proves: Multi-tenant SaaS with authentication works
-Size: 8 PoCs
+Status: Planning
 
 ## Milestone Order
 1. Core MVP - Proves local functionality first
@@ -113,7 +98,7 @@ Size: 8 PoCs
 ## Milestone 1: Core (Current)
 Focus: Core functionality
 Proves: Basic video processing pipeline works
-Size: 6 PoCs
+Status: Planning
 
 ## Notes
 Starting with just Core milestone. Will add Milestone 2 after Core proves viability.
@@ -123,9 +108,7 @@ Path unclear - need to validate core concept before planning next steps.
 ## Common Pitfalls
 
 - Planning too many milestones upfront (creates rigidity)
-- Making milestones too small (should group 10-20 PoCs)
 - Not starting with Core (always start with Core)
-- Forgetting organic growth note (users need to know doc grows)
 
 ## Next Stage
 

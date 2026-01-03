@@ -23,7 +23,8 @@
       "Bash(xargs:*)",
       "Bash(done)",
       "Bash(cat:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(__NEW_LINE__ echo \"\")"
     ]
   }
 }
