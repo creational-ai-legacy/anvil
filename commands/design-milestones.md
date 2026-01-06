@@ -22,6 +22,11 @@ Must complete before running this command:
 
 ## Input
 
+**Required docs (auto-read):**
+- `docs/north-star.md` - Vision and goals
+- `docs/*-architecture.md` - All architecture documents
+- Research findings (if any Stage 3 docs exist)
+
 **User notes (optional):**
 ```
 {{notes}}
@@ -29,7 +34,7 @@ Must complete before running this command:
 
 **Examples:**
 ```bash
-# Basic usage (reads from north-star.md and architecture docs)
+# Basic usage (reads all docs + user context)
 /design-milestones
 
 # With specific guidance
@@ -41,11 +46,17 @@ Must complete before running this command:
 
 ## Process
 
-Follow the guidance in `4-milestone-design-guide.md`:
-1. Start with Milestone 1: Core (always)
-2. Assess path clarity (can you see the giant steps?)
-3. Define 1-3 milestones (Core + others if clear path visible)
-4. Document milestone order (sequential: 1 → 2 → 3)
+1. **Read all prerequisite docs:**
+   - Read `docs/north-star.md`
+   - Read all `docs/*-architecture.md` files
+   - Read any research findings (Stage 3 outputs)
+   - Review user notes
+
+2. **Follow the guidance in `4-milestone-design-guide.md`:**
+   - Start with Milestone 1: Core (always)
+   - Assess path clarity (can you see the giant steps?)
+   - Define 1-3 milestones (Core + others if clear path visible)
+   - Document milestone order (sequential: 1 → 2 → 3)
 
 ## Output
 

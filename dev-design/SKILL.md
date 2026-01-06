@@ -151,7 +151,7 @@ If research already exists (from prior sessions, reference docs, or external sou
 
 ## Stage 4: Milestone Design
 
-**Goal**: Break North Star + Architecture into strategic milestones that group related PoCs
+**Goal**: Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes
 
 **Input**:
 - North Star doc (`docs/north-star.md`)
@@ -162,21 +162,39 @@ If research already exists (from prior sessions, reference docs, or external sou
 **Output**: `docs/milestones.md`
 
 **Process**:
-1. Start with Milestone 1: Core (always)
-2. Assess path clarity (can you see the giant steps?)
-3. Define 1-3 milestones (Core + others if clear path visible)
-4. Document milestone order (sequential: 1 → 2 → 3)
+1. Create Milestone Progression diagram (visual roadmap)
+2. Define Milestone 1: Core with full detail (Goal, Architecture, What Gets Built, Metrics, Outcomes, Why)
+3. Assess path clarity (can you see the giant steps?)
+4. Design milestone progression (each should build, validate, progress)
+5. Define additional milestones (if clear path visible)
+6. Add Strategic Decisions section (explain milestone order rationale)
+7. Document Success Criteria (per milestone + long-term)
+8. Add Next Steps
 
-**Key Decisions**:
+**Key Principles**:
 - **Every project starts with Milestone 1: Core** (core functionality)
-- **Clear path to north star**: Plan 2-3 milestones upfront if you can see the giant steps
-- **Unclear path**: Start with just 1 milestone (Core) - common with small/experimental projects
+- **Clear path to north star**: Plan multiple milestones upfront if you can see the giant steps
+- **Unclear path**: Start with just Core - add milestones as clarity emerges through execution
+- **Each milestone should**: Build on previous learnings, validate a capability, progress toward north star
+- **Design-focused, not timeline-focused**: Focus on WHAT gets built and WHY, not rigid WHEN
+- **Visual-first**: Diagrams communicate strategy faster than text
+
+**Per-Milestone Sections**:
+- **Goal**: 2-3 sentences on what this achieves and why
+- **Architecture Diagram**: Visual specific to this milestone
+- **What Gets Built**: Phases with specific deliverables
+- **Success Metrics**: Measurable outcomes grouped by category
+- **Key Outcomes**: Checkbox list of what this proves
+- **Why [This Order]?**: Strategic rationale
 
 ### Stage 4 Complete Checklist
 - [ ] `docs/milestones.md` created using template
-- [ ] Milestone 1: Core defined
-- [ ] Additional milestones defined if path is clear (or noted as unclear)
-- [ ] Milestone order documented
+- [ ] Milestone Progression diagram shows overall strategy
+- [ ] Milestone 1: Core fully defined with all sections
+- [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
+- [ ] Strategic Decisions section explains milestone order
+- [ ] Success Criteria defined for each milestone
+- [ ] Next Steps clear
 - [ ] Run `/verify-doc docs/milestones.md`
 
 **Next**: → Stage 5: PoC Design (run once per milestone, starting with Core)

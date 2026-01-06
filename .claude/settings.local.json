@@ -24,7 +24,8 @@
       "Bash(done)",
       "Bash(cat:*)",
       "Bash(head:*)",
-      "Bash(__NEW_LINE__ echo \"\")"
+      "Bash(__NEW_LINE__ echo \"\")",
+      "Bash(./sync-from-user.sh)"
     ]
   }
 }
