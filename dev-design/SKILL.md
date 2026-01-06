@@ -11,7 +11,7 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 | 1. North Star | `docs/north-star.md` | Claude Desktop |
 | 2. Architecture | `docs/[name]-architecture.md` | Claude Desktop |
 | 3. Research | Market analysis, validation | Claude Desktop |
-| 4. Milestone Design | `docs/milestones.md` | Claude Code |
+| 4. Milestones Overview | `docs/milestones-overview.md` | Claude Code |
 | 5. PoC Design | `docs/[milestone-name]-poc-design.md` | Claude Code |
 
 **Environment Split**:
@@ -20,7 +20,7 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 
 **File Naming**:
 - `[name]`: For architecture docs (can be anything - project name, feature name, module name)
-- `[milestone-name]`: For PoC design docs (comes from milestone names in `docs/milestones.md`)
+- `[milestone-name]`: For PoC design docs (comes from milestone names in `docs/milestones-overview.md`)
 
 **Next**: → Hand off to `dev-cycle` skill for implementation
 
@@ -145,11 +145,11 @@ If research already exists (from prior sessions, reference docs, or external sou
 - [ ] Pricing validated against market (if applicable)
 - [ ] Go/no-go decision supported by evidence
 
-**Next**: → Stage 4: Milestone Design
+**Next**: → Stage 4: Milestones Overview
 
 ---
 
-## Stage 4: Milestone Design
+## Stage 4: Milestones Overview
 
 **Goal**: Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes
 
@@ -157,9 +157,9 @@ If research already exists (from prior sessions, reference docs, or external sou
 - North Star doc (`docs/north-star.md`)
 - Architecture docs (`docs/[name]-architecture.md`)
 
-**Template**: `assets/templates/milestones.md`
+**Template**: `assets/templates/milestones-overview.md`
 
-**Output**: `docs/milestones.md`
+**Output**: `docs/milestones-overview.md`
 
 **Process**:
 1. Create Milestone Progression diagram (visual roadmap)
@@ -185,17 +185,17 @@ If research already exists (from prior sessions, reference docs, or external sou
 - **What Gets Built**: Phases with specific deliverables
 - **Success Metrics**: Measurable outcomes grouped by category
 - **Key Outcomes**: Checkbox list of what this proves
-- **Why [This Order]?**: Strategic rationale
+- **Why [This Approach/Order]?**: Strategic rationale
 
 ### Stage 4 Complete Checklist
-- [ ] `docs/milestones.md` created using template
+- [ ] `docs/milestones-overview.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] Milestone 1: Core fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/milestones.md`
+- [ ] Run `/verify-doc docs/milestones-overview.md`
 
 **Next**: → Stage 5: PoC Design (run once per milestone, starting with Core)
 
@@ -206,12 +206,12 @@ If research already exists (from prior sessions, reference docs, or external sou
 **Goal**: Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices
 
 **Input**:
-- Milestone definition from `docs/milestones.md`
+- Milestone definition from `docs/milestones-overview.md`
 - Validated architecture doc (`docs/[name]-architecture.md`)
 
 **Template**: `assets/templates/poc-design.md`
 
-**Naming**: `docs/[milestone-name]-poc-design.md` where `[milestone-name]` comes from your milestone in `docs/milestones.md`
+**Naming**: `docs/[milestone-name]-poc-design.md` where `[milestone-name]` comes from your milestone in `docs/milestones-overview.md`
 
 **Examples**: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
 
@@ -259,5 +259,5 @@ For detailed guidance on each stage:
 - `references/1-north-star-guide.md` - Stage 1 process
 - `references/2-architecture-guide.md` - Stage 2 process
 - `references/3-research-guide.md` - Stage 3 process
-- `references/4-milestone-design-guide.md` - Stage 4 process
+- `references/4-milestones-overview-guide.md` - Stage 4 process
 - `references/5-poc-design-guide.md` - Stage 5 process

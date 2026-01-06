@@ -1,4 +1,4 @@
-# Stage 4: Milestone Design
+# Stage 4: Milestones Overview
 
 ## Goal
 Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
@@ -77,7 +77,7 @@ Checkbox list of what this milestone proves:
 ✅ Ready for next milestone
 ```
 
-#### Why [This Approach]?
+#### Why [This Approach/Order]?
 Rationale for strategic decisions:
 ```
 - Faster iteration: No app store dependencies
@@ -127,7 +127,7 @@ Use same format as Milestone 1 for each additional milestone:
 - What Gets Built
 - Success Metrics
 - Key Outcomes
-- Why [This Order]?
+- Why [This Approach/Order]?
 
 **Keep each milestone focused** on a single theme or major capability expansion.
 
@@ -194,7 +194,7 @@ Detailed Plans (to be created):
 
 ## Output
 
-`docs/milestones.md` using `assets/templates/milestones.md`
+`docs/milestones-overview.md` using `assets/templates/milestones-overview.md`
 
 ## Key Principles
 
@@ -226,7 +226,7 @@ Detailed Plans (to be created):
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/milestones.md`
+- [ ] Run `/verify-doc docs/milestones-overview.md`
 
 ## Examples
 

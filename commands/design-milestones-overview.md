@@ -1,6 +1,6 @@
-# /design-milestones
+# /design-milestones-overview
 
-Create milestone roadmap breaking North Star into strategic phases.
+Create milestones overview roadmap breaking North Star into strategic phases.
 
 ## What This Does
 
@@ -9,9 +9,9 @@ Stage 4 of dev-design: Break North Star + Architecture into 1-3 milestones.
 ## Resources
 
 **Read these for guidance**:
-- `~/.claude/skills/dev-design/SKILL.md` - See "Stage 4: Milestone Design" section
-- `~/.claude/skills/dev-design/references/4-milestone-design-guide.md` - Detailed process
-- `~/.claude/skills/dev-design/assets/templates/milestones.md` - Template
+- `~/.claude/skills/dev-design/SKILL.md` - See "Stage 4: Milestones Overview" section
+- `~/.claude/skills/dev-design/references/4-milestones-overview-guide.md` - Detailed process
+- `~/.claude/skills/dev-design/assets/templates/milestones-overview.md` - Template
 
 ## Prerequisites
 
@@ -35,13 +35,13 @@ Must complete before running this command:
 **Examples:**
 ```bash
 # Basic usage (reads all docs + user context)
-/design-milestones
+/design-milestones-overview
 
 # With specific guidance
-/design-milestones "Clear path: Core → Mobile → Enterprise"
+/design-milestones-overview "Clear path: Core → Mobile → Enterprise"
 
 # For unclear path
-/design-milestones "Small project - just start with Core milestone"
+/design-milestones-overview "Small project - just start with Core milestone"
 ```
 
 ## Process
@@ -52,7 +52,7 @@ Must complete before running this command:
    - Read any research findings (Stage 3 outputs)
    - Review user notes
 
-2. **Follow the guidance in `4-milestone-design-guide.md`:**
+2. **Follow the guidance in `4-milestones-overview-guide.md`:**
    - Start with Milestone 1: Core (always)
    - Assess path clarity (can you see the giant steps?)
    - Define 1-3 milestones (Core + others if clear path visible)
@@ -61,7 +61,7 @@ Must complete before running this command:
 ## Output
 
 Creates:
-- `docs/milestones.md` - Strategic milestone roadmap
+- `docs/milestones-overview.md` - Strategic milestone roadmap
 
 ## Key Decisions
 
@@ -73,6 +73,6 @@ Creates:
 
 ## After Completion
 
-User will run `/verify-doc docs/milestones.md`, fix issues, then proceed to Stage 5 (PoC Design) starting with the first milestone.
+User will run `/verify-doc docs/milestones-overview.md`, fix issues, then proceed to Stage 5 (PoC Design) starting with the first milestone.
 
 **Next Stage**: `/design-poc-design` (run once per milestone, starting with Core)

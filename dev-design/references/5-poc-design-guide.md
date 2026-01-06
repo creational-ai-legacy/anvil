@@ -7,7 +7,7 @@ Define what needs to be proven and in what order — with PRODUCTION-GRADE thin 
 NO
 
 ## Input
-- Milestone definition from `docs/milestones.md` (Stage 4 output)
+- Milestone definition from `docs/milestones-overview.md` (Stage 4 output)
 - Validated architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Milestone 1 (Core).

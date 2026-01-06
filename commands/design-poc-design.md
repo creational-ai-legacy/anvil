@@ -16,9 +16,9 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 ## Input
 
 **First argument (optional):**
-- Milestone name (e.g., "Core", "Cloud Deployment") → Reads milestone from `docs/milestones.md` (RECOMMENDED)
-- Milestone number (e.g., "1", "2") → Reads Nth milestone from `docs/milestones.md`
-- If not provided, uses first milestone from `docs/milestones.md`
+- Milestone name (e.g., "Core", "Cloud Deployment") → Reads milestone from `docs/milestones-overview.md` (RECOMMENDED)
+- Milestone number (e.g., "1", "2") → Reads Nth milestone from `docs/milestones-overview.md`
+- If not provided, uses first milestone from `docs/milestones-overview.md`
 - OR path to architecture doc (e.g., `docs/core-architecture.md`) → Create mode (legacy workflow)
 - OR path to existing PoC design doc (e.g., `docs/core-poc-design.md`) → Update mode
 - OR path to overview doc (e.g., `docs/feature-x-overview.md`) → Update mode from new feature
@@ -29,13 +29,13 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 ```
 
 **Mode Detection:**
-- If argument is milestone name/number (or empty) → **Milestone mode** (reads from `docs/milestones.md`, recommended)
+- If argument is milestone name/number (or empty) → **Milestone mode** (reads from `docs/milestones-overview.md`, recommended)
 - If argument is `docs/*-poc-design.md` and exists → **Update mode** (add new PoCs from user notes)
 - If argument is `docs/*-overview.md` → **Update mode** (extract PoCs from overview document)
 - If argument is `docs/*-architecture.md` → **Create mode** (new poc-design from architecture, legacy)
 
 **Output naming:**
-- Milestone mode: Uses milestone name from `docs/milestones.md` → `docs/[milestone-name]-poc-design.md`
+- Milestone mode: Uses milestone name from `docs/milestones-overview.md` → `docs/[milestone-name]-poc-design.md`
 - Create mode: Derives `[name]` from architecture file → `docs/[name]-poc-design.md`
 - Update mode: Uses existing file name
 
@@ -71,7 +71,7 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 
 **Milestone workflow** (🔥 RECOMMENDED - after `/design-milestones`):
 ```bash
-# After creating docs/milestones.md, design PoCs for each milestone
+# After creating docs/milestones-overview.md, design PoCs for each milestone
 
 # Design PoCs for first milestone (Core)
 /design-poc-design
