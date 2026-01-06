@@ -22,8 +22,8 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 
 **Second argument (optional):**
 - Step number or identifier (e.g., `3`, `step-3`, `Step 3`)
-- If provided: Execute only this specific step
-- If omitted: Execute all steps in sequence
+- If provided: Execute this specific step
+- If omitted: Execute the NEXT incomplete step from results.md
 
 **User notes (optional):**
 ```
@@ -32,7 +32,7 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 
 **Examples:**
 ```bash
-# Execute all steps in sequence
+# Execute next incomplete step
 /dev-execute docs/poc6-implementation.md
 
 # Execute specific step
@@ -48,11 +48,11 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 
 ## Key Requirements
 
-⚠️ **ONE STEP AT A TIME** - Implement, test, verify, document before moving to next
+⚠️ **ONE STEP THEN STOP** - Execute ONLY current step, DO NOT continue to next automatically
 
-⚠️ **TESTS REQUIRED** - Every step needs passing pytest tests
+⚠️ **LOOP UNTIL TESTS PASS** - If tests fail, fix and re-test until ALL tests pass
 
-📝 **DOCUMENT AS YOU GO** - Update results.md after each step with lessons learned
+📝 **DOCUMENT AND STOP** - When tests pass, update results.md and STOP - report to user
 
 🏗️ **PRODUCTION-GRADE** - OOP, Pydantic, type hints, real data, error handling
 
@@ -62,23 +62,24 @@ Follow the guidance in `3-execution-guide.md`:
 
 **First time setup**: If `docs/[name]-results.md` doesn't exist, create it using the template (`assets/templates/implementation-results.md`). Fill in Summary, Goal, Success Criteria (from implementation.md), and Prerequisites. Mark all steps as "Pending".
 
-**Mode 1: Execute all steps in sequence** (no step number provided)
-- Start from first incomplete step in results.md
-- Execute each step one at a time
-- Continue until all steps complete or error occurs
+**Execution Mode**: Execute ONLY ONE step, then STOP
+- If step number provided: Execute that specific step
+- If no step number: Find first incomplete step in results.md and execute it
+- DO NOT continue to next step automatically
 
-**Mode 2: Execute specific step** (step number provided)
-- Jump to the specified step
-- Execute only that step
-- Useful for retrying failed steps or skipping ahead
-
-**Per step execution:**
-1. Write implementation code
+**Per Step Workflow** (loop until tests pass):
+1. Write implementation code for current step
 2. Write tests (`tests/test_[name]_*.py`)
 3. Run pytest verification
-4. Update results.md (status + lessons learned)
+4. **IF TESTS FAIL**: Fix the issue and return to step 3 (loop until all tests pass)
+5. **IF TESTS PASS**: Update results.md (status + lessons learned) and STOP
+6. Report completion to user
 
-**Critical:** A step is NOT complete until tests pass and results doc is updated.
+**Critical Rules:**
+- Execute ONLY the current step, then STOP
+- DO NOT move to next step automatically
+- A step is NOT complete until ALL tests pass
+- When tests pass, update docs and STOP - let user decide next action
 
 ## Output
 
@@ -87,10 +88,14 @@ Per step:
 - Test files (`tests/test_[name]_*.py`)
 - Updated `docs/[name]-results.md`
 
-When all steps complete:
-- Update `PROJECT_STATE.md`
-- Optional: Run `/small-win-check`
+## After Step Completion
 
-## After Completion
+When current step tests pass and docs are updated:
+- STOP and report completion to user
+- User decides next action (continue to next step, run health check, etc.)
 
-Return to Stage 2 for next work item, or continue to next step in current work.
+## After All Steps Complete
+
+When all work item steps are complete:
+- Run `/small-win-check` to update Latest Health Check in PROJECT_STATE.md
+- Return to Stage 2 for next work item

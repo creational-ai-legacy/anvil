@@ -6,22 +6,27 @@ Implement the current work item one step at a time.
 ## Code Allowed
 YES
 
-## ⚠️ ONE STEP AT A TIME
+## ⚠️ ONE STEP AT A TIME - THEN STOP
 
 This stage executes the implementation plan from Stage 2 (Planning):
-- Work on Step 1, verify, then Step 2, verify, etc.
+- Execute ONLY the current step
+- DO NOT continue to next step automatically
 - Each step is bite-sized (~30 min max)
 - Steps can break into sub-steps: 3a, 3b, 3c
-- Document progress in results doc as you go
+- Document progress in results doc after step completes
 - Keep implementation doc clean (no status updates there)
+- When step tests pass → STOP and report to user
 
 ## ⚠️ EVERY STEP REQUIRES PYTEST VERIFICATION
 
 A step is NOT complete until:
 1. Implementation code exists (in appropriate module/file)
 2. Tests exist (`tests/test_[name]_*.py`)
-3. All tests pass (`uv run pytest tests/test_[name]_*.py -v`)
+3. **ALL tests pass** (`uv run pytest tests/test_[name]_*.py -v`)
 4. Results doc updated with step status
+
+**If tests fail**: Fix the issue and re-run tests. Loop until ALL tests pass.
+**When tests pass**: Update docs and STOP. DO NOT continue to next step.
 
 ## Input
 - Implementation plan from Stage 2 (Planning) (`docs/[name]-implementation.md`)
@@ -30,14 +35,16 @@ A step is NOT complete until:
 
 **Before starting**: If `docs/[name]-results.md` doesn't exist yet, create it using `assets/templates/implementation-results.md` template. Fill in the Summary, Goal, Success Criteria (from implementation.md), and Prerequisites sections. Leave Implementation Progress steps as "Pending".
 
-## Per-Step Workflow
+## Per-Step Workflow (Loop Until Tests Pass)
 
-| Phase | Action | Output |
-|-------|--------|--------|
-| **1. Implement** | Write implementation code | Implementation files in appropriate modules |
-| **2. Write Tests** | Cover critical paths + edge cases | `tests/test_[name]_*.py` |
-| **3. Verify** | Run pytest | `uv run pytest tests/test_[name]_*.py -v` |
-| **4. Document** | Update results doc | `docs/[name]-results.md` (step status + lessons learned) |
+| Phase | Action | Output | Next |
+|-------|--------|--------|------|
+| **1. Implement** | Write implementation code for current step | Implementation files in appropriate modules | → Phase 2 |
+| **2. Write Tests** | Cover critical paths + edge cases | `tests/test_[name]_*.py` | → Phase 3 |
+| **3. Verify** | Run pytest | `uv run pytest tests/test_[name]_*.py -v` | IF FAIL → Phase 1 (fix and retry)<br>IF PASS → Phase 4 |
+| **4. Document & STOP** | Update results doc, report completion | `docs/[name]-results.md` (step status + lessons learned) | **STOP - Wait for user** |
+
+**Critical**: Loop phases 1-3 until ALL tests pass. Only when tests pass → document and STOP. DO NOT continue to next step.
 
 ## Output (per step)
 - Implementation code files — In appropriate modules/directories

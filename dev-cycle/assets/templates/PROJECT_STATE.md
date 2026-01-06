@@ -28,6 +28,8 @@
 | 4 | [Name] | Feature | 🔄 | ⬜ | — | ⬜ Not Started |
 | 5 | [Name] | PoC | ⬜ | ⬜ | — | ⬜ Not Started |
 
+**Total Tests**: [X passing / Y total] ([Z]% pass rate)
+
 ---
 
 ## Current Work Item Detail
@@ -66,29 +68,29 @@
 
 ---
 
-## Session Log
+## Latest Health Check
 
-### [Date] - [Session summary]
-- **Work Item**: [Name]
-- **Completed**: [What got done]
-- **Decisions**: [Any decisions made]
-- **Next**: [What's queued for next session]
-
-### [Earlier Date] - [Session summary]
-...
-
----
-
-## Health Checks
-
-### [Date] - Small Win Check
+### [Date] - [Session/Milestone Name]
 **Status**: ✅ On Track / ⚠️ Minor Concerns / ❌ Needs Attention
+
+**Context**:
+[What prompted this health check? What milestone/work item just completed?]
 
 **Findings**:
 - [Summary of alignment, gaps, concerns]
 
-**Actions Taken**:
-- [Any immediate actions or decisions]
+**Challenges** (if any):
+- [What difficulties were encountered]
+- [How they were resolved]
+
+**Results**:
+- ✅ [What was accomplished]
+- ✅ [Key outcomes]
+
+**Lessons Learned**:
+- [What worked well]
+- [What to do differently]
+- [Insights gained]
 
 **Next**: [What to focus on next]
 
@@ -96,6 +98,12 @@
 
 ## What's Next
 
+**System Status**:
+- [X] work items complete
+- [Y] tests passing ([Z]% pass rate)
+- [Key capabilities now working]
+
+**Immediate Actions**:
 1. [Immediate next action - specific step or work item]
 2. [Following action]
 3. [After that]

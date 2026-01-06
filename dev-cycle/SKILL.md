@@ -215,30 +215,36 @@ Run Stage 3 when:
 - Ready to start coding
 - User explicitly requests execution
 
-⚠️ **ONE STEP AT A TIME** - Implement, test, verify each step before moving to the next
+⚠️ **ONE STEP THEN STOP** - Execute ONLY current step, DO NOT continue automatically
 
-⚠️ **EVERY STEP REQUIRES PYTEST** - Tests must pass before marking step complete
+⚠️ **LOOP UNTIL TESTS PASS** - If tests fail, fix and re-test until ALL pass
 
-📝 **DOCUMENT AS YOU GO** - Update results doc after each step (especially lessons learned)
+📝 **DOCUMENT AND STOP** - When tests pass, update docs and STOP - wait for user
 
 ---
 
 Execute the implementation plan:
-- Work on Step 1, verify, then Step 2, etc.
+- Execute ONLY the current step (DO NOT do multiple steps)
 - Each step is bite-sized (~30 min max)
 - Steps can break into sub-steps: 3a, 3b, 3c
-- Update results doc with progress and lessons learned
+- Loop: implement → test → if fail, fix → re-test (repeat until pass)
+- When tests pass → update results doc → STOP
 - Keep implementation doc clean (no status updates)
 
 ### Process
 
 See `references/3-execution-guide.md` for detailed per-step workflow:
-1. Implement code
+1. Implement code for current step
 2. Write tests
-3. Verify with pytest
-4. Document in results.md
+3. Run pytest verification
+4. **IF FAIL**: Fix and return to step 3 (loop until pass)
+5. **IF PASS**: Document in results.md and STOP
 
-**⚠️ A step is NOT complete until tests pass and results doc is updated.**
+**⚠️ Critical Rules:**
+- Execute ONLY ONE step, then STOP
+- Loop until ALL tests pass for current step
+- DO NOT continue to next step automatically
+- When tests pass → update docs → STOP and report to user
 
 ### Implementation Guidelines
 
@@ -352,7 +358,7 @@ Use Glob/Grep to check for existing documents:
 ## File Naming Conventions
 
 **Project Tracking** (created once, updated throughout):
-- `PROJECT_STATE.md` - Current work item, progress, health checks
+- `PROJECT_STATE.md` - Current work item, progress, latest health check (follow template structure only)
 - Template: `~/.claude/skills/dev-cycle/assets/templates/PROJECT_STATE.md`
 
 **Per Work Item**:
@@ -402,6 +408,6 @@ This skill can be used **standalone** OR as part of the **dev-design workflow**:
    - Repeat for next work item
 
 **Files Created**:
-- `PROJECT_STATE.md` - Created by dev-cycle on first use, updated via `/small-win-check`
+- `PROJECT_STATE.md` - Created by dev-cycle on first use, updated when work items complete and via `/small-win-check` (follow template structure exactly)
 - `docs/[name]-implementation.md` - Implementation guide (evergreen)
 - `docs/[name]-results.md` - Progress tracking (live status)

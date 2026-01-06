@@ -26,7 +26,13 @@
       "Bash(head:*)",
       "Bash(__NEW_LINE__ echo \"\")",
       "Bash(./sync-from-user.sh)",
-      "Bash(for f in /Users/docchang/Development/idea-to-mvp/dev-design/references/[0-9]-*.md)"
+      "Bash(for f in /Users/docchang/Development/idea-to-mvp/dev-design/references/[0-9]-*.md)",
+      "Bash(for f in /Users/docchang/Development/idea-to-mvp/dev-cycle/references/*.md)",
+      "Bash(for template in overview.md implementation-plan.md implementation-results.md PROJECT_STATE.md)",
+      "Bash(do if [ -f \"/Users/docchang/Development/idea-to-mvp/dev-cycle/assets/templates/$template\" ])",
+      "Bash(then echo \"✓ $template\")",
+      "Bash(else echo \"✗ MISSING: $template\")",
+      "Bash(fi)"
     ]
   }
 }

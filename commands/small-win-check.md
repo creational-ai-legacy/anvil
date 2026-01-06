@@ -46,22 +46,37 @@ Use Glob and Grep tools to search for these files. If files don't exist or aren'
 Review all files above and assess against the 5 criteria.
 
 ### Step 2: Update PROJECT_STATE.md
-**Before generating the report**, append the following to the Health Checks section in `PROJECT_STATE.md` (create the section if it doesn't exist):
+**Before generating the report**, replace the "Latest Health Check" section in `PROJECT_STATE.md` with the current findings (create the section if it doesn't exist):
 
 ```markdown
-## Health Checks
+## Latest Health Check
 
-### [Date] - Small Win Check
+### [Date] - [Session/Milestone Name]
 **Status**: ✅ On Track / ⚠️ Minor Concerns / ❌ Needs Attention
+
+**Context**:
+[What prompted this health check? What milestone/work item just completed?]
 
 **Findings**:
 - [Summary of alignment, gaps, concerns]
 
-**Actions Taken**:
-- [Any immediate actions or decisions]
+**Challenges** (if any):
+- [What difficulties were encountered]
+- [How they were resolved]
+
+**Results**:
+- ✅ [What was accomplished]
+- ✅ [Key outcomes]
+
+**Lessons Learned**:
+- [What worked well]
+- [What to do differently]
+- [Insights gained]
 
 **Next**: [What to focus on next]
 ```
+
+**Instructions**: Replace the entire section with new findings. Keep only the latest check - follow the template structure exactly.
 
 ### Step 3: Generate Final Report
 
