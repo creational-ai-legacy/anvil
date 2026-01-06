@@ -1,4 +1,4 @@
-# Stage 5: Milestone Design
+# Stage 4: Milestone Design
 
 ## Goal
 Expand a single milestone from `docs/milestones-overview.md` into a comprehensive, self-contained design document with implementation details.
@@ -10,7 +10,7 @@ NO - This is pure design planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed Milestones Overview (`docs/milestones-overview.md`) (Stage 4 output)
+- Completed Milestones Overview (`docs/milestones-overview.md`) (Stage 3 output)
 - Completed Architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this process once per milestone, starting with Milestone 1 (Core).
@@ -497,4 +497,4 @@ Example: `docs/milestone-1-web-core.md`
 ## Next Stage
 
 After completing the detailed milestone design doc, proceed to:
-→ Stage 6: PoC Design (break milestone into atomic proof-of-concepts)
+→ Stage 5: PoC Design (break milestone into atomic proof-of-concepts)

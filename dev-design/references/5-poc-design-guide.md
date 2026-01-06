@@ -12,7 +12,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 ## Input
 - Milestone design from `docs/milestone-[number]-[slug].md` (Stage 4 output)
 - Milestones overview from `docs/milestones-overview.md` (Stage 3 output)
-- Validated architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
+- Architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Milestone 1 (Core).
 

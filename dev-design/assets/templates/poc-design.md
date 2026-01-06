@@ -41,7 +41,7 @@
 
 **Parallel tracks**: [Describe which PoCs can run in parallel]
 
-**Note**: This is a plan - NO status indicators (✅ ⬜) in diagram. Status belongs in PROJECT_STATE.md.
+**Note**: This is a plan - NO status indicators (✅ ⬜) in diagram.
 
 ## PoCs
 
@@ -49,13 +49,11 @@
 - **Proves**: [Specific thing this validates]
 - **Unlocks**: [Which PoCs depend on this]
 - **Success Criteria**: [Measurable outcome]
-- **Estimated Effort**: [T-shirt size: S/M/L]
 
 ### PoC 2: [Name]
 - **Proves**: [Specific thing this validates]
 - **Unlocks**: [Which PoCs depend on this]
 - **Success Criteria**: [Measurable outcome]
-- **Estimated Effort**: [T-shirt size: S/M/L]
 
 ### PoC 3: [Name]
 ...

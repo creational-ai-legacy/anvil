@@ -15,16 +15,6 @@
 | [Metric 1] | [Target] | [Method] |
 | [Metric 2] | [Target] | [Method] |
 
-## Milestones
-
-### Milestone 1: [Name]
-- **Target Date**: [Date]
-- **Definition of Done**: [Criteria]
-
-### Milestone 2: [Name]
-- **Target Date**: [Date]
-- **Definition of Done**: [Criteria]
-
 ## Non-Goals
 [What are we explicitly NOT trying to do?]
 

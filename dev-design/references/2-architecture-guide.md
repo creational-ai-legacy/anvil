@@ -57,4 +57,4 @@ Example: `docs/core-architecture.md`, `docs/mobile-architecture.md`
 - Not considering failure modes
 
 ## Next Stage
-→ Stage 3: Research
+→ Stage 3: Milestones Overview

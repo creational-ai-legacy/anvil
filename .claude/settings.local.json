@@ -25,7 +25,8 @@
       "Bash(cat:*)",
       "Bash(head:*)",
       "Bash(__NEW_LINE__ echo \"\")",
-      "Bash(./sync-from-user.sh)"
+      "Bash(./sync-from-user.sh)",
+      "Bash(for f in /Users/docchang/Development/idea-to-mvp/dev-design/references/[0-9]-*.md)"
     ]
   }
 }

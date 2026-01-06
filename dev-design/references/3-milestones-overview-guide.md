@@ -1,4 +1,4 @@
-# Stage 4: Milestones Overview
+# Stage 3: Milestones Overview
 
 ## Goal
 Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
@@ -49,7 +49,7 @@ For each milestone, include:
 #### What Gets Built
 Break into phases with specific deliverables:
 ```
-Phase 1: [Name] (Week/Sprint Range)
+Phase 1: [Name]
 - [Specific deliverable 1]
 - [Specific deliverable 2]
 
@@ -315,4 +315,4 @@ viability. Path unclear - need to validate core concept first.
 
 ## Next Stage
 
-→ Stage 5: PoC Design (run once per milestone, starting with Core)
+→ Stage 4: Milestone Design (run once per milestone, starting with Core)

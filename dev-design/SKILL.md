@@ -52,7 +52,7 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 - Forces clear conceptual understanding before coding
 
 ### If Asked to Write Code:
-Respond: "We're in the [North Star/Architecture/Research/Milestone Design/PoC Design] stage — let's keep focus on [vision/architecture/validation/milestones/design]. Code comes later in the dev-cycle skill. For now, let me describe how this would work at a high level..."
+Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone Design/PoC Design] stage — let's keep focus on [vision/architecture/strategy/design/proof-of-concepts]. Code comes later in the dev-cycle skill. For now, let me describe how this would work at a high level..."
 
 ---
 
