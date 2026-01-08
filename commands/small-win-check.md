@@ -45,6 +45,11 @@ Use Glob and Grep tools to search for these files. If files don't exist or aren'
 Review all files above and assess against the 5 criteria.
 
 ### Step 2: Update PROJECT_STATE.md
+
+**Template**: `~/.claude/skills/dev-cycle/assets/templates/PROJECT_STATE.md`
+- If `PROJECT_STATE.md` doesn't exist, create it using the template
+- If `PROJECT_STATE.md` exists but structure differs significantly from template, realign it
+
 **Before generating the report**, replace the "Latest Health Check" section in `PROJECT_STATE.md` with the current findings (create the section if it doesn't exist):
 
 ```markdown
