@@ -18,7 +18,21 @@
 
 Complete these BEFORE starting implementation steps.
 
-### 1. [Prerequisite Name]
+### 1. Identify Affected Tests
+
+**Why Needed**: Run only affected tests during implementation (not full suite)
+
+**Affected test files**:
+- `tests/test_[affected1].py` - [What it tests]
+- `tests/test_[affected2].py` - [What it tests]
+
+**Baseline verification**:
+```bash
+cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2].py -v --tb=short
+# Expected: All pass (establishes baseline)
+```
+
+### 2. [Prerequisite Name]
 
 **Why Needed**: [Why this PoC requires it]
 
@@ -40,7 +54,7 @@ Complete these BEFORE starting implementation steps.
 # Expected: [what success looks like]
 ```
 
-### 2. [Prerequisite Name]
+### 3. [Prerequisite Name]
 ...
 
 ---
@@ -205,32 +219,30 @@ class Test[Integration]:
 
 **Verification**:
 ```bash
-# Run all tests for this work
-cd [directory] && uv run pytest tests/test_[name]_*.py -v
+# Run affected tests (identified in Prerequisites)
+cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2].py -v --tb=short
+# Expected: All pass
 
-# Verify existing tests still pass
-cd [directory] && uv run pytest tests/ -v --ignore=tests/test_[name]_*.py
+# (Optional) Full suite - only if time permits (~2+ min)
+# cd [directory] && uv run pytest tests/ -v --tb=short
 ```
 
-**Output**: All tests passing ([total-new] new + [total-existing] existing = [total] tests)
+**Output**: Affected tests passing
 
 ---
 
 ## Test Summary
 
-### After Implementation Complete
+### Affected Tests (Run These)
 
 | Test File | Tests | What It Covers |
 |-----------|-------|----------------|
-| `tests/test_[existing]_*.py` | X | [Description] |
-| `tests/test_[name]_*.py` | X | [This work] |
+| `tests/test_[affected1].py` | ~X | [Description] |
+| `tests/test_[affected2].py` | ~X | [Description] |
 
-**Total Expected: [X] tests**
+**Affected tests: ~X tests**
 
-**Test Breakdown ([Name])**:
-- Test[Class1]: X tests
-- Test[Class2]: X tests
-- Test[Integration]: X tests
+**Full suite**: ~X tests (optional - only run at checkpoints or if time permits)
 
 ---
 
@@ -246,6 +258,7 @@ Before marking PoC complete, verify:
 - [ ] **Error handling**: Failures are handled, not ignored
 - [ ] **Scalable patterns**: Code structure would work at 10x scale
 - [ ] **Tests exist**: pytest covers the critical paths
+- [ ] **Verification uses pytest**: Not inline Python (unless truly necessary)
 - [ ] **Config externalized**: No hardcoded secrets or environment-specific values
 - [ ] **Clean separation**: Each file has single responsibility
 - [ ] **Self-contained**: Works independently; all existing functionality still works; doesn't require future PoCs
@@ -255,22 +268,17 @@ Before marking PoC complete, verify:
 ## What "Done" Looks Like
 
 ```bash
-# 1. All new tests pass
-cd [directory] && uv run pytest tests/test_[name]_*.py -v
+# 1. Affected tests pass
+cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2].py -v --tb=short
+# Expected: All pass
 
-# 2. All existing tests still pass
-cd [directory] && uv run pytest tests/ -v --ignore=tests/test_[name]_*.py
+# 2. (Optional) Full suite - only if time permits
+# cd [directory] && uv run pytest tests/ -v --tb=short
+# Expected: All pass
 
-# 3. [Specific functionality works]
+# 3. [Specific functionality works - via MCP tool, CLI command, or pytest]
 [command to demonstrate]
-# Expected output:
-[what success looks like]
-
-# 4. [Clean imports work]
-cd [directory] && uv run python -c "
-[import statements to verify]
-print('✓ All imports successful')
-"
+# Expected: [what success looks like]
 ```
 
 ---
@@ -326,6 +334,6 @@ _(Optional - only if this PoC introduces new error codes)_
 
 ## Next Steps After Completion
 
-1. ✅ Verify all tests pass ([total] total)
+1. ✅ Verify affected tests pass (~X tests)
 2. ✅ Verify [specific success criteria]
 3. → Proceed to next task: [Next task]

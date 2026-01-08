@@ -26,6 +26,7 @@ Only generate implementation plan for:
 3. Define verification for EACH step (not just end result)
 4. Include specific code snippets, commands, configs
 5. Identify what makes this "production-grade" vs "demo"
+6. Identify affected tests and test scope
 
 ## Output
 
@@ -43,8 +44,11 @@ One document is created:
 ## Verification Checklist
 - [ ] Implementation doc created (`docs/[name]-implementation.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
+- [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently
 - [ ] Each step has clear verification criteria (with code)
+- [ ] **Verification uses pytest** (not inline Python, unless truly necessary)
+- [ ] **Test scope is intentional** (test specific change → affected tests → full suite when it makes sense)
 - [ ] No step relies on mock data where real data is needed
 - [ ] Implementation would work in production context
 - [ ] Implementation doc contains NO status indicators (keep it clean)
@@ -111,6 +115,40 @@ For each step, ensure:
 - [ ] Tests can be written
 - [ ] No breaking changes to existing functionality
 
+## Verification & Testing
+
+### Prefer pytest Over Inline Python
+
+**Use pytest unit tests** for verification, not inline `python -c` commands.
+
+**When to use pytest:**
+- Verifying code behavior works correctly
+- Testing model validation
+- Testing function outputs
+- Anything that CAN be written as a repeatable test
+
+**When inline is acceptable:**
+- Verifying imports work (quick sanity check)
+- One-time setup verification (e.g., "is database connected?")
+- Checking something that truly can't be a unit test
+
+### Test Scope: Intentional and Incremental
+
+Testing is about **scope and intentionality**, not speed. Know exactly what you're testing at each step.
+
+**Testing approach (in series):**
+
+1. **Test what you changed** - Run tests for the specific code you modified
+2. **Expand to affected tests** - Run tests that might break due to the change
+3. **Fix failures before moving on** - Each step should be solid before proceeding
+4. **Full suite when it makes sense** - Run full suite at logical checkpoints or when changes are broad
+
+### Test File Identification
+
+List affected test files in Prerequisites:
+- Which test files exercise the code being changed?
+- Which tests might break due to the changes?
+
 ## Common Pitfalls
 - Steps that are too large
 - Missing prerequisites
@@ -121,6 +159,8 @@ For each step, ensure:
 - **Procedural code instead of OOP** (harder to test, maintain, extend)
 - **Missing type hints** (reduces IDE support, increases bugs)
 - **Breaking self-contained requirement** (add alongside don't replace; task must work independently without future tasks)
+- **Running tests without knowing what you're testing** (be intentional; test specific change, then affected tests, then expand)
+- **Using inline Python instead of pytest** (not repeatable; prefer unit tests)
 
 ## Next Stage
 → Stage 3: Execution (use 3-execution-guide.md)
