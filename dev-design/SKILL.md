@@ -211,7 +211,7 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 12. Define Next Steps (three time horizons)
 
 **Key Principles**:
-- **Self-Contained**: Document focuses ONLY on this milestone (no forward references to M2, M3)
+- **Self-Contained**: Document focuses ONLY on this milestone (no forward references to other milestones)
 - **Implementation Perspective**: Production-grade design, not prototypes
 - **Design-Focused**: Focus on WHAT and WHY, not rigid WHEN
 - **Visual Communication**: Diagrams show architecture and flows clearly
@@ -228,7 +228,7 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 - [ ] Risks identified with mitigation strategies
 - [ ] Open Questions grouped by category
 - [ ] Next Steps have three time horizons
-- [ ] NO forward references to other milestones (M2, M3, etc.)
+- [ ] NO forward references to other milestones (use names like "mobile integration" instead of numbered references)
 
 **Next**: → Stage 5: PoC Design (break milestone into atomic PoCs)
 

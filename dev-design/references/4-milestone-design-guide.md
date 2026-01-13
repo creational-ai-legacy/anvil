@@ -437,7 +437,7 @@ Example: `docs/web-core-milestone.md`
 
 ### Self-Contained Focus
 - This document focuses ONLY on this milestone
-- Do NOT reference other milestones by number (M2, M3, etc.)
+- Do NOT reference other milestones by number - use descriptive names instead
 - Use generic terms: "mobile integration", "future phases", "later milestones"
 - Forward references break the self-contained principle
 
@@ -470,12 +470,12 @@ Example: `docs/web-core-milestone.md`
 - [ ] Risks identified with mitigation strategies
 - [ ] Open Questions grouped by category
 - [ ] Next Steps have three time horizons
-- [ ] NO forward references to other milestones (M2, M3, etc.)
+- [ ] NO forward references to other milestones (use descriptive names, not numbered references)
 - [ ] Related Documents section links back to overview and architecture
 
 ## Common Pitfalls
 
-- **Forward references**: Don't mention "Milestone 2" or "M3" - use "mobile integration", "later phases"
+- **Forward references**: Don't use numbered milestone references - use descriptive names like "mobile integration", "later phases"
 - **Not detailed enough**: Core Components should have substantial technical detail
 - **Missing rationale**: Always explain WHY decisions were made
 - **Timeline focus**: Avoid rigid week/month commitments - focus on phases and deliverables

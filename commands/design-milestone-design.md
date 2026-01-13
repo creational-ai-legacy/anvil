@@ -74,7 +74,7 @@ Creates:
 
 ## Key Principles
 
-**Self-Contained**: Focus ONLY on this milestone (no forward references to M2, M3)
+**Self-Contained**: Focus ONLY on this milestone (no forward references to other milestones)
 
 **Implementation Perspective**: Production-grade design, not prototypes
 
