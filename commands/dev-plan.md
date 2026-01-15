@@ -19,6 +19,7 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 - PoC identifier (e.g., `PoC 6`, `poc6`) → Reads from `[slug]-poc-design.md`
 - File path to overview doc (e.g., `docs/feature-x-overview.md`)
 - File path to poc-design doc (e.g., `core-poc-design.md`) with PoC identifier in notes
+- File path to implementation doc + `update` → Updates to match current template
 
 **User notes (optional):**
 ```
@@ -35,6 +36,9 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 # Specify PoC and poc-design file explicitly
 /dev-plan core-poc-design.md --notes "Plan PoC 6"
+
+# Update existing implementation doc to match current template
+/dev-plan docs/core-poc6-implementation.md update
 ```
 
 **The command will:**
@@ -42,6 +46,12 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 2. Read overview doc if file path provided
 3. Combine with user notes
 4. Create implementation plan
+
+**Update mode** (when input is implementation doc + `update`):
+1. Read the current template
+2. Read the existing implementation doc
+3. Restructure to match template (preserve content, update structure)
+4. Write updated implementation doc
 
 ## Key Requirements
 
@@ -53,7 +63,7 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 🔒 **SELF-CONTAINED** - Add alongside, don't replace; works independently
 
-🧪 **PYTEST FOR STEPS** - Implementation steps use pytest (inline OK for prerequisites/Step 0)
+🧪 **TESTS IN SAME STEP** - Each step includes writing AND running tests for that step's code (never separate)
 
 ## Process
 

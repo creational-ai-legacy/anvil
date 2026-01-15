@@ -43,12 +43,37 @@ One document is created:
 
 **Note**: The results tracking document (`docs/[milestone-slug]-[task-slug]-results.md`) will be created later during Stage 3 (Execution) when `/dev-execute` is run.
 
+## Type Field
+
+Must be exactly one of: **PoC**, **Feature**, **Issue**, **Refactor**
+
+No variations or combinations.
+
+## Deliverables Section
+
+List concrete capabilities as bullets, not prose. Each bullet = one deliverable or proof point.
+
+**Good:**
+```
+- core/ package structure
+- models/, db/, config modules
+- AWS RDS connection verified
+- FastMCP server starts via stdio
+```
+
+**Bad:**
+```
+Prove that the FastMCP server starts correctly with proper
+project structure, and that AWS RDS is accessible...
+```
+
 ## Verification Checklist
 - [ ] Implementation doc created (`docs/[milestone-slug]-[task-slug]-implementation.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
 - [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently
 - [ ] Each step has clear verification criteria (with code)
+- [ ] **Each step includes its tests** - code and tests written/run together, never separated
 - [ ] **Implementation steps use pytest** (inline Python OK for prerequisites/Step 0 only)
 - [ ] **Test scope is intentional** (test specific change → affected tests → full suite when it makes sense)
 - [ ] No step relies on mock data where real data is needed
@@ -87,6 +112,27 @@ Each step should be:
 - **Completable in ~30 minutes or less**
 - **Independently verifiable** (you can prove it works)
 - **Self-contained** (doesn't require other steps to test)
+- **Tests included** (write AND run tests in the same step)
+
+## Tests Must Be In The Same Step
+
+**CRITICAL**: Each implementation step includes writing AND running tests for that step's code.
+
+**Never separate code and tests into different steps:**
+- ❌ Step 1: Write the class → Step 2: Write tests for the class
+- ✅ Step 1: Write the class + tests → verify all pass → move on
+
+**Why?**
+- Catch bugs immediately while context is fresh
+- Ensures each step is verified before building on it
+- Prevents "I'll test it later" which becomes never
+- Each step stands alone as complete, tested work
+
+**Step structure:**
+1. Write the code
+2. Write the tests
+3. Run the tests
+4. All pass → move to next step
 
 If a step is too big, break it into sub-steps (3a, 3b, 3c).
 
@@ -164,6 +210,7 @@ List affected test files in Prerequisites:
 - No verification criteria
 - Mock data that hides real complexity
 - Skipping error handling
+- **Separating code and tests into different steps** - tests must be written AND run in the same step as the code
 - **Using raw dicts instead of Pydantic models** (loses validation, type safety, documentation)
 - **Procedural code instead of OOP** (harder to test, maintain, extend)
 - **Missing type hints** (reduces IDE support, increases bugs)

@@ -8,10 +8,20 @@
 |-----------|-------|
 | **Created** | [YYYY-MM-DDTHH:MM:SS-TZ] |
 | **Name** | [Name] |
-| **Proves** | [What this validates] |
+| **Type** | [PoC or Feature or Issue or Refactor] |
+| **Proves** | [One sentence: what hypothesis this validates] |
 | **Production-Grade Because** | [Why this isn't a toy/mock] |
 
-> ⚠️ **Self-Contained Requirement**: This work must be complete and functional on its own. All existing functionality must continue working. If adding new capability could break existing code, add alongside (don't replace). See `references/2-planning-guide.md` for details.
+---
+
+## Deliverables
+
+Concrete capabilities this task delivers:
+
+- [Deliverable 1]
+- [Deliverable 2]
+- [Deliverable 3]
+- [Deliverable 4]
 
 ---
 
@@ -97,6 +107,8 @@ From `docs/[source-doc].md`:
 
 **Approach**: [Brief description of implementation strategy - e.g., "Build bottom-up", "Test each layer independently", etc.]
 
+> ⚠️ **Each step includes its tests.** Write code, write tests, run tests, verify all pass—then move on. Never separate code and tests into different steps.
+
 ### Step 0: [Setup/Infrastructure]
 
 **Goal**: [What this step accomplishes]
@@ -123,7 +135,7 @@ python -c "[quick verification command]"
 
 ---
 
-### Step 1: [Name] + Tests
+### Step 1: [Name]
 
 **Goal**: [What this step accomplishes]
 
@@ -167,7 +179,7 @@ cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 
 ---
 
-### Step 2: [Name] + Tests
+### Step 2: [Name]
 
 **Goal**: [What this step accomplishes]
 
@@ -259,8 +271,7 @@ Before marking PoC complete, verify:
 - [ ] **Real integrations**: External services are actually connected, not stubbed
 - [ ] **Error handling**: Failures are handled, not ignored
 - [ ] **Scalable patterns**: Code structure would work at 10x scale
-- [ ] **Tests exist**: pytest covers the critical paths
-- [ ] **Implementation steps use pytest**: Inline Python OK for prerequisites/Step 0 only
+- [ ] **Tests in same step**: Each step writes AND runs its tests (never separated)
 - [ ] **Config externalized**: No hardcoded secrets or environment-specific values
 - [ ] **Clean separation**: Each file has single responsibility
 - [ ] **Self-contained**: Works independently; all existing functionality still works; doesn't require future PoCs
