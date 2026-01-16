@@ -57,15 +57,16 @@ if [ -d "$DEVCYCLE_SKILL_DIR" ]; then
     echo ""
 fi
 
-# Sync global commands
+# Sync global commands (all .md files that exist in repo's commands/)
 echo "--- Syncing global commands ---"
 echo "Source: $COMMANDS_DIR"
 
 mkdir -p "$SCRIPT_DIR/commands"
-for cmd in verify-doc.md small-win-check.md dev-overview.md dev-plan.md dev-execute.md; do
-    if [ -f "$COMMANDS_DIR/$cmd" ]; then
-        cp "$COMMANDS_DIR/$cmd" "$SCRIPT_DIR/commands/"
-        echo "  ✓ Synced $cmd"
+for cmd in "$SCRIPT_DIR/commands/"*.md; do
+    cmd_name=$(basename "$cmd")
+    if [ -f "$COMMANDS_DIR/$cmd_name" ]; then
+        cp "$COMMANDS_DIR/$cmd_name" "$SCRIPT_DIR/commands/"
+        echo "  ✓ Synced $cmd_name"
     fi
 done
 

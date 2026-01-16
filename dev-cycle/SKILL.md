@@ -35,12 +35,19 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 | 2. Planning | ✅ YES | `references/2-planning-guide.md` | `assets/templates/implementation-plan.md` | `docs/[milestone-slug]-[task-slug]-implementation.md` |
 | 3. Execution | ✅ YES | `references/3-execution-guide.md` | `assets/templates/implementation-results.md` | `docs/[milestone-slug]-[task-slug]-results.md`<br>Implementation files<br>Test files |
 
+| Utility | Template | Output |
+|---------|----------|--------|
+| `/dev-diagram <slug>` | `assets/templates/diagram.md` | Inserts ASCII box into results doc |
+| `/dev-lessons <slug>` | `assets/templates/lessons-learned.md` | Consolidates lessons from results |
+
 ## Optional Commands
 
 Users can invoke stages explicitly via commands:
 - `/dev-overview <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3
+- `/dev-diagram <slug>` - Generate ASCII diagram for task
+- `/dev-lessons <slug>` - Consolidate lessons learned
 
 Or use natural language: "Create overview for database abstraction", "Plan the implementation", "Execute step 1"
 

@@ -33,7 +33,9 @@
       "Bash(then echo \"✓ $template\")",
       "Bash(else echo \"✗ MISSING: $template\")",
       "Bash(fi)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "WebFetch(domain:clig.dev)",
+      "WebFetch(domain:www.prompthub.us)"
     ]
   }
 }
