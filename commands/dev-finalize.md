@@ -10,11 +10,15 @@ Wrap up a completed task by running all finalization steps.
 
 ## Steps
 
-Runs these in sequence:
+**ALL 3 STEPS ARE REQUIRED. Do not stop early.**
 
 1. **Timestamp** - Check Completed field in results doc. If missing or wrong format, update to ISO 8601 with local timezone (e.g., `2024-01-08T22:45:00-08:00`)
-2. **Lessons** - `/dev-lessons docs/[slug]-results.md`
-3. **Diagram** - `/dev-diagram [slug]`
+
+2. **Lessons** - Run `/dev-lessons docs/[slug]-results.md`
+
+3. **Diagram** - Run `/dev-diagram [slug]`
+
+**Confirm all 3 steps completed before finishing.**
 
 ## Input
 

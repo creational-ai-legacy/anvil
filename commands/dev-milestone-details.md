@@ -8,8 +8,13 @@ Generate comprehensive milestone summary document from all task docs.
 ## Usage
 
 ```bash
+# Create new milestone details doc
 /dev-milestone-details core
-/dev-milestone-details cloud
+
+# Update existing doc with current progress
+/dev-milestone-details core update
 ```
+
+**Update mode**: Re-read all task docs, update status table, add new tasks, refresh progress diagram, update completion map. Preserve existing content structure.
 
 Read the guide. Follow it exactly.
