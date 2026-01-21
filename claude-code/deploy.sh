@@ -1,105 +1,116 @@
 #!/bin/bash
-# Deploy both dev-design and dev-cycle skills to ~/.claude/
+# Deploy all Claude Code skills to ~/.claude/
 # Usage: ./deploy.sh
+#
+# To add/remove a skill: Edit the SKILLS array below
 
 set -e
 
+#=============================================================================
+# CONFIGURATION - Edit this section to add/remove skills
+#=============================================================================
+SKILLS=(
+    "dev-design"
+    "dev-cycle"
+    "market-research"
+)
+
+# Old skill directories to clean up (add deprecated skills here)
+OLD_SKILLS=(
+    "idea-to-mvp"
+    "blueprint"
+)
+#=============================================================================
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DEVDESIGN_SKILL_DIR="$HOME/.claude/skills/dev-design"
-DEVCYCLE_SKILL_DIR="$HOME/.claude/skills/dev-cycle"
-OLD_SKILL_DIR="$HOME/.claude/skills/idea-to-mvp"
-OLD_BLUEPRINT_DIR="$HOME/.claude/skills/blueprint"
+SKILLS_DIR="$HOME/.claude/skills"
 COMMANDS_DIR="$HOME/.claude/commands"
 AGENTS_DIR="$HOME/.claude/agents"
 
 echo "=============================================="
-echo "Deploying dev-design + dev-cycle skills..."
+echo "Deploying Claude Code skills..."
 echo "=============================================="
 echo ""
 
-# Clean up old skill directories if they exist
-if [ -d "$OLD_SKILL_DIR" ]; then
-    echo "--- Removing old idea-to-mvp skill ---"
-    rm -rf "$OLD_SKILL_DIR"
-    echo "  ✓ Removed $OLD_SKILL_DIR"
-    echo ""
-fi
-
-if [ -d "$OLD_BLUEPRINT_DIR" ]; then
-    echo "--- Removing old blueprint skill ---"
-    rm -rf "$OLD_BLUEPRINT_DIR"
-    echo "  ✓ Removed $OLD_BLUEPRINT_DIR"
-    echo ""
-fi
+# Clean up old skill directories
+for old_skill in "${OLD_SKILLS[@]}"; do
+    if [ -d "$SKILLS_DIR/$old_skill" ]; then
+        echo "--- Removing old $old_skill skill ---"
+        rm -rf "$SKILLS_DIR/$old_skill"
+        echo "  ✓ Removed $SKILLS_DIR/$old_skill"
+        echo ""
+    fi
+done
 
 # Create target directories
-mkdir -p "$DEVDESIGN_SKILL_DIR"
-mkdir -p "$DEVCYCLE_SKILL_DIR"
 mkdir -p "$COMMANDS_DIR"
 mkdir -p "$AGENTS_DIR"
 
-# Deploy dev-design skill
-echo "--- Deploying dev-design skill ---"
-echo "Target: $DEVDESIGN_SKILL_DIR"
+# Deploy each skill
+for skill in "${SKILLS[@]}"; do
+    echo "--- Deploying $skill skill ---"
 
-cp "$SCRIPT_DIR/dev-design/SKILL.md" "$DEVDESIGN_SKILL_DIR/"
-echo "  ✓ Copied SKILL.md"
+    SKILL_SRC="$SCRIPT_DIR/$skill"
+    SKILL_DST="$SKILLS_DIR/$skill"
 
-mkdir -p "$DEVDESIGN_SKILL_DIR/assets/templates"
-cp -r "$SCRIPT_DIR/dev-design/assets/templates/"* "$DEVDESIGN_SKILL_DIR/assets/templates/"
-echo "  ✓ Copied assets/templates/"
+    if [ ! -d "$SKILL_SRC" ]; then
+        echo "  ⚠️  Source directory not found: $SKILL_SRC"
+        echo ""
+        continue
+    fi
 
-mkdir -p "$DEVDESIGN_SKILL_DIR/references"
-cp -r "$SCRIPT_DIR/dev-design/references/"* "$DEVDESIGN_SKILL_DIR/references/"
-echo "  ✓ Copied references/"
+    mkdir -p "$SKILL_DST"
+    echo "Target: $SKILL_DST"
 
-echo ""
+    # Copy SKILL.md
+    if [ -f "$SKILL_SRC/SKILL.md" ]; then
+        cp "$SKILL_SRC/SKILL.md" "$SKILL_DST/"
+        echo "  ✓ Copied SKILL.md"
+    fi
 
-# Deploy dev-cycle skill
-echo "--- Deploying dev-cycle skill ---"
-echo "Target: $DEVCYCLE_SKILL_DIR"
+    # Copy assets/templates/
+    if [ -d "$SKILL_SRC/assets/templates" ]; then
+        mkdir -p "$SKILL_DST/assets/templates"
+        cp -r "$SKILL_SRC/assets/templates/"* "$SKILL_DST/assets/templates/"
+        echo "  ✓ Copied assets/templates/"
+    fi
 
-cp "$SCRIPT_DIR/dev-cycle/SKILL.md" "$DEVCYCLE_SKILL_DIR/"
-echo "  ✓ Copied SKILL.md"
+    # Copy references/
+    if [ -d "$SKILL_SRC/references" ]; then
+        mkdir -p "$SKILL_DST/references"
+        cp -r "$SKILL_SRC/references/"* "$SKILL_DST/references/"
+        echo "  ✓ Copied references/"
+    fi
 
-mkdir -p "$DEVCYCLE_SKILL_DIR/assets/templates"
-cp -r "$SCRIPT_DIR/dev-cycle/assets/templates/"* "$DEVCYCLE_SKILL_DIR/assets/templates/"
-echo "  ✓ Copied assets/templates/"
+    # Copy commands/ to global commands dir
+    if [ -d "$SKILL_SRC/commands" ]; then
+        count=$(ls -1 "$SKILL_SRC/commands/"*.md 2>/dev/null | wc -l | tr -d ' ')
+        if [ "$count" -gt "0" ]; then
+            cp -r "$SKILL_SRC/commands/"*.md "$COMMANDS_DIR/"
+            echo "  ✓ Copied $count commands"
+        fi
+    fi
 
-mkdir -p "$DEVCYCLE_SKILL_DIR/references"
-cp -r "$SCRIPT_DIR/dev-cycle/references/"* "$DEVCYCLE_SKILL_DIR/references/"
-echo "  ✓ Copied references/"
+    # Copy agents/ to global agents dir
+    if [ -d "$SKILL_SRC/agents" ]; then
+        count=$(ls -1 "$SKILL_SRC/agents/"*.md 2>/dev/null | wc -l | tr -d ' ')
+        if [ "$count" -gt "0" ]; then
+            cp -r "$SKILL_SRC/agents/"*.md "$AGENTS_DIR/"
+            echo "  ✓ Copied $count agents"
+        fi
+    fi
 
-echo ""
+    echo ""
+done
 
-# Deploy global commands
-echo "--- Deploying global commands ---"
-echo "Target: $COMMANDS_DIR"
-
-if [ -d "$SCRIPT_DIR/commands" ]; then
-    cp -r "$SCRIPT_DIR/commands/"* "$COMMANDS_DIR/"
-    echo "  ✓ Copied all commands"
-fi
-
-echo ""
-
-# Deploy agents
-echo "--- Deploying agents ---"
-echo "Target: $AGENTS_DIR"
-
-if [ -d "$SCRIPT_DIR/dev-cycle/agents" ]; then
-    cp -r "$SCRIPT_DIR/dev-cycle/agents/"* "$AGENTS_DIR/"
-    echo "  ✓ Copied all agents"
-fi
-
-echo ""
 echo "=============================================="
 echo "✓ Deployment complete!"
 echo "=============================================="
 echo ""
-echo "Deployed to:"
-echo "  dev-design: $DEVDESIGN_SKILL_DIR"
-echo "  dev-cycle:  $DEVCYCLE_SKILL_DIR"
-echo "  commands:   $COMMANDS_DIR"
-echo "  agents:     $AGENTS_DIR"
+echo "Deployed ${#SKILLS[@]} skills to:"
+for skill in "${SKILLS[@]}"; do
+    echo "  - $SKILLS_DIR/$skill"
+done
+echo "  - $COMMANDS_DIR (commands)"
+echo "  - $AGENTS_DIR (agents)"
 echo ""

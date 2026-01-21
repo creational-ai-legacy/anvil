@@ -36,10 +36,10 @@ A structured workflow for taking ideas from concept to working product. Supports
 │  ├── Architecture             ├── Implementation Plan          │
 │  ├── Milestones Overview      └── Execution + Tests            │
 │  ├── Milestone Design                                          │
-│  └── PoC Design               Output: docs/ + code files       │
-│                                                                 │
-│  Output: docs/ folder         Trigger: /slash-commands         │
-│  Trigger: /slash-commands                                       │
+│  └── PoC Design               market-research                  │
+│                               └── Go/Pivot/Kill                │
+│  Output: docs/ folder                                           │
+│  Trigger: /slash-commands     Output: docs/ + code files       │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```

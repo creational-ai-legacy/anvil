@@ -9,6 +9,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 **Claude Code** (`claude-code/`):
 1. **dev-design** - Design phase (concept to executable plan)
 2. **dev-cycle** - Development loop (plan to working code)
+3. **market-research** - Market validation with Go/Pivot/Kill recommendation
 
 **Claude Desktop** (`claude-desktop/`):
 1. **dev-design** - Same 5-stage design workflow (outputs artifacts)
@@ -26,24 +27,17 @@ idea-to-mvp/
 │   ├── deploy.sh               # Deploy skills and commands
 │   ├── verify.sh               # Verify deployment
 │   ├── sync-from-user.sh       # Sync from deployed skills
-│   ├── commands/               # Slash commands
-│   │   ├── design-*.md         # dev-design commands
-│   │   ├── dev-*.md            # dev-cycle commands
-│   │   ├── agent-*.md          # Agent commands
-│   │   └── verify-doc.md       # Document verification
-│   ├── dev-design/             # Design skill (5 stages)
-│   │   ├── SKILL.md
-│   │   ├── assets/templates/
-│   │   └── references/
-│   └── dev-cycle/              # Development skill (3 stages)
-│       ├── SKILL.md
-│       ├── assets/templates/
-│       ├── agents/
-│       └── references/
+│   └── [skill-name]/           # Each skill follows this structure
+│       ├── SKILL.md            # Skill definition (required)
+│       ├── commands/           # Slash commands
+│       ├── agents/             # Subagents (optional)
+│       ├── assets/templates/   # Output templates
+│       └── references/         # Detailed guides
 │
 └── claude-desktop/             # Claude Desktop skills
     ├── README.md               # CD-specific documentation
     ├── package.sh              # Build .skill files
+    ├── unpackage.sh            # Extract .skill files
     ├── dev-design/             # Design skill (v1.5.0)
     ├── market-research/        # Market validation (v1.1.0)
     └── releases/               # Packaged .skill files
@@ -157,6 +151,10 @@ cd claude-desktop
 - `/agent-dev-execute` - Execute agent for Stage 3
 - `/agent-dev-milestone-details` - Milestone details agent
 - `/agent-verify-doc` - Document verification agent
+- `/agent-market-research` - Market research agent
+
+**Research commands**:
+- `/market-research` - Market validation with Go/Pivot/Kill recommendation
 
 **Utility commands**:
 - `/verify-doc` - Document verification
@@ -168,7 +166,8 @@ Commands are deployed to `~/.claude/commands/`
 **Claude Code**: `claude-code/deploy.sh` deploys to:
 - `~/.claude/skills/dev-design/`
 - `~/.claude/skills/dev-cycle/`
-- `~/.claude/commands/`
+- `~/.claude/skills/market-research/`
+- `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
 
 **Claude Desktop**: `claude-desktop/package.sh` creates:

@@ -8,6 +8,7 @@ Skills for the **implementation phase** of idea-to-mvp, designed for Claude Code
 |-------|---------|
 | **dev-design** | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
 | **dev-cycle** | 3-stage development loop (Overview → Plan → Execute) |
+| **market-research** | Market validation with Go/Pivot/Kill recommendation |
 
 ## Installation
 
@@ -82,6 +83,13 @@ Repeat for next task
 | `/agent-dev-execute` | Execute agent for Stage 3 |
 | `/agent-dev-milestone-details` | Milestone details agent |
 | `/agent-verify-doc` | Document verification agent |
+| `/agent-market-research` | Market research agent |
+
+### Research Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/market-research` | Market validation with Go/Pivot/Kill recommendation |
 
 ### Utility Commands
 
@@ -104,6 +112,9 @@ Repeat for next task
 - `docs/[milestone]-[task]-results.md`
 - `docs/[milestone]-milestone-details.md`
 
+**market-research creates:**
+- `docs/[slug]-market-research.md`
+
 ## Key Principles
 
 - **dev-design is NO-CODE** — Pure design and planning
@@ -122,29 +133,20 @@ claude-code/
 ├── verify.sh               # Verify deployment
 ├── sync-from-user.sh       # Sync from deployed skills
 │
-├── dev-design/             # Design skill (5 stages)
-│   ├── SKILL.md
-│   ├── assets/templates/
-│   └── references/
-│
-├── dev-cycle/              # Development skill (3 stages)
-│   ├── SKILL.md
-│   ├── assets/templates/
-│   ├── agents/
-│   └── references/
-│
-└── commands/               # Slash commands
-    ├── design-*.md
-    ├── dev-*.md
-    ├── agent-*.md
-    └── ...
+└── [skill-name]/           # Each skill follows this structure
+    ├── SKILL.md            # Skill definition (required)
+    ├── commands/           # Slash commands (deployed to ~/.claude/commands/)
+    ├── agents/             # Subagents (deployed to ~/.claude/agents/)
+    ├── assets/templates/   # Output templates
+    └── references/         # Detailed guides
 ```
 
+**Current skills:** dev-design, dev-cycle, market-research
+
 **Deploys to:**
-- `~/.claude/skills/dev-design/`
-- `~/.claude/skills/dev-cycle/`
-- `~/.claude/commands/`
-- `~/.claude/agents/`
+- `~/.claude/skills/[skill-name]/` (SKILL.md, assets/, references/)
+- `~/.claude/commands/` (collected from all skill commands/ folders)
+- `~/.claude/agents/` (collected from all skill agents/ folders)
 
 ## Development
 
