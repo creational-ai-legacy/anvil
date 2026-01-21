@@ -35,7 +35,8 @@
       "Bash(fi)",
       "Bash(wc:*)",
       "WebFetch(domain:clig.dev)",
-      "WebFetch(domain:www.prompthub.us)"
+      "WebFetch(domain:www.prompthub.us)",
+      "Bash(./package.sh)"
     ]
   }
 }
