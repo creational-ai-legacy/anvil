@@ -1,6 +1,6 @@
 # [Milestone] Milestone Details
 
-> **Last Updated**: [YYYY-MM-DD]
+> **Last Updated**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 >
 > This document provides a comprehensive overview of the [Milestone] Milestone accomplishments.
 
