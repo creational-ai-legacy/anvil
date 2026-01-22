@@ -1,5 +1,5 @@
 ---
-name: dev-milestone-details-agent
+name: milestone-details-agent
 description: "Generate comprehensive milestone summary document. Only invoke when explicitly requested."
 tools: Bash, Edit, Write, Glob, Grep, Read, WebFetch, TodoWrite, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus

@@ -8,22 +8,54 @@ Wrap up a completed task by running all finalization steps.
 /dev-finalize core-poc2
 ```
 
-## Steps
-
-**ALL 3 STEPS ARE REQUIRED. Do not stop early.**
-
-1. **Timestamp** - Check Completed field in results doc. If missing or wrong format, update to ISO 8601 with local timezone (e.g., `2024-01-08T22:45:00-08:00`)
-
-2. **Lessons** - Run `/dev-lessons docs/[slug]-results.md`
-
-3. **Diagram** - Run `/dev-diagram [slug]`
-
-**Confirm all 3 steps completed before finishing.**
-
 ## Input
 
 **Argument (required):** Task slug (e.g., `core-poc2`, `cloud-auth-fix`)
 
-The slug is used to:
-- Find results doc: `docs/[slug]-results.md`
-- Generate diagram for the task
+The slug is used to find: `docs/[slug]-results.md`
+
+---
+
+## Steps
+
+**ALL 3 STEPS ARE REQUIRED. DO NOT STOP EARLY.**
+
+### Step 1: Timestamp
+
+1. Read `docs/[slug]-results.md`
+2. Find the `**Completed**:` field in the header
+3. If empty or wrong format:
+   - Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get current timestamp
+   - Update field to ISO 8601 format: `YYYY-MM-DDTHH:MM:SS±HHMM`
+   - Example: `2024-01-08T22:45:00-0800`
+
+### Step 2: Lessons Learned
+
+1. Read the guide: `~/.claude/skills/dev-cycle/references/lessons-guide.md`
+2. Read the template: `~/.claude/skills/dev-cycle/assets/templates/lessons-learned.md`
+3. Extract lessons from ALL step sections in the results doc
+4. Consolidate into `## Lessons Learned` section
+5. Update the results doc
+
+### Step 3: Diagram
+
+1. Read the guide: `~/.claude/skills/dev-cycle/references/diagram-guide.md`
+2. Read the template: `~/.claude/skills/dev-cycle/assets/templates/diagram.md`
+3. Generate ASCII box diagram summarizing what was built
+4. Insert/update `## Diagram` section in results doc
+
+---
+
+## Verification
+
+After completing all 3 steps, verify the results doc contains:
+
+- [ ] `**Completed**:` has ISO 8601 timestamp with timezone
+- [ ] `## Lessons Learned` section exists with consolidated lessons
+- [ ] `## Diagram` section exists with ASCII box diagram
+
+**Only report done after all 3 are verified.**
+
+## Output
+
+Updated `docs/[slug]-results.md` with timestamp, lessons, and diagram.

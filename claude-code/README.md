@@ -72,16 +72,18 @@ Repeat for next task
 | `/dev-lessons` | Consolidate lessons learned |
 | `/dev-diagram` | Generate ASCII summary diagram |
 | `/dev-finalize` | Wrap up task (timestamp + lessons + diagram) |
-| `/dev-milestone-details` | Generate milestone summary document |
+| `/milestone-details` | Generate milestone summary document |
 | `/small-win-check` | Project health check |
 
 ### Agent Commands
 
 | Command | Purpose |
 |---------|---------|
+| `/agent-dev-overview` | Overview agent for Stage 1 |
 | `/agent-dev-plan` | Plan agent for Stage 2 |
 | `/agent-dev-execute` | Execute agent for Stage 3 |
-| `/agent-dev-milestone-details` | Milestone details agent |
+| `/agent-dev-finalize` | Finalize agent (timestamp + lessons + diagram) |
+| `/agent-milestone-details` | Milestone details agent |
 | `/agent-verify-doc` | Document verification agent |
 | `/agent-market-research` | Market research agent |
 
