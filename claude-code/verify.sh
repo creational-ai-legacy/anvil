@@ -22,7 +22,7 @@ OLD_SKILLS=(
 # Key commands that must exist (sanity check)
 REQUIRED_COMMANDS=(
     "verify-doc.md"
-    "small-win-check.md"
+    "dev-health.md"
     "market-research.md"
 )
 #=============================================================================

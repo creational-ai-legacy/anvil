@@ -73,7 +73,7 @@ Repeat for next task
 | `/dev-diagram` | Generate ASCII summary diagram |
 | `/dev-finalize` | Wrap up task (timestamp + lessons + diagram) |
 | `/milestone-details` | Generate milestone summary document |
-| `/small-win-check` | Project health check |
+| `/dev-health` | Project health check |
 
 ### Agent Commands
 

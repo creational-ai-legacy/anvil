@@ -144,7 +144,7 @@ cd claude-desktop
 - `/dev-diagram` - Generate task diagram
 - `/dev-finalize` - Wrap up task (timestamp + lessons + diagram)
 - `/milestone-details` - Generate milestone summary
-- `/small-win-check` - Project health check
+- `/dev-health` - Project health check
 
 **Agent commands**:
 - `/agent-dev-overview` - Overview agent for Stage 1

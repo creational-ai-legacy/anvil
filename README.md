@@ -94,7 +94,7 @@ CLAUDE CODE
    → /dev-finalize
    → Repeat
 
-6. /small-win-check after completion
+6. /dev-health after completion
 ```
 
 ### Claude Code Only Workflow
@@ -112,7 +112,7 @@ CLAUDE CODE
 9. /dev-finalize → Wrap up task
 10. Repeat 6-9 for each task
 
-11. /small-win-check → Update PROJECT_STATE.md
+11. /dev-health → Update PROJECT_STATE.md
 ```
 
 ## Key Principles

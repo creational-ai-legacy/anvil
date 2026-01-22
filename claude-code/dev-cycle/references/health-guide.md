@@ -1,17 +1,33 @@
-# Small Win Check
+# Health Guide
 
-Perform a project health check to verify alignment with north star vision.
+Project health check to verify alignment with north star vision.
+
+**Template**: `assets/templates/PROJECT_STATE.md`
+
+## When to Run
+
+| Situation | Frequency |
+|-----------|-----------|
+| Completing a task | Always |
+| End of session | Always |
+| After major decision | Always |
+| Active development | Every 2-3 steps |
+| Feeling uncertain | Immediately |
+
+---
 
 ## Files to Review
 
 Scan the project for these artifacts (names may vary):
 
-Use Glob and Grep tools to search for these files. If files don't exist or aren't in expected locations, note their absence in the report.
-
 1. **North Star** - `docs/*north-star*.md` - Vision, milestones, success metrics
 2. **Design** - `docs/*design*.md` - Architecture and end goals
 3. **Project State** - `PROJECT_STATE.md` - Current status tracking
 4. **Results** - `docs/*-results.md` - Completed work
+
+Use Glob and Grep tools to search. If files don't exist, note their absence.
+
+---
 
 ## Assessment Criteria
 
@@ -35,24 +51,24 @@ Use Glob and Grep tools to search for these files. If files don't exist or aren'
 - Are we adding complexity beyond what's needed?
 
 ### 5. Test Coverage
-- Automatically run tests to verify all pass (e.g., `uv run pytest tests/ -v`)
-- If pytest is not available or no tests exist, document this in the report
+- Run tests to verify all pass (e.g., `uv run pytest tests/ -v`)
+- If no tests exist, document this
 - Check test counts match expected totals
+
+---
 
 ## Process
 
 ### Step 1: Analyze
+
 Review all files above and assess against the 5 criteria.
 
 ### Step 2: Update PROJECT_STATE.md
 
-**Template**: `~/.claude/skills/dev-cycle/assets/templates/PROJECT_STATE.md`
-- If `PROJECT_STATE.md` doesn't exist, create it using the template
-- If `PROJECT_STATE.md` exists but structure differs significantly from template, realign it
-
-**Before generating the report**:
-1. Update the `Last Updated` timestamp at the top of `PROJECT_STATE.md`
-2. Replace the "Latest Health Check" section with the current findings (create if it doesn't exist):
+1. If `PROJECT_STATE.md` doesn't exist, create it using template
+2. If structure differs from template, realign it
+3. Update the `Last Updated` timestamp
+4. Replace "Latest Health Check" section with current findings:
 
 ```markdown
 ## Latest Health Check
@@ -82,14 +98,14 @@ Review all files above and assess against the 5 criteria.
 **Next**: [What to focus on next]
 ```
 
-**Instructions**: Replace the entire "Latest Health Check" section with new findings. Keep only the latest check.
+**Keep only the latest check** - replace entire section with new findings.
 
-### Step 3: Generate Final Report
+### Step 3: Generate Report
 
-After updating PROJECT_STATE.md, provide this report:
+After updating PROJECT_STATE.md, report:
 
 ```markdown
-## Small Win Check Report
+## Health Check Report
 
 **Date**: [YYYY-MM-DDTHH:MM:SS-TZ]
 **Current Milestone**: [Milestone name]
@@ -115,12 +131,11 @@ After updating PROJECT_STATE.md, provide this report:
 [Still aligned? / Drifting? / Need to revisit?]
 ```
 
-## When to Run
+---
 
-| Situation | Frequency |
-|-----------|-----------|
-| Active development | Every 2-3 steps |
-| End of session | Always |
-| Feeling uncertain | Immediately |
-| After major decision | Always |
-| Completing a task | Always |
+## Quick Reference
+
+1. **Review** - North star, design, project state, results docs
+2. **Assess** - Alignment, production-readiness, gaps, scope, tests
+3. **Update** - PROJECT_STATE.md with latest health check
+4. **Report** - Wins, concerns, gaps, recommendations, north star alignment

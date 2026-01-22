@@ -339,7 +339,7 @@ Use Glob/Grep to check for existing documents:
 2. **Documentation stays clean**
    - Implementation docs are evergreen (no status)
    - Results docs track live progress
-   - Use `/small-win-check` for PROJECT_STATE.md updates
+   - Use `/dev-health` for PROJECT_STATE.md updates
 
 3. **One task at a time**
    - Stage 1: Can plan multiple tasks
