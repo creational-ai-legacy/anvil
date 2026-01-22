@@ -43,9 +43,7 @@ DEVELOPMENT PHASE (dev-cycle)
         ↓
 /dev-execute                → Execute step-by-step with tests
         ↓
-/dev-lessons                → Consolidate lessons
-        ↓
-/dev-finalize               → Timestamp + lessons + diagram
+/dev-finalize               → Wrap up (timestamp + lessons + diagram + health)
         ↓
 Repeat for next task
 ```
@@ -71,7 +69,7 @@ Repeat for next task
 | `/dev-execute` | Execute step-by-step (Stage 3) |
 | `/dev-lessons` | Consolidate lessons learned |
 | `/dev-diagram` | Generate ASCII summary diagram |
-| `/dev-finalize` | Wrap up task (timestamp + lessons + diagram) |
+| `/dev-finalize` | Wrap up task (timestamp + lessons + diagram + health) |
 | `/milestone-details` | Generate milestone summary document |
 | `/dev-health` | Project health check |
 
@@ -82,7 +80,7 @@ Repeat for next task
 | `/agent-dev-overview` | Overview agent for Stage 1 |
 | `/agent-dev-plan` | Plan agent for Stage 2 |
 | `/agent-dev-execute` | Execute agent for Stage 3 |
-| `/agent-dev-finalize` | Finalize agent (timestamp + lessons + diagram) |
+| `/agent-dev-finalize` | Finalize agent (timestamp + lessons + diagram + health) |
 | `/agent-milestone-details` | Milestone details agent |
 | `/agent-verify-doc` | Document verification agent |
 | `/agent-market-research` | Market research agent |

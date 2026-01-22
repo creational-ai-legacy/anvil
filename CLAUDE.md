@@ -142,15 +142,15 @@ cd claude-desktop
 - `/dev-execute` - Execute step-by-step (Stage 3)
 - `/dev-lessons` - Consolidate lessons learned
 - `/dev-diagram` - Generate task diagram
-- `/dev-finalize` - Wrap up task (timestamp + lessons + diagram)
+- `/dev-finalize` - Wrap up task (timestamp + lessons + diagram + health)
 - `/milestone-details` - Generate milestone summary
-- `/dev-health` - Project health check
+- `/dev-health` - Project health check (standalone, also included in finalize)
 
 **Agent commands**:
 - `/agent-dev-overview` - Overview agent for Stage 1
 - `/agent-dev-plan` - Plan agent for Stage 2
 - `/agent-dev-execute` - Execute agent for Stage 3
-- `/agent-dev-finalize` - Finalize agent (timestamp + lessons + diagram)
+- `/agent-dev-finalize` - Finalize agent (timestamp + lessons + diagram + health)
 - `/agent-milestone-details` - Milestone details agent
 - `/agent-verify-doc` - Document verification agent
 - `/agent-market-research` - Market research agent

@@ -91,10 +91,8 @@ CLAUDE CODE
    → /dev-overview
    → /dev-plan
    → /dev-execute
-   → /dev-finalize
+   → /dev-finalize (includes health check)
    → Repeat
-
-6. /dev-health after completion
 ```
 
 ### Claude Code Only Workflow
@@ -109,10 +107,8 @@ CLAUDE CODE
 6. /dev-overview → Analyze first task
 7. /dev-plan → Plan implementation
 8. /dev-execute → Execute step-by-step
-9. /dev-finalize → Wrap up task
+9. /dev-finalize → Wrap up task (includes health check)
 10. Repeat 6-9 for each task
-
-11. /dev-health → Update PROJECT_STATE.md
 ```
 
 ## Key Principles
