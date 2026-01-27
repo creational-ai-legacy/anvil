@@ -49,7 +49,8 @@
       "mcp__mission-control__create_milestone",
       "mcp__mission-control__update_task",
       "mcp__mission-control__get_milestone",
-      "mcp__mission-control__update_milestone"
+      "mcp__mission-control__update_milestone",
+      "Bash(git mv:*)"
     ]
   }
 }

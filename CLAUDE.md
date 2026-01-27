@@ -7,8 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This repo contains skills for both Claude Code and Claude Desktop:
 
 **Claude Code** (`claude-code/`):
-1. **dev-design** - Design phase (concept to executable plan)
-2. **dev-cycle** - Development loop (plan to working code)
+1. **design** - Design phase (concept to executable plan)
+2. **dev** - Development loop (plan to working code)
 3. **market-research** - Market validation with Go/Pivot/Kill recommendation
 
 **Claude Desktop** (`claude-desktop/`):
@@ -62,7 +62,7 @@ idea-to-mvp/
 
 ### Sync from Deployed Skills
 
-If you made changes in `~/.claude/skills/dev-design/`, `~/.claude/skills/dev-cycle/`, or `~/.claude/commands/`:
+If you made changes in `~/.claude/skills/design/`, `~/.claude/skills/dev/`, or `~/.claude/commands/`:
 
 ```bash
 cd claude-code
@@ -94,14 +94,14 @@ cd claude-desktop
 
 ## File Naming Conventions
 
-**dev-design creates:**
+**design skill creates:**
 - `[slug]-north-star.md` - Vision and goals (e.g., `mc-north-star.md`)
 - `[slug]-architecture.md` - Architecture (e.g., `mc-architecture.md`)
 - `[slug]-milestones-overview.md` - Strategic milestone roadmap
 - `[slug]-milestone.md` - Detailed milestone design (e.g., `core-milestone.md`)
 - `[slug]-poc-design.md` - PoC plan (e.g., `core-poc-design.md`)
 
-**dev-cycle creates:**
+**dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
@@ -110,14 +110,14 @@ cd claude-desktop
 
 ## Templates
 
-**dev-design** (`claude-code/dev-design/assets/templates/`):
+**design** (`claude-code/design/assets/templates/`):
 - `north-star.md` - Stage 1 template
 - `architecture.md` - Stage 2 template
 - `milestones-overview.md` - Stage 3 template
 - `milestone-design.md` - Stage 4 template
 - `poc-design.md` - Stage 5 template
 
-**dev-cycle** (`claude-code/dev-cycle/assets/templates/`):
+**dev** (`claude-code/dev/assets/templates/`):
 - `design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
 - `plan.md` - Stage 2 output
 - `results.md` - Stage 3 output
@@ -127,24 +127,24 @@ cd claude-desktop
 
 ## Reference Guides
 
-**dev-design** (`claude-code/dev-design/references/`):
+**design** (`claude-code/design/references/`):
 - `1-north-star-guide.md` through `5-poc-design-guide.md`
 
-**dev-cycle** (`claude-code/dev-cycle/references/`):
+**dev** (`claude-code/dev/references/`):
 - `1-design-guide.md` through `3-execution-guide.md`
 - `lessons-guide.md`, `diagram-guide.md`, `milestone-details-guide.md`
 - `verify-doc-guide.md`
 
 ## Slash Commands
 
-**dev-design commands**:
+**design commands**:
 - `/design-northstar` - Create vision document (Stage 1)
 - `/design-architecture` - Create architecture document (Stage 2)
 - `/design-milestones-overview` - Create milestone roadmap (Stage 3)
 - `/design-milestone-design` - Create detailed milestone design (Stage 4)
 - `/design-poc-design` - Create PoC breakdown (Stage 5)
 
-**dev-cycle commands**:
+**dev commands**:
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute step-by-step (Stage 3)
@@ -174,8 +174,8 @@ Commands are deployed to `~/.claude/commands/`
 ## Deployment
 
 **Claude Code**: `claude-code/deploy.sh` deploys to:
-- `~/.claude/skills/dev-design/`
-- `~/.claude/skills/dev-cycle/`
+- `~/.claude/skills/design/`
+- `~/.claude/skills/dev/`
 - `~/.claude/skills/market-research/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
@@ -204,8 +204,8 @@ git push
 - References provide detailed stage guidance
 - Test slash commands after changes
 - Deploy before pushing to verify changes work
-- dev-design is pure design (NO CODE)
-- dev-cycle allows code (Stage 1 is design-only, Stages 2-3 allow code)
+- design skill is pure design (NO CODE)
+- dev skill allows code (Stage 1 is design-only, Stages 2-3 allow code)
 
 ---
 

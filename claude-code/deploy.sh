@@ -10,8 +10,8 @@ set -e
 # CONFIGURATION - Edit this section to add/remove skills
 #=============================================================================
 SKILLS=(
-    "dev-design"
-    "dev-cycle"
+    "design"
+    "dev"
     "market-research"
 )
 
@@ -19,6 +19,8 @@ SKILLS=(
 OLD_SKILLS=(
     "idea-to-mvp"
     "blueprint"
+    "dev-design"
+    "dev-cycle"
 )
 #=============================================================================
 

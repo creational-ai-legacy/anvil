@@ -6,8 +6,8 @@ Skills for the **implementation phase** of idea-to-mvp, designed for Claude Code
 
 | Skill | Purpose |
 |-------|---------|
-| **dev-design** | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
-| **dev-cycle** | 3-stage development loop (Design → Plan → Execute) |
+| **design** | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
+| **dev** | 3-stage development loop (Design → Plan → Execute) |
 | **market-research** | Market validation with Go/Pivot/Kill recommendation |
 
 ## Installation
@@ -23,7 +23,7 @@ Skills for the **implementation phase** of idea-to-mvp, designed for Claude Code
 ## Workflow
 
 ```
-DESIGN PHASE (dev-design)
+DESIGN PHASE (design skill)
 ─────────────────────────
 /design-northstar           → Vision document
         ↓
@@ -35,7 +35,7 @@ DESIGN PHASE (dev-design)
         ↓
 /design-poc-design          → Atomic proof-of-concepts
 
-DEVELOPMENT PHASE (dev-cycle)
+DEVELOPMENT PHASE (dev skill)
 ─────────────────────────────
 /dev-design                 → Analyze task (NO CODE)
         ↓
@@ -50,7 +50,7 @@ Repeat for next task
 
 ## Commands
 
-### dev-design Commands
+### design Commands
 
 | Command | Purpose |
 |---------|---------|
@@ -60,7 +60,7 @@ Repeat for next task
 | `/design-milestone-design` | Create detailed milestone design (Stage 4) |
 | `/design-poc-design` | Create PoC breakdown (Stage 5) |
 
-### dev-cycle Commands
+### dev Commands
 
 | Command | Purpose |
 |---------|---------|
@@ -99,14 +99,14 @@ Repeat for next task
 
 ## Output Files
 
-**dev-design creates:**
+**design skill creates:**
 - `docs/[slug]-north-star.md`
 - `docs/[slug]-architecture.md`
 - `docs/[slug]-milestones-overview.md`
 - `docs/[slug]-milestone.md`
 - `docs/[slug]-poc-design.md`
 
-**dev-cycle creates:**
+**dev skill creates:**
 - `docs/[milestone]-[task]-design.md`
 - `docs/[milestone]-[task]-plan.md`
 - `docs/[milestone]-[task]-results.md`
@@ -117,8 +117,8 @@ Repeat for next task
 
 ## Key Principles
 
-- **dev-design is NO-CODE** — Pure design and planning
-- **dev-cycle allows code** — Stage 1 is design-only, Stages 2-3 allow code
+- **design skill is NO-CODE** — Pure design and planning
+- **dev skill allows code** — Stage 1 is design-only, Stages 2-3 allow code
 - **One task at a time** — Plan and execute incrementally
 - **Production-grade quality** — OOP, Pydantic, type hints, tests required
 - **Self-contained work** — Each item works independently
@@ -141,7 +141,7 @@ claude-code/
     └── references/         # Detailed guides
 ```
 
-**Current skills:** dev-design, dev-cycle, market-research
+**Current skills:** design, dev, market-research
 
 **Deploys to:**
 - `~/.claude/skills/[skill-name]/` (SKILL.md, assets/, references/)

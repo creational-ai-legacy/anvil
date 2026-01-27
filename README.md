@@ -31,7 +31,7 @@ A structured workflow for taking ideas from concept to working product. Supports
 │                   (Implementation)                              │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  dev-design                   dev-cycle                         │
+│  design                       dev                                │
 │  ├── North Star               ├── Overview (no code)           │
 │  ├── Architecture             ├── Implementation Plan          │
 │  ├── Milestones Overview      └── Execution + Tests            │
@@ -87,7 +87,7 @@ CLAUDE CODE
 ───────────
 4. Import design docs to project
 
-5. dev-cycle loop (per task)
+5. dev loop (per task)
    → /dev-overview
    → /dev-plan
    → /dev-execute
@@ -113,8 +113,8 @@ CLAUDE CODE
 
 ## Key Principles
 
-- **dev-design is NO-CODE** — Pure design and planning
-- **dev-cycle allows code** — Stage 1 is design-only, Stages 2-3 allow code
+- **design skill is NO-CODE** — Pure design and planning
+- **dev skill allows code** — Stage 1 is design-only, Stages 2-3 allow code
 - **One task at a time** — Plan and execute incrementally
 - **Production-grade quality** — OOP, Pydantic, type hints, tests required
 - **Self-contained work** — Each item works independently
@@ -133,8 +133,8 @@ idea-to-mvp/
 │   ├── deploy.sh
 │   ├── verify.sh
 │   ├── sync-from-user.sh
-│   ├── dev-design/
-│   ├── dev-cycle/
+│   ├── design/
+│   ├── dev/
 │   └── commands/
 │
 └── claude-desktop/             # Claude Desktop skills
