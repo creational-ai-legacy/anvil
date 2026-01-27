@@ -16,7 +16,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RELEASES_DIR="$SCRIPT_DIR/releases"
 
 # Skills to unpackage (when no argument provided)
-SKILLS=("dev-design" "market-research" "business-validation" "framework-alignment")
+SKILLS=("design" "market-research" "business-validation" "framework-alignment")
 
 # Function to unpack a single .skill file
 unpack_skill() {

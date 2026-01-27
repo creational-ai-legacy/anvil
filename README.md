@@ -12,7 +12,7 @@ A structured workflow for taking ideas from concept to working product. Supports
 │              (Design & Market Validation)                       │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  dev-design (v1.5.0)          market-research (v1.1.0)         │
+│  design (v1.5.0)              market-research (v1.1.0)         │
 │  ├── North Star               ├── Market size                  │
 │  ├── Architecture             ├── Competitors                  │
 │  ├── Milestones Overview      ├── Positioning                  │
@@ -70,7 +70,7 @@ See [`claude-code/README.md`](claude-code/README.md) for details.
 ```
 CLAUDE DESKTOP
 ──────────────
-1. dev-design Stages 1-2
+1. design Stages 1-2
    → North Star artifact
    → Architecture artifact
 
@@ -78,7 +78,7 @@ CLAUDE DESKTOP
    → "Do market research for [project]"
    → Go / Pivot / Kill?
 
-3. dev-design Stages 3-5 (if GO)
+3. design Stages 3-5 (if GO)
    → Milestones Overview artifact
    → Milestone Design artifact
    → PoC Design artifact
@@ -140,7 +140,7 @@ idea-to-mvp/
 └── claude-desktop/             # Claude Desktop skills
     ├── README.md               # CD documentation
     ├── package.sh
-    ├── dev-design/
+    ├── design/
     ├── market-research/
     └── releases/
 ```

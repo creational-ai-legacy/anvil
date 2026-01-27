@@ -12,7 +12,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 3. **market-research** - Market validation with Go/Pivot/Kill recommendation
 
 **Claude Desktop** (`claude-desktop/`):
-1. **dev-design** - Same 5-stage design workflow (outputs artifacts)
+1. **design** - Same 5-stage design workflow (outputs artifacts)
 2. **market-research** - Market validation with Go/Pivot/Kill recommendation
 3. **business-validation** - Business validation roadmaps with PoC-based experiments
 4. **framework-alignment** - Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence)
@@ -40,7 +40,7 @@ idea-to-mvp/
     ├── README.md               # CD-specific documentation
     ├── package.sh              # Build .skill files
     ├── unpackage.sh            # Extract .skill files (single or all)
-    ├── dev-design/             # Design skill (v1.5.0)
+    ├── design/                 # Design skill (v1.5.0)
     ├── market-research/        # Market validation (v1.1.0)
     ├── business-validation/    # Business validation (v1.1.0)
     ├── framework-alignment/    # Framework analysis (v1.0.0)
@@ -181,7 +181,7 @@ Commands are deployed to `~/.claude/commands/`
 - `~/.claude/agents/`
 
 **Claude Desktop**: `claude-desktop/package.sh` creates:
-- `releases/dev-design.skill`
+- `releases/design.skill`
 - `releases/market-research.skill`
 - `releases/business-validation.skill`
 - `releases/framework-alignment.skill`

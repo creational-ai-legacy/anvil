@@ -6,7 +6,7 @@ Skills for the **design and validation phase** of idea-to-mvp, optimized for Cla
 
 | Skill | Version | Purpose |
 |-------|---------|---------|
-| **dev-design** | 1.5.0 | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
+| **design** | 1.5.0 | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
 | **market-research** | 1.1.0 | Market validation with Go/Pivot/Kill recommendation |
 | **business-validation** | 1.1.0 | Business validation roadmaps with PoC-based experiments |
 | **framework-alignment** | 1.0.0 | Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence) |
@@ -16,7 +16,7 @@ Skills for the **design and validation phase** of idea-to-mvp, optimized for Cla
 ### Option 1: Import .skill files (Recommended)
 
 1. Download from `releases/`:
-   - `dev-design.skill`
+   - `design.skill`
    - `market-research.skill`
    - `business-validation.skill`
    - `framework-alignment.skill`
@@ -55,13 +55,13 @@ Copy skill folders to your Claude Desktop skills directory.
 │                                                         │
 └─────────────────────────────────────────────────────────┘
                           ↓
-              Hand off to dev-cycle
+              Hand off to dev
               (Claude Code)
 ```
 
 ## Usage
 
-### dev-design
+### design
 
 Start with an idea:
 
@@ -134,7 +134,7 @@ get_project(slug) extracts:
 | **Output** | Artifacts | `docs/` files |
 | **Invocation** | Natural language | Slash commands |
 | **Best for** | Exploration, research | Implementation |
-| **Skills** | dev-design, market-research, business-validation, framework-alignment | dev-design, dev-cycle, market-research |
+| **Skills** | design, market-research, business-validation, framework-alignment | design, dev, market-research |
 
 ## Development
 

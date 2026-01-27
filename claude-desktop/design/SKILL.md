@@ -1,9 +1,9 @@
 ---
-name: dev-design
+name: design
 description: "Structured workflow for taking ideas from concept to executable task plan. Use when starting a new project, designing architecture, planning milestones, or creating PoC designs. Covers 5 stages - North Star (refine idea into vision), Architecture (technical design), Milestones Overview (strategic breakdown), Milestone Design (detailed per-milestone planning), PoC Design (atomic proof-of-concept definitions). This is a NO-CODE skill focused on design and planning only."
 ---
 
-# dev-design
+# design
 
 Structured workflow for taking ideas from concept to executable task plan.
 
@@ -22,7 +22,7 @@ Project (e.g., "mission-control")
 
 **Task Types**: PoC (validate approach) | Feature | Issue | Refactor
 
-**Philosophy**: dev-design handles the **design phase** (0→1). Once you have a task plan, hand off to implementation.
+**Philosophy**: design handles the **design phase** (0→1). Once you have a task plan, hand off to implementation.
 
 ## Stage Overview
 
@@ -159,9 +159,9 @@ Validate early. The more context you have, the better the research — but don't
 
 Once `[slug]-poc-design.md` is complete, you're ready to implement.
 
-**Options**: Manual implementation | Claude Code dev-cycle | Other tools
+**Options**: Manual implementation | Claude Code dev | Other tools
 
-dev-design ends here. Implementation = plan tasks → execute → test → repeat.
+design ends here. Implementation = plan tasks → execute → test → repeat.
 
 ---
 
