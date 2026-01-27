@@ -80,7 +80,7 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 
 **Goal**: Analyze problems and design solutions before implementation planning.
 
-**Code Allowed**: NO - Pure design and analysis
+**Code Allowed**: NO full implementations. YES to conceptual patterns, signatures, diagrams.
 
 ### When to Use
 
@@ -94,25 +94,29 @@ Run Stage 1 when:
 
 Stage 1 produces a design document with two distinct sections:
 
-**Part A: Problem Analysis** (Non-Sequential)
-- Each problem gets its own subsection
+**Part A: Analysis** (Non-Sequential)
+- Each item gets its own numbered subsection (1, 2, 3...)
 - Analyzed independently - no implied order
-- Format: What (the issue) → Why (impact) → Approach (solution concept)
-- NO CODE - concepts and reasoning only
+- Format: What (to build/fix/prove) → Why (impact) → Approach (detailed technical approach)
+- Approach includes: patterns, files to modify, diagrams, validation strategy
+- Conceptual code (signatures, patterns) OK - not full implementations
 
-**Part B: Proposed Steps** (Sequential)
-- Synthesizes Problem Analysis into ordered implementation steps
-- Each step references which problem(s) it addresses
-- Shows logical flow and dependencies
-- Still NO CODE - just the ordering and rationale
+**Part B: Proposed Sequence**
+- Shows recommended order using item notation (#1 → #2 → #3)
+- Each item gets its own subsection with:
+  - **Depends On**: What must come before
+  - **Rationale**: Why it's at this position
+  - **Notes**: Optional special considerations
+- NOT "Steps" - that terminology is for Planning stage
+- Planning will create actual implementation steps from this
 
 ### Process
 
 See `references/1-design-guide.md` for detailed guidance on:
 - Document current vs target state
-- Identify and analyze each problem independently
-- Propose solution approach for each problem
-- Synthesize into ordered implementation steps
+- Identify and analyze each item independently
+- Propose solution approach for each item
+- Define proposed sequence with rationale
 - Document design decisions
 - Update PoC plan (if applicable)
 
@@ -128,10 +132,10 @@ Create using `assets/templates/1-design.md`:
 - `cloud-fix-auth-bug-design.md` (bug fix in Cloud milestone)
 
 **Contents**:
-- Executive summary (problem + solution one-liners)
+- Executive summary (challenge + solution one-liners)
 - Context (current state, target state)
-- Problem Analysis (non-sequential, each problem independently)
-- Proposed Steps (sequential, synthesized from analysis)
+- Analysis (non-sequential, each item independently)
+- Proposed Sequence (item order with rationale)
 - Success criteria
 - Risks and mitigations
 - Decisions log
@@ -140,15 +144,14 @@ Create using `assets/templates/1-design.md`:
 
 - [ ] Design document created with all sections
 - [ ] Current and target state clearly defined
-- [ ] Each problem analyzed with What/Why/Approach
-- [ ] Proposed steps synthesized from problem analysis
-- [ ] Each step references which problem(s) it addresses
+- [ ] Each item analyzed with What/Why/Approach
+- [ ] Proposed sequence defined (#1 → #2 → ...)
+- [ ] Sequence rationale explains dependencies
 - [ ] 🔒 **Task is self-contained** (works independently; doesn't break existing functionality/tests)
-- [ ] Step dependencies make sense
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
 - [ ] `docs/[slug]-poc-design.md` updated (if applicable)
-- [ ] No code written (only diagrams and descriptions)
+- [ ] No full code implementations (concepts and patterns OK)
 - [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-design.md`
 
 ### Next Stage
@@ -186,7 +189,7 @@ Run Stage 2 when:
 
 See `references/2-planning-guide.md` for detailed guidance on:
 - List prerequisites
-- Break into bite-sized steps (~30 min each)
+- Break into bite-sized steps (small, completable, testable)
 - Define verification for each step
 - Include specific code snippets
 - Identify production-grade requirements (OOP, Pydantic, typing)
@@ -209,7 +212,7 @@ Create using templates:
 
 - [ ] Plan doc created (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
-- [ ] Each step is small (~30 min) and independently verifiable
+- [ ] Each step is bite-sized and independently verifiable
 - [ ] Each step has clear verification criteria with commands
 - [ ] Code snippets are specific and complete
 - [ ] 🏗️ **OOP + Pydantic + Type hints enforced**
@@ -250,7 +253,7 @@ Run Stage 3 when:
 
 Execute the implementation plan:
 - Execute ONLY the current step (DO NOT do multiple steps)
-- Each step is bite-sized (~30 min max)
+- Each step is bite-sized (small, completable, testable)
 - Steps can break into sub-steps: 3a, 3b, 3c
 - Loop: implement → test → if fail, fix → re-test (repeat until pass)
 - When tests pass → update results doc → STOP

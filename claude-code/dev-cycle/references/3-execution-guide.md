@@ -11,7 +11,7 @@ YES
 This stage executes the implementation plan from Stage 2 (Planning):
 - Execute ONLY the current step
 - DO NOT continue to next step automatically
-- Each step is bite-sized (~30 min max)
+- Each step is bite-sized (small, completable, testable)
 - Steps can break into sub-steps: 3a, 3b, 3c
 - Document progress in results doc after step completes
 - Keep implementation doc clean (no status updates there)

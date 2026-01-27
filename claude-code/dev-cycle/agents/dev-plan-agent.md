@@ -57,7 +57,7 @@ Before completing, verify:
 - [ ] Template structure followed exactly
 - [ ] Prerequisites listed with setup instructions
 - [ ] Affected test files identified
-- [ ] Each step is small (~30 min) and verifiable
+- [ ] Each step is bite-sized and verifiable
 - [ ] Code snippets are specific and complete
 - [ ] OOP + Pydantic + Type hints specified
 - [ ] No mock data where real data needed

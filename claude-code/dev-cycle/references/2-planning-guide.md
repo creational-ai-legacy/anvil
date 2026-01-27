@@ -22,7 +22,7 @@ Only generate implementation plan for:
 
 ## Process
 1. List all prerequisites (setup Supabase, configure AWS, API keys, etc.)
-2. Break implementation into bite-sized steps (max 30 min each)
+2. Break implementation into bite-sized steps (small, completable, testable)
 3. Define verification for EACH step (not just end result)
 4. Include specific code snippets, commands, configs
 5. Identify what makes this "production-grade" vs "demo"
@@ -109,7 +109,7 @@ Unlike Stage 1, implementation planning gets into specifics:
 ## Step Size Guidelines
 
 Each step should be:
-- **Completable in ~30 minutes or less**
+- **Bite-sized** - small enough to complete comfortably given previous steps are done
 - **Independently verifiable** (you can prove it works)
 - **Self-contained** (doesn't require other steps to test)
 - **Tests included** (write AND run tests in the same step)

@@ -69,7 +69,7 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 Follow the guidance in `2-planning-guide.md`:
 1. List prerequisites
-2. Break into ~30 min steps
+2. Break into bite-sized steps
 3. Define verification for each step
 4. Include specific code snippets
 5. Ensure production-grade (OOP, Pydantic, typing)

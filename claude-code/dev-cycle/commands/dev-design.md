@@ -1,10 +1,10 @@
 # /dev-design
 
-Analyze problems and design solutions for a feature, bug fix, or PoC.
+Analyze and design solutions for a feature, bug fix, or PoC.
 
 ## What This Does
 
-Stage 1 of dev-cycle: Analyze problems and design solutions without writing code.
+Stage 1 of dev-cycle: Analyze and design solutions without writing code.
 
 ## Resources
 
@@ -48,8 +48,8 @@ Stage 1 of dev-cycle: Analyze problems and design solutions without writing code
 **Normal mode (no `update`):**
 1. Read the file if provided (bug report, issue, feature spec)
 2. Combine with user notes
-3. Analyze problems independently (Problem Analysis)
-4. Synthesize into ordered steps (Proposed Steps)
+3. Analyze each item independently (Analysis section)
+4. Define proposed sequence with rationale (#1 → #2 → ...)
 5. Update `[slug]-poc-design.md` if applicable
 
 **Update mode (`update` as 2nd arg):**
@@ -57,28 +57,27 @@ Stage 1 of dev-cycle: Analyze problems and design solutions without writing code
 2. Read the current template (`1-design.md`)
 3. Re-align the document to match current template structure
 4. Preserve all content but reorganize into correct sections
-5. Ensure Problem Analysis (non-sequential) and Proposed Steps (sequential) structure
+5. Ensure Analysis (non-sequential) and Proposed Sequence structure
 6. Rename file if needed (e.g., `*-overview.md` → `*-design.md`)
 
 ## Key Requirements
 
-**NO CODE** - This is design only (architecture, flows, diagrams)
+**NO CODE** - This is design only (architecture, flows, diagrams, patterns)
 
 **Self-Contained** - Task must work independently
 
 **Two-Section Structure**:
-- **Problem Analysis** (non-sequential) - Each problem analyzed independently
-- **Proposed Steps** (sequential) - Synthesized from problem analysis
+- **Analysis** (non-sequential) - Each item analyzed independently (1, 2, 3...)
+- **Proposed Sequence** - Item order with rationale (#1 → #2 → #3)
 
 ## Process
 
 Follow the guidance in `1-design-guide.md`:
 1. Document current vs target state
-2. Analyze each problem independently (What/Why/Approach)
-3. Synthesize into ordered implementation steps
-4. Each step references which problem(s) it addresses
-5. Document decisions
-6. Update [slug]-poc-design.md (if applicable)
+2. Analyze each item independently (What/Why/Approach)
+3. Define proposed sequence with rationale
+4. Document decisions
+5. Update [slug]-poc-design.md (if applicable)
 
 ## Output
 

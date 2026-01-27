@@ -47,7 +47,9 @@
       "mcp__mission-control__complete_task",
       "mcp__mission-control__update_project",
       "mcp__mission-control__create_milestone",
-      "mcp__mission-control__update_task"
+      "mcp__mission-control__update_task",
+      "mcp__mission-control__get_milestone",
+      "mcp__mission-control__update_milestone"
     ]
   }
 }

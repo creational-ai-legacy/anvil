@@ -72,18 +72,19 @@ Check:
 
 **Task Design** (NO CODE - design only):
 - Alignment with poc-design or milestone design
-- Clear problem statement
+- Clear challenge statement
 - Defined success criteria
 - Reasonable scope
 - **Approach is sound** - makes technical sense
 - **Approach is incremental** - builds on existing code, doesn't require big-bang rewrites
-- **No code in document** - this is design phase only
+- **No full code in document** - this is design phase only (patterns/signatures OK)
 - **Single task only** - Design should not list "Task 1, Task 2, Task 3" (each task gets its own design)
-- **Problem Analysis is non-sequential** - Each problem analyzed independently
-- **Proposed Steps reference problems** - Each step says which problem(s) it addresses
+- **Analysis is non-sequential** - Each item (1, 2, 3...) analyzed independently
+- **Proposed Sequence uses item notation** - #1 → #2 → #3 (NOT "Step 1, Step 2")
+- **Proposed Sequence has per-item reasoning** - Each item has Depends On, Rationale, and optional Notes
 
 **Plan**:
-- Steps match design's Proposed Steps
+- Steps follow design's Proposed Sequence
 - Dependency chain complete (each step sets up the next)
 - Self-contained steps (code + tests together)
 - No missing prerequisites
@@ -129,11 +130,12 @@ Apply to all document types:
 
 **Terminology** (critical for Design docs)
 - **Task** = a unit of work (PoC, Feature, Issue, Refactor) - each task gets its own Design
-- **Problem Analysis** = non-sequential section analyzing each problem independently
-- **Proposed Steps** = sequential section synthesizing problems into ordered steps
-- **Step** = implementation sub-unit - used in Proposed Steps and Plans
+- **Analysis** = non-sequential section analyzing each item independently (numbered 1, 2, 3...)
+- **Proposed Sequence** = item order with rationale (#1 → #2 → #3) - NOT "Steps"
+- **Step** = implementation sub-unit - used ONLY in Planning stage, not Design
+- Flag if Design uses "Step 1, Step 2" terminology (should use #1, #2 item notation)
 - Flag if Design lists multiple tasks ("Task 1, Task 2" or "Phase 1, Phase 2") - should be a single task
-- Flag if Problem Analysis implies order (that's for Proposed Steps)
+- Flag if Analysis section implies order (that's for Proposed Sequence)
 
 **Hunt for Surprises**
 - Hidden dependencies: assumes something exists that isn't explicitly created

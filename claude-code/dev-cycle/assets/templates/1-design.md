@@ -1,6 +1,6 @@
 # [Milestone-Slug]-[Task-Slug] Design
 
-> **Purpose**: Analyze problems and design solutions before implementation planning
+> **Purpose**: Analyze and design solutions before implementation planning
 >
 > **Important**: This task must be self-contained (works independently; doesn't break existing functionality and existing tests)
 
@@ -14,9 +14,9 @@
 | **Scope** | [What areas/components are affected] |
 | **Code** | NO - This is a design document |
 
-**Problem**: [One sentence describing the core problem]
+**Challenge**: [One sentence - what needs to be built/fixed/proven]
 
-**Solution**: [One sentence describing the proposed solution approach]
+**Solution**: [One sentence - the proposed approach]
 
 ---
 
@@ -30,6 +30,8 @@
 - [Current behavior/implementation 2]
 - [Limitations or issues]
 
+Include specifics: file paths, function names, config locations, existing tools/APIs.
+
 ### Target State
 
 [Describe the desired end state]
@@ -38,68 +40,102 @@
 - [Desired behavior 2]
 - [Benefits achieved]
 
+Include architecture diagram if helpful:
+```
+Component A
+    ├─→ Subcomponent 1
+    └─→ Subcomponent 2 (NEW)
+            └─→ Detail
+```
+
 ---
 
-## Problem Analysis
+## Analysis
 
-> Each problem is analyzed independently. No implied order - read in any sequence.
+> Each item analyzed independently. No implied order - read in any sequence.
 
-### Problem 1: [Problem Name]
+### 1. [Name]
 
-**What**: [Description of the issue]
+**What**: [Description - what needs to be built/fixed/proven]
 
 **Why**: [Impact and importance - why this matters]
 
-**Approach**: [How we'll solve it - NO CODE, concepts only]
+**Approach**:
+[How we'll solve it - be detailed about the technical approach]
+
+Include as needed:
+- Architecture/flow diagrams (ASCII)
+- Files/components to modify or create
+- Key patterns or techniques to use
+- Validation strategy (how to verify it works)
+
+Example level of detail:
+```
+Use asyncio.to_thread() to wrap blocking calls.
+Add async methods alongside sync versions for backwards compatibility.
+Enable parallel fetch via asyncio.gather() for transcript + metadata.
+
+Files: cache_service.py (add async methods), routes.py (update to await)
+Validate: get_video_data completes faster than sequential calls
+```
 
 ---
 
-### Problem 2: [Problem Name]
+### 2. [Name]
 
-**What**: [Description of the issue]
+**What**: [Description]
 
 **Why**: [Impact and importance]
 
-**Approach**: [How we'll solve it]
+**Approach**:
+[Detailed technical approach - patterns, files, validation]
 
 ---
 
-### Problem N: [Problem Name]
+### N. [Name]
 
-**What**: [Description of the issue]
+**What**: [Description]
 
 **Why**: [Impact and importance]
 
-**Approach**: [How we'll solve it]
+**Approach**:
+[Detailed technical approach]
 
 ---
 
-## Proposed Steps
+## Proposed Sequence
 
-> Synthesized from Problem Analysis above. Sequential order matters here.
+> Shows dependencies and recommended order. Planning stage will create actual implementation steps.
 
-Based on the problem analysis above, here is the proposed implementation sequence:
+**Order**: #1 → #2 → #3 → #4 → #5
 
-### Step 1: [Step Name]
+### #1: [Item Name]
 
-**Addresses**: [Problem 1, Problem 3, etc.]
-**What**: [What this step accomplishes]
-**Why Here**: [Why this step comes at this position in the sequence]
-**Dependencies**: [What must exist before this step - or "None"]
+**Depends On**: None
 
-### Step 2: [Step Name]
+**Rationale**: [Explain why this is first - e.g., "Foundation that all other items depend on"]
 
-**Addresses**: [Problem X, Problem Y]
-**What**: [What this step accomplishes]
-**Why Here**: [Why this step comes here]
-**Dependencies**: [Step 1, or specific outputs needed]
+**Notes**: [Optional - any special considerations]
 
-### Step N: [Final Step Name]
+---
 
-**Addresses**: [Remaining problems]
-**What**: [What this step accomplishes]
-**Why Last**: [Why this is the final step]
-**Dependencies**: [Steps 1 through N-1]
+### #2: [Item Name]
+
+**Depends On**: #1
+
+**Rationale**: [Explain the reasoning - e.g., "Requires async methods from #1 to be in place"]
+
+**Notes**: [Optional - any special considerations]
+
+---
+
+### #N: [Item Name]
+
+**Depends On**: [List prerequisites]
+
+**Rationale**: [Explain the reasoning]
+
+**Notes**: [Optional - any special considerations]
 
 ---
 
@@ -110,6 +146,64 @@ Based on the problem analysis above, here is the proposed implementation sequenc
 - [ ] [Criterion 3 - specific, measurable]
 - [ ] All existing tests pass
 - [ ] New functionality works independently
+
+---
+
+## Implementation Options
+
+> Include this section when multiple approaches exist for a key decision.
+
+### Option A: [Name] (Recommended)
+
+[Description of approach]
+
+**Pros**:
+- [Advantage 1]
+- [Advantage 2]
+
+**Cons**:
+- [Disadvantage 1]
+
+### Option B: [Name]
+
+[Description of approach]
+
+**Pros**:
+- [Advantage 1]
+
+**Cons**:
+- [Disadvantage 1]
+- [Disadvantage 2]
+
+### Recommendation
+
+[Option A] because: [rationale]
+
+---
+
+## Files to Modify
+
+> Include this section to give clear scope of changes.
+
+| File | Change | Complexity |
+|------|--------|------------|
+| `path/to/file.py` | Create - [description] | Low/Med/High |
+| `path/to/existing.py` | Modify - [description] | Low/Med/High |
+
+---
+
+## Testing Strategy
+
+> Include this section to outline how changes will be verified.
+
+**Unit Tests**:
+- [What to test at unit level]
+
+**Integration Tests**:
+- [What to test end-to-end]
+
+**Manual Validation**:
+- [Steps to manually verify]
 
 ---
 

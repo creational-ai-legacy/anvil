@@ -2,11 +2,15 @@
 
 ## Goal
 
-Analyze problems and design solutions for a task (PoC, Feature, Issue, or Refactor) before implementation planning.
+Analyze and design solutions for a task (PoC, Feature, Issue, or Refactor) before implementation planning.
 
 ## Code Allowed
 
-NO
+NO full implementations. YES to:
+- Conceptual code patterns/structure (signatures, not bodies)
+- Architecture diagrams (ASCII)
+- File/component identification
+- Technical approach explanation
 
 ## When This Stage Happens
 
@@ -27,26 +31,22 @@ This stage is **user-initiated**:
 
 Stage 1 produces a design document with two distinct sections:
 
-### Part A: Problem Analysis (Non-Sequential)
+### Part A: Analysis (Non-Sequential)
 
-- Each problem gets its own subsection
+- Each item gets its own numbered subsection (1, 2, 3...)
 - Analyzed independently - no implied order
 - Can be read in any sequence
-- Format for each problem:
-  - **What**: Description of the issue
+- Format for each item:
+  - **What**: Description - what needs to be built/fixed/proven
   - **Why**: Impact and importance
-  - **Approach**: How we'll solve it (concepts only, NO CODE)
+  - **Approach**: How we'll solve it (detailed, but not full code)
 
-### Part B: Proposed Steps (Sequential)
+### Part B: Proposed Sequence
 
-- Synthesizes Problem Analysis into ordered implementation steps
-- Each step references which problem(s) it addresses
-- Shows logical flow and dependencies
-- Format for each step:
-  - **Addresses**: Which problem(s) this step solves
-  - **What**: What this step accomplishes
-  - **Why Here**: Why this step comes at this position
-  - **Dependencies**: What must exist before this step
+- Shows recommended order for addressing Analysis items
+- Uses item notation (#1 → #2 → #3) not "Step" terminology
+- Captures dependency thinking and rationale
+- Planning stage will create actual implementation steps from this
 
 ## Process
 
@@ -62,56 +62,121 @@ Stage 1 produces a design document with two distinct sections:
 - How it should work
 - Benefits achieved
 
-### 2. Analyze Problems (Non-Sequential)
+### 2. Analyze (Non-Sequential)
 
-For each distinct problem or issue:
+For each distinct item to address (feature component, issue, proof point, etc.):
 
-**Create a subsection with:**
-- **What**: Clear description of the issue
+**Create a numbered subsection with:**
+- **What**: Clear description - what needs to be built/fixed/proven
 - **Why**: Why it matters (impact, importance)
-- **Approach**: How we'll solve it (concepts, not code)
+- **Approach**: How we'll solve it - detailed technical approach
+
+**Approach should include** (as relevant):
+- Technical patterns/techniques to use
+- Architecture or flow diagrams (ASCII)
+- Files/components to modify or create
+- Implementation options with trade-offs (if multiple approaches exist)
+- Validation strategy (how to verify it works)
+- Conceptual code structure (signatures, patterns - not full implementations)
 
 **Guidelines:**
-- Each problem is independent - no implied order
-- Don't reference "first we do X, then Y" - that's for Proposed Steps
+- Each item is independent - no implied order
+- Don't reference "first we do X, then Y" - that's for Proposed Sequence
 - Focus on understanding before sequencing
-- Include all problems, even small ones
+- Include all items, even small ones
+- Be detailed - this drives the implementation plan
 
-**Example:**
+**Example (simple):**
 ```markdown
-### Problem 1: Misleading Document Name
+### 1. Misleading Document Name
 
 **What**: "Overview" suggests a summary, but Stage 1 is core design work.
 
 **Why**: Users may skip or undervalue Stage 1, thinking it's optional.
 
 **Approach**: Rename from "overview" to "design" throughout all files.
+- Files: template (overview.md → design.md), guide, command, SKILL.md
+- Validate: All references updated, no broken links
 ```
 
-### 3. Synthesize Proposed Steps (Sequential)
+**Example (complex):**
+```markdown
+### 2. Blocking Sync Calls
 
-After analyzing all problems, synthesize into ordered steps:
+**What**: Current service methods are synchronous, blocking the event loop.
 
-**For each step:**
-- **Addresses**: List which problem(s) from Part A
-- **What**: What this step accomplishes
-- **Why Here**: Why this position in the sequence
-- **Dependencies**: What must exist first (prior steps or "None")
+**Why**: Slower response times, can't handle concurrent requests efficiently.
+
+**Approach**:
+Use `asyncio.to_thread()` to wrap blocking yt-dlp and API calls.
+Add async methods alongside sync versions for backwards compatibility.
+Enable parallel fetch via `asyncio.gather()`.
+
+Files to modify:
+- `cache_service.py` - add `get_transcript_async`, `get_metadata_async`, `get_video_data_async`
+- `routes.py` - update routes to await async methods
+
+Pattern:
+```python
+async def get_transcript_async(self, video_id: str) -> CacheResult:
+    # Check cache (sync, fast)
+    # Run blocking extractor in thread pool
+    return await asyncio.to_thread(self.extractor.extract, video_id)
+```
+
+Validate: `get_video_data` completes faster than sequential (parallel fetch working)
+```
+
+### 3. Define Proposed Sequence
+
+After analyzing all items, define the recommended order with dedicated reasoning for each item's placement.
+
+**Structure:**
+- Start with the overall order: `#1 → #2 → #3 → #4 → #5`
+- Give each item its own subsection
+- For each, explain: dependencies and rationale for placement
 
 **Guidelines:**
-- Order matters - logical flow
-- Each step should address one or more problems
-- Show traceability back to Problem Analysis
-- Still NO CODE - just ordering and rationale
+- Use item numbers (#1, #2) not "Step" terminology
+- Focus on dependencies and logical flow
+- Explain the reasoning - don't just list the order
+- Planning stage will create actual implementation steps from this
 
 **Example:**
 ```markdown
-### Step 1: Create New Template
+## Proposed Sequence
 
-**Addresses**: Problem 4 (Template Structure)
-**What**: Create new design.md template with two-section structure
-**Why First**: Template is the foundation - drives all other changes
-**Dependencies**: None
+**Order**: #1 → #2 → #3 → #4
+
+### #1: Template Rename
+
+**Depends On**: None
+
+**Rationale**: Template is the foundation - all other files reference it.
+
+---
+
+### #2: Guide Update
+
+**Depends On**: #1
+
+**Rationale**: Guide references template paths and structure. Must reflect new template first.
+
+---
+
+### #3: Command Update
+
+**Depends On**: #1, #2
+
+**Rationale**: Command references guide for process details.
+
+---
+
+### #4: Verification
+
+**Depends On**: #1, #2, #3
+
+**Rationale**: Can only verify all changes work together after everything is updated.
 ```
 
 ### 4. Ensure Self-Contained Scope
@@ -149,15 +214,22 @@ Use the Decisions Log table in the template.
 
 **Design document**: `docs/[milestone-slug]-[task-slug]-design.md` using `assets/templates/1-design.md`
 
-**Contents:**
-- Executive summary (problem + solution one-liners)
-- Context (current state, target state)
-- Problem Analysis (non-sequential, each problem independently)
-- Proposed Steps (sequential, synthesized from analysis)
+**Created timestamp**: Use ISO 8601 with timezone (e.g., `2024-01-08T22:45:00-08:00`). Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get current timestamp.
+
+**Required sections:**
+- Executive summary (challenge + solution one-liners)
+- Context (current state, target state - include architecture diagrams)
+- Analysis (non-sequential, each item independently with detailed approach)
+- Proposed Sequence (item order with rationale - e.g., #1 → #2 → #3)
 - Success criteria
 - Risks and mitigations
 - Open questions
 - Decisions log
+
+**Optional sections** (include when relevant):
+- **Implementation Options** - when multiple approaches exist for key decisions (pros/cons, recommendation)
+- **Files to Modify** - table with file paths, change type, complexity
+- **Testing Strategy** - unit tests, integration tests, manual validation
 
 **Examples**: `docs/core-poc6-design.md`, `docs/cloud-auth-fix-design.md`
 
@@ -165,23 +237,23 @@ Use the Decisions Log table in the template.
 
 - [ ] Design document created with all sections
 - [ ] Current and target state clearly defined
-- [ ] Each problem analyzed with What/Why/Approach
-- [ ] Problems are independent (no sequencing in Problem Analysis)
-- [ ] Proposed Steps synthesized from Problem Analysis
-- [ ] Each step references which problem(s) it addresses
-- [ ] Step order is logical with clear dependencies
+- [ ] Each item analyzed with What/Why/Approach
+- [ ] Analysis items are independent (no sequencing in Analysis)
+- [ ] Proposed Sequence shows item order (#1 → #2 → ...)
+- [ ] Sequence rationale explains dependencies
 - [ ] Task is self-contained (works independently, doesn't break existing functionality/tests)
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] No code written (only concepts and descriptions)
+- [ ] No full code implementations (concepts and patterns OK)
 
 ## Common Pitfalls
 
-- **Mixing analysis with sequencing**: Keep Problem Analysis non-sequential; save ordering for Proposed Steps
-- **Forgetting traceability**: Each Proposed Step should reference which Problem(s) it addresses
-- **Writing code**: Stage 1 is NO CODE - save implementation details for Stage 2
+- **Mixing analysis with sequencing**: Keep Analysis non-sequential; sequence goes in Proposed Sequence
+- **Using "Step" terminology**: Design uses item numbers (#1, #2); "Steps" are for Planning stage
+- **Writing full implementations**: Stage 1 allows patterns/structure, not complete function bodies
+- **Too sparse on approach**: Include files, patterns, validation - design drives the plan
 - **Breaking changes**: Use "add alongside" strategy, not "replace"
-- **Vague problems**: Be specific about What and Why for each problem
+- **Vague items**: Be specific about What and Why for each item
 - **Listing multiple tasks**: Design is for a single task only
 
 ## Next Stage
