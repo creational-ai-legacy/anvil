@@ -32,7 +32,7 @@ This skill uses the `video-professor` MCP server:
 
 | Agent | Purpose |
 |-------|---------|
-| `vp-chapter-cleaner` | Clean raw transcript for one chapter and write it into the target document. Spawned in parallel by `/vp`. |
+| `vp-chapter-cleaner` | Clean raw transcript for one chapter and write it to a clean file. Spawned in parallel by `/vp`. |
 | `vp-topic-detector` | Analyze a transcript without chapters and identify natural topic breaks with timestamps. Spawned by `/vp` when no creator-provided chapters exist. |
 
 ---

@@ -35,10 +35,10 @@ Creates a `vp-[title-slug].md` file with:
 ## Pipeline
 
 Every video goes through the same uniform pipeline:
-0. **Clear scratchpad first** — run `rm -rf scratchpad/*` before anything else
-1. Fetch data, save `raw.json`, run extract script
+1. Fetch data, `vp-download.sh` clears scratchpad and saves `raw.json`, run extract script
 2. If no chapters found, the `vp-topic-detector` agent identifies natural topic breaks
 3. Build skeleton document with chapter/topic placeholders
 4. `vp-chapter-cleaner` subagents process all chapters in the background
+5. As each cleaner finishes, `vp-assemble.sh` replaces the placeholder in the target doc
 
 Read the guide. Follow it exactly. Use the template.

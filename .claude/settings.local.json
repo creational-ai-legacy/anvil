@@ -65,7 +65,12 @@
       "mcp__mission-control__list_projects",
       "mcp__mission-control__get_portfolio_summary",
       "Bash(mkdir:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(echo:*)",
+      "Bash(SP=/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad)",
+      "Bash(SCRIPT=/Users/docchang/Development/idea-to-mvp/claude-code/video-professor/scripts/vp-assemble.sh)",
+      "Bash(TARGET=$SP/test-target4.md)",
+      "Bash(SCRATCHPAD=\"/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad\")"
     ]
   }
 }

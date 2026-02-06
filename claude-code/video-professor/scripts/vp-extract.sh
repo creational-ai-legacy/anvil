@@ -8,6 +8,7 @@
 #         Direct: {video_id, metadata, transcript, errors}
 #         Wrapper: {"result": "{...serialized JSON...}"}
 # Output: Prints metadata + chapters to stdout, writes ch-XX-raw.txt files to scratchpad_dir
+#         If 0-1 chapters, also writes transcript.txt (timestamp\ttext per line) for topic detection
 
 set -euo pipefail
 
@@ -26,11 +27,11 @@ fi
 
 mkdir -p "$SCRATCHPAD"
 
-python3 << PYEOF
+python3 - "$RAW_JSON" "$SCRATCHPAD" << 'PYEOF'
 import json, re, sys, os
 
-raw_json = "$RAW_JSON"
-scratchpad = "$SCRATCHPAD"
+raw_json = sys.argv[1]
+scratchpad = sys.argv[2]
 
 with open(raw_json) as f:
     raw = json.load(f)
@@ -76,6 +77,29 @@ if len(chapters) < 2:
     with open(path, "w") as f:
         f.write(raw_text)
     print(f"\nch-01-raw.txt: {len(segments)} segments, {len(raw_text)} chars")
+
+    # Write transcript.txt for topic detection (merged into ~30s blocks)
+    tx_path = os.path.join(scratchpad, "transcript.txt")
+    block_size = 30  # seconds per block
+    lines = 0
+    with open(tx_path, "w") as f:
+        block_start = 0
+        block_texts = []
+        for ts, text in segments:
+            if ts >= block_start + block_size and block_texts:
+                # Convert seconds to MM:SS
+                m, s = divmod(int(block_start), 60)
+                f.write(f"{m:02d}:{s:02d}\t{' '.join(block_texts)}\n")
+                lines += 1
+                block_start = ts
+                block_texts = [text]
+            else:
+                block_texts.append(text)
+        if block_texts:
+            m, s = divmod(int(block_start), 60)
+            f.write(f"{m:02d}:{s:02d}\t{' '.join(block_texts)}\n")
+            lines += 1
+    print(f"transcript.txt: {lines} lines ({block_size}s blocks)")
 else:
     # Convert chapter timestamps to seconds
     def ts_to_seconds(ts):

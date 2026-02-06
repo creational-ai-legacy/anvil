@@ -45,26 +45,16 @@ The `/vp` command uses a **uniform chapter pipeline** — every video goes throu
 
 ### Phase 1: Extract
 
-#### Step 0: Clear Scratchpad
-
-Clear any leftover files from previous runs:
-
-```bash
-rm -rf [session-scratchpad]/*
-```
-
-Replace `[session-scratchpad]` with the actual path from your system prompt.
-
 #### Step 1: Fetch Data
 
 Call `mcp__video-professor__get_video_data` with the provided URL/ID and `save_to_s3: true`. The MCP returns a small JSON with a presigned S3 URL instead of the full transcript.
 
 #### Step 2: Download raw.json
 
-Download the presigned URL to the session scratchpad using `curl`:
+Download the presigned URL to the session scratchpad. This script clears the scratchpad first, then downloads:
 
 ```bash
-curl -s -o [session-scratchpad]/raw.json "PRESIGNED_URL_FROM_STEP_1"
+bash [skill-path]/scripts/vp-download.sh "PRESIGNED_URL_FROM_STEP_1" [session-scratchpad]
 ```
 
 Replace `PRESIGNED_URL_FROM_STEP_1` with the `url` field from the MCP response. The presigned URL expires in 1 hour.
@@ -109,11 +99,12 @@ Task tool:
   description: "Detect video topics"
   prompt: |
     Analyze the transcript and identify natural topic breaks.
-    - raw.json path: [session-scratchpad]/raw.json
-    - scratchpad path: [session-scratchpad]/
+    - transcript.txt path: [session-scratchpad]/transcript.txt
+    - Output file: [session-scratchpad]/detected-chapters.txt
+    - Split command: bash [skill-path]/scripts/vp-split.sh [session-scratchpad]/detected-chapters.txt [session-scratchpad]/raw.json [session-scratchpad]
 ```
 
-Wait for this agent to complete. Then read `[session-scratchpad]/detected-chapters.txt` for the topic list.
+Wait for this agent to complete. The agent writes detected-chapters.txt and runs the split script to create ch-XX-raw.txt files. Then read `[session-scratchpad]/detected-chapters.txt` for the topic list.
 
 #### Step 5: Handle Description (from script output)
 
@@ -158,7 +149,7 @@ Placeholder format: `<!-- VP-CH-XX -->` where XX is zero-padded chapter number (
 
 #### Step 7: Spawn Chapter Cleaners
 
-Launch parallel `vp-chapter-cleaner` subagents using the Task tool with `run_in_background: true`. Send all Task calls in a single message for parallel execution.
+Launch parallel `vp-chapter-cleaner` subagents using the Task tool with `run_in_background: true`. Send all Task calls in a single message for parallel execution. **Do not set the `model` parameter** — the agent's own model (defined in its frontmatter) must be used.
 
 Each subagent receives a prompt with:
 - The raw chapter file path (e.g., `[session-scratchpad]/ch-03-raw.txt`)
@@ -174,17 +165,17 @@ Clean this YouTube transcript chapter and write it to the output file.
 
 ### Phase 4: Assemble Incrementally
 
-#### Step 8: Replace Placeholders as Cleaners Complete
+#### Step 8: Assemble Incrementally with Script
 
-As each background cleaner finishes (you'll receive a task notification), immediately:
-1. Read the corresponding `ch-XX-clean.txt` from the scratchpad
-2. Replace the `<!-- VP-CH-XX -->` placeholder in the target document using the Edit tool
+As each cleaner finishes (task notification), run the assemble script for that chapter:
 
-Do this one at a time as notifications arrive — the main agent is the only editor, so there are no conflicts. If multiple notifications arrive in the same message, process them sequentially in a single response (read all clean files in parallel, then edit the target document once with all replacements).
+```bash
+bash [skill-path]/scripts/vp-assemble.sh [session-scratchpad]/ch-03-clean.txt [target-doc]
+```
 
-After the last cleaner completes:
-1. Verify no remaining `<!-- VP-CH-XX -->` placeholders exist
-2. Confirm completion with the file path
+The script reads the clean file, replaces the matching `<!-- VP-CH-XX -->` placeholder in the target document, and reports how many placeholders remain. Safe to run in any order — if the placeholder is already replaced, it exits cleanly.
+
+When the output shows `0 remaining`, the document is complete. Report the file path.
 
 ---
 
