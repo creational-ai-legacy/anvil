@@ -51,7 +51,7 @@ idea-to-mvp/
 
 ### Making Changes
 
-1. **Edit files in `claude-code/`** (not in `~/.claude/skills/`)
+1. **Edit files in `claude-code/`** (NEVER edit `~/.claude/skills/` directly)
 2. **Test locally** if needed
 3. **Deploy**:
    ```bash
@@ -60,15 +60,7 @@ idea-to-mvp/
    ```
 4. **Commit and push**: Standard git workflow
 
-### Sync from Deployed Skills
-
-If you made changes in `~/.claude/skills/design/`, `~/.claude/skills/dev/`, or `~/.claude/commands/`:
-
-```bash
-cd claude-code
-./sync-from-user.sh
-git status  # Review changes
-```
+**IMPORTANT**: Always edit the source in `claude-code/`, then deploy. Never edit deployed files in `~/.claude/skills/` — they get overwritten on deploy.
 
 ## Key Commands
 

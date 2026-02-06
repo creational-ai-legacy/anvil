@@ -13,6 +13,7 @@ SKILLS=(
     "design"
     "dev"
     "market-research"
+    "video-professor"
 )
 
 # Old skill directories to clean up (add deprecated skills here)
@@ -21,6 +22,12 @@ OLD_SKILLS=(
     "blueprint"
     "dev-design"
     "dev-cycle"
+)
+
+# Old commands to clean up (replaced by skills or removed)
+OLD_COMMANDS=(
+    "vp-transcript.md"
+    "vp-meta.md"
 )
 #=============================================================================
 
@@ -40,6 +47,16 @@ for old_skill in "${OLD_SKILLS[@]}"; do
         echo "--- Removing old $old_skill skill ---"
         rm -rf "$SKILLS_DIR/$old_skill"
         echo "  ✓ Removed $SKILLS_DIR/$old_skill"
+        echo ""
+    fi
+done
+
+# Clean up old commands
+for old_cmd in "${OLD_COMMANDS[@]}"; do
+    if [ -f "$COMMANDS_DIR/$old_cmd" ]; then
+        echo "--- Removing old command: $old_cmd ---"
+        rm -f "$COMMANDS_DIR/$old_cmd"
+        echo "  ✓ Removed $COMMANDS_DIR/$old_cmd"
         echo ""
     fi
 done
@@ -100,6 +117,14 @@ for skill in "${SKILLS[@]}"; do
             cp -r "$SKILL_SRC/agents/"*.md "$AGENTS_DIR/"
             echo "  ✓ Copied $count agents"
         fi
+    fi
+
+    # Copy scripts/
+    if [ -d "$SKILL_SRC/scripts" ]; then
+        mkdir -p "$SKILL_DST/scripts"
+        cp -r "$SKILL_SRC/scripts/"* "$SKILL_DST/scripts/"
+        chmod +x "$SKILL_DST/scripts/"*.sh 2>/dev/null || true
+        echo "  ✓ Copied scripts/"
     fi
 
     echo ""

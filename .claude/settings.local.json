@@ -51,7 +51,21 @@
       "mcp__mission-control__get_milestone",
       "mcp__mission-control__update_milestone",
       "Bash(git mv:*)",
-      "mcp__mission-control__get_task"
+      "mcp__mission-control__get_task",
+      "mcp__video-professor__get_video_data",
+      "mcp__video-professor__get_transcript",
+      "mcp__video-professor__get_metadata",
+      "Bash(lsof:*)",
+      "Bash(~/.claude/skills/video-professor/scripts/vp-extract.sh:*)",
+      "Bash(python3:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:ghuntley.com)",
+      "WebFetch(domain:www.truefoundry.com)",
+      "WebFetch(domain:claudelog.com)",
+      "mcp__mission-control__list_projects",
+      "mcp__mission-control__get_portfolio_summary",
+      "Bash(mkdir:*)",
+      "Bash(curl:*)"
     ]
   }
 }

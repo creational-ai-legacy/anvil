@@ -11,6 +11,7 @@ SKILLS=(
     "design"
     "dev"
     "market-research"
+    "video-professor"
 )
 
 # Old skill directories that should NOT exist
@@ -21,11 +22,24 @@ OLD_SKILLS=(
     "dev-cycle"
 )
 
+# Old commands that should NOT exist (replaced by skills or removed)
+OLD_COMMANDS=(
+    "vp-transcript.md"
+    "vp-meta.md"
+)
+
 # Key commands that must exist (sanity check)
 REQUIRED_COMMANDS=(
     "verify-doc.md"
     "dev-health.md"
     "market-research.md"
+    "vp.md"
+    "vp-comments.md"
+)
+
+# Key agents that must exist (sanity check)
+REQUIRED_AGENTS=(
+    "vp-chapter-cleaner.md"
 )
 #=============================================================================
 
@@ -59,6 +73,17 @@ for old_skill in "${OLD_SKILLS[@]}"; do
         pass "$old_skill skill removed"
     else
         fail "$old_skill skill still exists at $SKILLS_DIR/$old_skill"
+    fi
+done
+echo ""
+
+# Check old commands are removed
+echo "--- Checking old commands removed ---"
+for old_cmd in "${OLD_COMMANDS[@]}"; do
+    if [ ! -f "$COMMANDS_DIR/$old_cmd" ]; then
+        pass "$old_cmd removed"
+    else
+        fail "$old_cmd still exists at $COMMANDS_DIR/$old_cmd"
     fi
 done
 echo ""
@@ -144,9 +169,17 @@ if [ -d "$AGENTS_DIR" ]; then
     if [ "$agent_count" -gt "0" ]; then
         pass "Has $agent_count agents"
     else
-        # Agents are optional, so just note it
         echo "  ℹ️  No agents deployed (this may be expected)"
     fi
+
+    # Check required agents
+    for agent in "${REQUIRED_AGENTS[@]}"; do
+        if [ -f "$AGENTS_DIR/$agent" ]; then
+            pass "$agent exists"
+        else
+            fail "$agent missing"
+        fi
+    done
 else
     echo "  ℹ️  agents directory not found (this may be expected)"
 fi
