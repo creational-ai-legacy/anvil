@@ -10,6 +10,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 1. **design** - Design phase (concept to executable plan)
 2. **dev** - Development loop (plan to working code)
 3. **market-research** - Market validation with Go/Pivot/Kill recommendation
+4. **video-professor** - YouTube video to structured markdown document
 
 **Claude Desktop** (`claude-desktop/`):
 1. **design** - Same 5-stage design workflow (outputs artifacts)
@@ -26,7 +27,8 @@ idea-to-mvp/
 │
 ├── claude-code/                # Claude Code skills
 │   ├── README.md               # CC-specific documentation
-│   ├── deploy.sh               # Deploy skills and commands
+│   ├── deploy.sh               # Deploy skills and commands (local)
+│   ├── deploy-genesis.sh       # Deploy skills to genesis (Raspberry Pi)
 │   ├── verify.sh               # Verify deployment
 │   ├── sync-from-user.sh       # Sync from deployed skills
 │   └── [skill-name]/           # Each skill follows this structure
@@ -65,9 +67,12 @@ idea-to-mvp/
 ## Key Commands
 
 ```bash
-# Deploy Claude Code skills and commands
+# Deploy Claude Code skills and commands (local)
 cd claude-code
 ./deploy.sh
+
+# Deploy Claude Code skills to genesis (Raspberry Pi)
+./deploy-genesis.sh
 
 # Verify deployment
 ./verify.sh
@@ -159,6 +164,10 @@ cd claude-desktop
 **Research commands**:
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation
 
+**Video professor commands**:
+- `/vp` - Extract YouTube video as formatted markdown document
+- `/vp-comments` - Get video comments
+
 **Utility commands**:
 - `/verify-doc` - Document verification
 
@@ -166,12 +175,15 @@ Commands are deployed to `~/.claude/commands/`
 
 ## Deployment
 
-**Claude Code**: `claude-code/deploy.sh` deploys to:
+**Claude Code (local)**: `claude-code/deploy.sh` deploys to:
 - `~/.claude/skills/design/`
 - `~/.claude/skills/dev/`
 - `~/.claude/skills/market-research/`
+- `~/.claude/skills/video-professor/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
+
+**Claude Code (genesis)**: `claude-code/deploy-genesis.sh` deploys the same skills to `genesis:/home/pi/.claude/` via SSH.
 
 **Claude Desktop**: `claude-desktop/package.sh` creates:
 - `releases/design.skill`

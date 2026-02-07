@@ -30,15 +30,19 @@ Commit all changes, bump version, create tag, and push everything.
    git commit -m "[concise summary of changes]"
    ```
 
-4. **Find current version** in `pyproject.toml`
+4. **Find current version** — check in priority order:
+   - `pyproject.toml` → `version = "X.Y.Z"`
+   - `VERSION` file → contains just `X.Y.Z`
+   - If neither exists: create `VERSION` with `0.0.0` and use that
 
 5. **Determine new version**:
    - If argument provided: use it
    - If no argument: patch bump (default)
 
-6. **Update version** in:
-   - `pyproject.toml` (the `version = "..."` line)
-   - `__init__.py` with `__version__` (if exists)
+6. **Update version** in whichever source was found in step 4:
+   - `pyproject.toml` → update the `version = "..."` line
+   - `VERSION` → overwrite file with new version string
+   - Also update `__init__.py` with `__version__` (if exists)
 
 7. **Commit version bump**:
    ```bash
@@ -58,8 +62,8 @@ Commit all changes, bump version, create tag, and push everything.
 
 10. **Report**:
     ```
-    ✓ Committed: [summary]
-    ✓ Version: X.Y.Z → A.B.C
-    ✓ Tagged: vA.B.C
-    ✓ Pushed
+    Committed: [summary]
+    Version: X.Y.Z → A.B.C
+    Tagged: vA.B.C
+    Pushed
     ```

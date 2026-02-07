@@ -70,7 +70,13 @@
       "Bash(SP=/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad)",
       "Bash(SCRIPT=/Users/docchang/Development/idea-to-mvp/claude-code/video-professor/scripts/vp-assemble.sh)",
       "Bash(TARGET=$SP/test-target4.md)",
-      "Bash(SCRATCHPAD=\"/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad\")"
+      "Bash(SCRATCHPAD=\"/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad\")",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:gofastmcp.com)",
+      "WebFetch(domain:glama.ai)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(pip3 show:*)",
+      "Bash(ssh:*)"
     ]
   }
 }
