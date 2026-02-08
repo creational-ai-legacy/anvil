@@ -25,7 +25,7 @@ This stage is **user-initiated**:
 
 - Understanding of current architecture (from implemented work)
 - New feature or issue identified
-- Existing `docs/[slug]-poc-design.md` (if applicable)
+- Existing `docs/[slug]-poc-spec.md` (if applicable)
 
 ## Key Concept: Two-Section Structure
 
@@ -86,20 +86,7 @@ For each distinct item to address (feature component, issue, proof point, etc.):
 - Include all items, even small ones
 - Be detailed - this drives the implementation plan
 
-**Example (simple):**
-```markdown
-### 1. Misleading Document Name
-
-**What**: "Overview" suggests a summary, but Stage 1 is core design work.
-
-**Why**: Users may skip or undervalue Stage 1, thinking it's optional.
-
-**Approach**: Rename from "overview" to "design" throughout all files.
-- Files: template (overview.md → design.md), guide, command, SKILL.md
-- Validate: All references updated, no broken links
-```
-
-**Example (complex):**
+**Example (shown in Python; adapt patterns to project language):**
 ```markdown
 ### 2. Blocking Sync Calls
 
@@ -181,17 +168,9 @@ After analyzing all items, define the recommended order with dedicated reasoning
 
 ### 4. Ensure Self-Contained Scope
 
-**Critical requirement**: This task must be self-contained and **production-grade**
+**Critical**: Task must be self-contained — works independently, no breaking changes, safe to pause after completion.
 
-**Why self-contained matters:**
-- Task is complete within its scope (works independently)
-- System remains functional after this task (no breaking changes)
-- Prevents cascading failures
-- Safe to pause work after task completion
-
-**Strategy: Add Alongside, Don't Replace**
-
-When new capability could break existing code, add new functions/classes alongside existing ones rather than modifying them.
+**Strategy**: Add alongside, don't replace. New functions/classes alongside existing ones rather than modifying them.
 
 ### 5. Document Decisions
 
@@ -205,7 +184,7 @@ Use the Decisions Log table in the template.
 ### 6. Update Plan (If Applicable)
 
 **If this task relates to a PoC plan:**
-- Add new tasks to `docs/[slug]-poc-design.md`
+- Add new tasks to `docs/[slug]-poc-spec.md`
 - **DO NOT renumber existing items** - just add new sequential numbers
 - Update dependency graph
 - Verify dependencies still make sense

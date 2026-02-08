@@ -159,4 +159,4 @@ MILESTONE COMPLETION MAP
 - [Task 1 Design](./[milestone]-[task1]-design.md)
 - [Task 1 Results](./[milestone]-[task1]-results.md)
 - [Architecture](./[milestone]-architecture.md)
-- [PoC Design](./[milestone]-poc-design.md)
+- [PoC Spec](./[milestone]-poc-spec.md)

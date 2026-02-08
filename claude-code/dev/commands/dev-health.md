@@ -1,6 +1,6 @@
 # /dev-health
 
-Project health check to verify alignment with north star vision.
+Project health check to verify alignment with product vision.
 
 **Guide**: `~/.claude/skills/dev/references/health-guide.md`
 **Template**: `~/.claude/skills/dev/assets/templates/PROJECT_STATE.md`
@@ -13,7 +13,7 @@ Project health check to verify alignment with north star vision.
 
 ## What It Does
 
-1. Reviews project artifacts (north star, design, results docs)
+1. Reviews project artifacts (product vision, design, results docs)
 2. Assesses alignment, production-readiness, gaps, scope, tests
 3. Updates PROJECT_STATE.md with latest health check
 4. Generates health report with wins, concerns, recommendations

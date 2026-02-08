@@ -10,7 +10,7 @@ Execute the implementation plan step by step with tests.
 
 ## What This Does
 
-Stage 3 of dev: Implement one step at a time with pytest verification.
+Stage 3 of dev: Implement one step at a time with test verification.
 
 ## Resources
 
@@ -60,7 +60,7 @@ Stage 3 of dev: Implement one step at a time with pytest verification.
 
 📝 **DOCUMENT AND STOP** - When tests pass, update results.md and STOP - report to user
 
-🏗️ **PRODUCTION-GRADE** - OOP, Pydantic, type hints, real data, error handling
+🏗️ **PRODUCTION-GRADE** - OOP, validated data models, type safety, real data, error handling
 
 ## Process
 
@@ -75,8 +75,8 @@ Follow the guidance in `3-execution-guide.md`:
 
 **Per Step Workflow** (loop until tests pass):
 1. Write implementation code for current step
-2. Write tests (`tests/test_[task-slug]_*.py`)
-3. Run pytest verification
+2. Write tests (per environment conventions from the plan)
+3. Run test verification (per environment guide)
 4. **IF TESTS FAIL**: Fix the issue and return to step 3 (loop until all tests pass)
 5. **IF TESTS PASS**: Update results.md (status + lessons learned) and STOP
 6. Report completion to user
@@ -85,7 +85,7 @@ Follow the guidance in `3-execution-guide.md`:
 
 Per step:
 - Implementation code files
-- Test files (`tests/test_[task-slug]_*.py`)
+- Test files (per environment conventions from the plan)
 - Updated `docs/[milestone-slug]-[task-slug]-results.md`
 
 ## After Step Completion

@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # /dev-execute-run
 
-Execute all remaining implementation steps, spawning a fresh subagent for each.
+Execute all remaining implementation steps, spawning a fresh subagent for each. After each step, a review agent checks for conceptual errors before moving to the next step.
 
 ## What This Does
 
-Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-execute-agent` for each step. This avoids context exhaustion since each step gets a clean agent context.
+Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-execute-agent` for each step and a fresh `dev-review-agent` after each. This avoids context exhaustion since each agent gets a clean context. The review agent catches conceptual errors that tests miss.
 
 ## Input
 
@@ -37,22 +37,91 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 
 1. Resolve the plan path (if task name given, convert to `docs/[name]-plan.md`)
 2. Read the plan to get total step count
-3. Read or create results.md to find current progress
-4. Identify all incomplete steps
+3. **Read the plan's Overview table → extract Risk Profile** (Critical / Standard / Exploratory)
+4. Read or create results.md to find current progress
+5. Identify all incomplete steps
 
-### 2. Execute Loop
+### 2. Execute + Review Loop
 
-**First call**: Prereqs + Step 0 (if exists)
-```
-Spawn dev-execute-agent: "[plan-path] Prereqs + Step 0 (if exists)"
-```
+**Two distinct loops exist — don't conflate them:**
 
-**Then**: Step 1, 2, 3...
+- **Inner loop (executor-owned):** The execute agent has its own internal cycle — implement → test → fail → fix → re-test until tests pass. This is the executor's domain. You don't touch it.
+- **Outer loop (yours):** After the executor delivers a passing step, you spawn the review gate. FLAG → fix → re-review is your loop.
+
+**For each step:**
+
+#### 2a. Execute
+
 ```
 Spawn dev-execute-agent: "[plan-path] [N]"
 ```
 
-Stop on failure, continue on success.
+If the executor **fails** (tests won't pass) → STOP.
+If the executor **succeeds** (tests passing, step documented) → continue to 2b.
+
+#### 2b. Review Gate
+
+Read the Risk Profile extracted in Setup.
+
+**If Exploratory:**
+- Skip review (or spawn review as advisory — log findings to results.md but don't enter the fix loop)
+- → Next step
+
+**If Critical or Standard:**
+```
+Spawn dev-review-agent: "[results-doc] [step-number]"
+```
+
+Read the review agent's verdict:
+- **PASS** → Next step
+- **FLAG** → Continue to 2c
+
+#### 2c. Fix (one attempt)
+
+Spawn a fresh executor with the review findings as a scoped fix prompt:
+
+```
+Spawn dev-execute-agent: "[plan-path] [step-number] --fix
+
+Review flagged the following issues for step [N]:
+
+1. [Check name]: [Exact details from review agent — paste verbatim]
+2. [Check name]: [Exact details]
+
+Fix ONLY these specific issues:
+- Do not re-implement the entire step
+- Do not restructure code beyond what's needed to address the flags
+- Re-run affected tests after fixing
+- Update the Trade-offs & Decisions section if the fix involves a new decision
+- Update the step block in results.md IN-PLACE: replace Implementation, Test Results,
+  and Issues sections with post-fix state. Do not append below the original."
+```
+
+If the fix executor **fails** (tests break) → STOP.
+If the fix executor **succeeds** → continue to 2d.
+
+#### 2d. Re-review
+
+```
+Spawn dev-review-agent: "[results-doc] [step-number]"
+```
+
+Read the re-review verdict:
+- **PASS** → Next step
+- **FLAG** → STOP for human.
+
+```markdown
+## Review Still Flagging After Fix
+
+**Task**: [task-name]
+**Step**: [N] - [Step Name]
+**Remaining Issues**: [paste from re-review]
+
+One fix attempt wasn't enough. This likely requires a design-level decision, not a code-level fix.
+
+### Next Action
+Review the flagged issues, update the design doc if needed, then run `/dev-execute-run [plan]` to continue.
+```
 
 ### 3. Completion
 
@@ -70,13 +139,13 @@ When loop ends:
 
 3. Report final status
 
-**If stopped due to failure:**
+**If stopped due to failure or review:**
 ```markdown
 ## Execution Stopped
 
 **Task**: [task-name]
 **Steps Completed**: [X] of [Total]
-**Stopped At**: Step [N] - [reason]
+**Stopped At**: Step [N] - [reason: test failure / review flag after fix]
 
 ### Next Action
 Fix issues, then run `/dev-execute-run [plan]` to continue
@@ -84,36 +153,38 @@ Fix issues, then run `/dev-execute-run [plan]` to continue
 
 ## Key Rules
 
-1. **Fresh agent per step** - Always use Task tool to spawn `dev-execute-agent`
-2. **Stop on failure** - Do NOT continue if a step fails
+1. **Fresh agent per step** - Always use Task tool to spawn agents
+2. **Stop on failure** - Do NOT continue if a step fails (tests or review)
 3. **Report between steps** - Brief status update so user sees progress
 4. **NEVER SKIP STEPS** - Even if you think a step is done, DELEGATE IT ANYWAY
+5. **Review gate is mandatory** for Critical and Standard risk profiles
 
 ## CRITICAL: You Are a Dumb Orchestrator
 
-**You have NO context on actual implementation. You MUST NOT:**
-- Skip steps that "look done" in the plan or results doc
-- Make decisions about step completion
-- Update the results doc yourself
-- Be "smart" about what needs to run
+**You MUST NOT:** skip steps, make completion decisions, update results.md, interpret review content, or be "smart" about what needs to run.
 
-**ONLY the subagent can:**
-- Determine if a step is actually complete
-- Update the results doc with proper formatting
-- Decide to skip work that's already done
+**Your job:** Spawn agents in order. Read PASS/FLAG. Paste FLAG details verbatim into fix prompts. Continue or stop. That's it.
 
-**Your job:** Spawn agents in order. Check success/failure. Continue or stop. That's it.
+Only subagents determine completion, update results, skip done work, or judge quality. If you skip steps, results.md gets corrupted. ALWAYS DELEGATE.
 
-If you skip steps, the results doc gets corrupted with format drift. ALWAYS DELEGATE.
+## Max Agent Spawns Per Step
+
+| Scenario | Execute | Review | Total |
+|----------|---------|--------|-------|
+| Step passes review | 1 | 1 | 2 |
+| Step flagged, fix passes | 2 | 2 | 4 |
+| Step flagged, fix still flagged → stop | 2 | 2 | 4 |
+| Exploratory (review skipped) | 1 | 0 | 1 |
 
 ## Task Tool Invocation
 
-Agent input: `[plan-path] [step-number] [notes]`
-
-| Call | Prompt |
-|------|--------|
-| First | `[plan-path] Prereqs + Step 0 (if exists)` |
-| Step N | `[plan-path] [N]` |
+| Call | Agent | Prompt |
+|------|-------|--------|
+| First execute | `dev-execute-agent` | `[plan-path] Prereqs + Step 0 (if exists)` |
+| Step N execute | `dev-execute-agent` | `[plan-path] [N]` |
+| Step N review | `dev-review-agent` | `[results-doc] [N]` |
+| Step N fix | `dev-execute-agent` | `[plan-path] [N] --fix [review findings]` |
+| Step N re-review | `dev-review-agent` | `[results-doc] [N]` |
 
 ## After All Steps Complete
 

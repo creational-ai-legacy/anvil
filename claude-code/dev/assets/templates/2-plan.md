@@ -11,8 +11,11 @@
 | **Created** | [YYYY-MM-DDTHH:MM:SS-TZ] |
 | **Name** | [Name] |
 | **Type** | [PoC or Feature or Issue or Refactor] |
+| **Environment** | [Python / Web / Unity / ...] — see `references/[env]-guide.md` |
 | **Proves** | [One sentence: what hypothesis this validates] |
 | **Production-Grade Because** | [Why this isn't a toy/mock] |
+| **Risk Profile** | [Critical / Standard / Exploratory] |
+| **Risk Justification** | [One sentence — why this level] |
 
 ---
 
@@ -36,12 +39,12 @@ Complete these BEFORE starting implementation steps.
 **Why Needed**: Run only affected tests during implementation (not full suite)
 
 **Affected test files**:
-- `tests/test_[affected1].py` - [What it tests]
-- `tests/test_[affected2].py` - [What it tests]
+- `[test-file-1]` - [What it tests]
+- `[test-file-2]` - [What it tests]
 
 **Baseline verification**:
 ```bash
-cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2].py -v --tb=short
+[run affected tests command from environment guide]
 # Expected: All pass (establishes baseline)
 ```
 
@@ -63,7 +66,7 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 **Verification** (inline OK for prerequisites):
 ```bash
 # Quick check that prerequisite is working
-python -c "[quick verification command]"
+[inline verification command from environment guide]
 # Expected: [what success looks like]
 ```
 
@@ -89,18 +92,19 @@ From Design doc (refined with verification commands):
 ```
 [project-root]/
 ├── [new-folder]/
-│   ├── __init__.py           # [Purpose]
-│   ├── [file1.py]            # [Purpose]
-│   └── [file2.py]            # [Purpose]
-├── [existing-file.py]        # Updated
-└── tests/
-    └── test_[task-slug]_*.py # All tests
+│   ├── [file1]               # [Purpose]
+│   └── [file2]               # [Purpose]
+├── [existing-file]           # Updated
+└── [test-directory]/
+    └── [test-files]          # All tests (per environment conventions)
 ```
+
+_(Use environment guide for concrete file structure patterns — e.g., `__init__.py` for Python, component folders for Web)_
 
 ### Design Principles
 1. **OOP Design**: Use classes with single responsibility and clear interfaces
-2. **Pydantic Models**: All data structures (configs, payloads, records) use Pydantic BaseModel
-3. **Strong Typing**: Type hints on all functions, methods, and class attributes
+2. **Validated Data Models**: All data structures (configs, payloads, records) use validated models
+3. **Strong Typing**: Type annotations on all functions, methods, and class attributes
 4. **[Additional Principle]**: [Description if needed]
 
 ---
@@ -128,7 +132,7 @@ From Design doc (refined with verification commands):
 **Verification** (inline OK for Step 0):
 ```bash
 # Quick check that setup is working
-python -c "[quick verification command]"
+[inline verification command — see environment guide]
 # Expected: [what success looks like]
 ```
 
@@ -145,34 +149,18 @@ python -c "[quick verification command]"
 - [ ] [Write tests]
 
 **Code** (add to `[file-path]`):
-```python
-"""[Description]."""
-
-[actual code to write]
+```
+[actual code to write — use environment guide for code patterns]
 ```
 
-**Tests** (add to `tests/test_[task-slug]_*.py`):
-```python
-"""Tests for [what this step does]."""
-
-class Test[ClassName]:
-    """Tests for [component]."""
-
-    def test_[what_it_tests](self):
-        """[Description]."""
-        # Arrange
-        [setup]
-
-        # Act
-        [action]
-
-        # Assert
-        [verification]
+**Tests** (add to `[test-file-path per environment conventions]`):
+```
+[test code — use environment guide for test patterns]
 ```
 
 **Verification**:
 ```bash
-cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
+[run step tests command — see environment guide]
 ```
 
 **Output**: [X]/[X] tests passing
@@ -188,23 +176,18 @@ cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 - [ ] [Write tests]
 
 **Code** (update `[file-path]`):
-```python
+```
 [actual code to write]
 ```
 
-**Tests** (add to `tests/test_[task-slug]_*.py`):
-```python
-class Test[ClassName]:
-    """Tests for [component]."""
-
-    def test_[scenario](self):
-        """[Description]."""
-        [test code]
+**Tests** (add to `[test-file-path]`):
+```
+[test code — use environment guide for test patterns]
 ```
 
 **Verification**:
 ```bash
-cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
+[run step tests command — see environment guide]
 ```
 
 **Output**: [X]/[X] tests passing
@@ -219,24 +202,19 @@ cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 - [ ] [Integration item 2]
 - [ ] [Final validation]
 
-**Tests** (add to `tests/test_[task-slug]_*.py`):
-```python
-class Test[Integration]:
-    """Integration tests for [task name]."""
-
-    def test_[end_to_end_scenario](self):
-        """[Description]."""
-        [test code]
+**Tests** (add to `[test-file-path]`):
+```
+[integration test code — use environment guide for patterns]
 ```
 
 **Verification**:
 ```bash
 # Run affected tests (identified in Prerequisites)
-cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2].py -v --tb=short
+[run affected tests command — see environment guide]
 # Expected: All pass
 
-# (Optional) Full suite - only if time permits (~2+ min)
-# cd [directory] && uv run pytest tests/ -v --tb=short
+# (Optional) Full suite - only if time permits
+# [run full suite command — see environment guide]
 ```
 
 **Output**: Affected tests passing
@@ -249,8 +227,8 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 
 | Test File | Tests | What It Covers |
 |-----------|-------|----------------|
-| `tests/test_[affected1].py` | ~X | [Description] |
-| `tests/test_[affected2].py` | ~X | [Description] |
+| `[test-file-1]` | ~X | [Description] |
+| `[test-file-2]` | ~X | [Description] |
 
 **Affected tests: ~X tests**
 
@@ -263,8 +241,8 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 Before marking task complete, verify:
 
 - [ ] **OOP Design**: Classes with single responsibility and clear interfaces
-- [ ] **Pydantic Models**: All data structures use Pydantic (no raw dicts for structured data)
-- [ ] **Strong Typing**: Type hints on all functions, methods, and class attributes
+- [ ] **Validated Data Models**: All data structures use validated models (no raw untyped containers)
+- [ ] **Strong Typing**: Type annotations on all functions, methods, and class attributes
 - [ ] **No mock data**: All data comes from real sources (DB, API, files)
 - [ ] **Real integrations**: External services are actually connected, not stubbed
 - [ ] **Error handling**: Failures are handled, not ignored
@@ -280,14 +258,14 @@ Before marking task complete, verify:
 
 ```bash
 # 1. Affected tests pass
-cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2].py -v --tb=short
+[run affected tests command — see environment guide]
 # Expected: All pass
 
 # 2. (Optional) Full suite - only if time permits
-# cd [directory] && uv run pytest tests/ -v --tb=short
+# [run full suite command — see environment guide]
 # Expected: All pass
 
-# 3. [Specific functionality works - via MCP tool, CLI command, or pytest]
+# 3. [Specific functionality works - via MCP tool, CLI command, or test]
 [command to demonstrate]
 # Expected: [what success looks like]
 ```
@@ -298,28 +276,26 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 
 | File | Action | Status |
 |------|--------|--------|
-| `[path/to/new-file.py]` | Create | Pending: [purpose] |
-| `[path/to/existing-file.py]` | Modify | Pending: [what changes] |
-| `tests/test_[task-slug]_*.py` | Create | Pending: all tests |
-| `pyproject.toml` | Modify | Pending: [dependencies] |
+| `[path/to/new-file]` | Create | Pending: [purpose] |
+| `[path/to/existing-file]` | Modify | Pending: [what changes] |
+| `[test-files]` | Create | Pending: all tests |
+| `[dependency-file]` | Modify | Pending: [dependencies] |
 
 ---
 
 ## Dependencies
 
-Update `[path/to/pyproject.toml]`:
+_(Use environment guide for dependency file format and install commands)_
 
-```toml
-dependencies = [
-    "[existing-dep]>=X.Y.Z",
-    "[new-dep]>=X.Y.Z",  # Add for [reason]
-    ...
-]
+Update `[path/to/dependency-file]`:
+
+```
+[dependency declarations — format per environment guide]
 ```
 
 Then run:
 ```bash
-cd [directory] && uv sync
+[dependency install command — see environment guide]
 ```
 
 ---
@@ -345,6 +321,6 @@ _(Optional - only if this task introduces new error codes)_
 
 ## Next Steps After Completion
 
-1. ✅ Verify affected tests pass (~X tests)
-2. ✅ Verify [specific success criteria]
+1. Verify affected tests pass (~X tests)
+2. Verify [specific success criteria]
 3. → Proceed to next task: [Next task]

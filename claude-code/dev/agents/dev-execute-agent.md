@@ -35,23 +35,24 @@ Follow the execution guide exactly.
 ## Process
 
 1. Read the execution guide and results template (listed above)
-2. Read the implementation plan
-3. Check if results doc exists:
+2. Read the implementation plan — note the **Environment** field in the Overview table
+3. Read the matching environment guide (e.g., `references/python-guide.md`) for tooling specifics
+4. Check if results doc exists:
    - If NOT: Create it using the template, fill in Summary/Goal/Success Criteria from plan
    - If EXISTS: Read it to find current progress
-4. Determine which step to execute:
+5. Determine which step to execute:
    - If step number provided: Execute that step
    - If no step number: Find first incomplete step in results.md
-5. Follow the execution guide's per-step workflow exactly:
+6. Follow the execution guide's per-step workflow exactly:
    - Implement → Write Tests → Verify (with intentional test scope) → Document & STOP
    - Loop until ALL tests pass
-6. Report completion
+7. Report completion
 
 ## Output
 
 Per step:
 - Implementation code files
-- Test files (`tests/test_[task-slug]_*.py`)
+- Test files (per environment conventions from the plan)
 - Updated `docs/[milestone-slug]-[task-slug]-results.md`
 
 ## Completion Report
@@ -70,7 +71,7 @@ When step tests pass, report:
 
 **Tests**: [X]/[X] passing
 ```bash
-[pytest output summary]
+[test output summary]
 ```
 
 **Lessons Learned**:
@@ -87,6 +88,6 @@ Before marking step complete, verify:
 - [ ] Tests exist and ALL pass (follow intentional test scope from guide)
 - [ ] Results doc updated with step status
 - [ ] Lessons learned documented
-- [ ] OOP + Pydantic + Type hints followed
+- [ ] OOP + Validated data models + Type safety followed (per environment guide)
 - [ ] No mock data where real data needed
 - [ ] Code is production-grade

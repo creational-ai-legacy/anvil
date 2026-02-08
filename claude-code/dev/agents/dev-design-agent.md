@@ -44,7 +44,7 @@ Your output must have two distinct sections:
 5. Define proposed sequence with rationale (Proposed Sequence section)
 6. Document design decisions
 7. Create the design document using the template
-8. Update `docs/[slug]-poc-design.md` if applicable
+8. Update `docs/[slug]-poc-spec.md` if applicable
 
 ## Critical Rules
 
@@ -97,4 +97,4 @@ Before completing, verify:
 - [ ] Task is self-contained (works independently)
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] `docs/[slug]-poc-design.md` updated (if applicable)
+- [ ] `docs/[slug]-poc-spec.md` updated (if applicable)

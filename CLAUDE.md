@@ -102,7 +102,7 @@ cd claude-desktop
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
-- `tests/test_[task-slug]_*.py` - Tests grouped by task
+- `tests/` - Tests per environment conventions (e.g., Python: `test_[task-slug]_*.py`)
 
 ## Templates
 
@@ -114,9 +114,10 @@ cd claude-desktop
 - `5-poc-spec.md` - Stage 5 template
 
 **dev** (`claude-code/dev/assets/templates/`):
-- `design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
-- `plan.md` - Stage 2 output
-- `results.md` - Stage 3 output
+- `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
+- `2-plan.md` - Stage 2 output
+- `3-results.md` - Stage 3 output
+- `PROJECT_STATE.md` - Project tracking template
 - `lessons-learned.md` - Lessons consolidation
 - `diagram.md` - Task diagram template
 - `milestone-details.md` - Milestone summary template
@@ -128,8 +129,10 @@ cd claude-desktop
 
 **dev** (`claude-code/dev/references/`):
 - `1-design-guide.md` through `3-execution-guide.md`
+- `review-guide.md` - Conceptual review process (Stage 3b)
+- `python-guide.md` - Python environment guide
 - `lessons-guide.md`, `diagram-guide.md`, `milestone-details-guide.md`
-- `verify-doc-guide.md`
+- `health-guide.md`, `verify-doc-guide.md`
 
 ## Slash Commands
 
@@ -144,7 +147,8 @@ cd claude-desktop
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute one step (Stage 3)
-- `/dev-execute-run` - Run all steps to completion (auto-finalize)
+- `/dev-execute-run` - Run all steps to completion (auto-finalize, with review gate)
+- `/dev-review` - Review completed step against design (conceptual review)
 - `/dev-lessons` - Consolidate lessons learned
 - `/dev-diagram` - Generate task diagram
 - `/dev-finalize` - Wrap up task (timestamp + lessons + diagram + health)
@@ -155,6 +159,7 @@ cd claude-desktop
 - `/agent-dev-design` - Design agent for Stage 1
 - `/agent-dev-plan` - Plan agent for Stage 2
 - `/agent-dev-execute` - Execute agent for Stage 3
+- `/agent-dev-review` - Review agent for conceptual review (Stage 3b)
 - `/agent-dev-finalize` - Finalize agent (timestamp + lessons + diagram + health)
 - `/agent-milestone-details` - Milestone details agent
 - `/agent-verify-doc` - Document verification agent

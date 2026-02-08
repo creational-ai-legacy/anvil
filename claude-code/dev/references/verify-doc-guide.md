@@ -15,17 +15,17 @@ Identify document type from filename pattern:
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `*-north-star.md` | North Star | None (root document) |
-| `*-architecture.md` | Architecture | north-star |
-| `*-milestones-overview.md` | Milestones Overview | architecture, north-star |
-| `[milestone]-milestone.md` | Milestone Design | milestones-overview, architecture |
-| `[milestone]-poc-design.md` | PoC Design | milestone design |
+| `*-product-vision.md` | Product Vision | None (root document) |
+| `*-architecture.md` | Architecture | product-vision |
+| `*-product-roadmap.md` | Product Roadmap | architecture, product-vision |
+| `[milestone]-milestone-spec.md` | Milestone Spec | product-roadmap, architecture |
+| `[milestone]-poc-spec.md` | PoC Spec | milestone-spec |
 
 ### Dev Docs (dev skill)
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[slug]-design.md` | Task Design | poc-design or milestone design |
+| `docs/[slug]-design.md` | Task Design | poc-spec or milestone-spec |
 | `docs/[slug]-plan.md` | Plan | design for same slug |
 | `docs/[slug]-results.md` | Results | plan (rarely verified) |
 | `docs/[milestone]-milestone-details.md` | Milestone Details | all task results for milestone |
@@ -48,11 +48,11 @@ Each doc type has a template. Verify the document follows its template structure
 
 | Doc Type | Template Location |
 |----------|-------------------|
-| North Star | `~/.claude/skills/design/assets/templates/north-star.md` |
-| Architecture | `~/.claude/skills/design/assets/templates/architecture.md` |
-| Milestones Overview | `~/.claude/skills/design/assets/templates/milestones-overview.md` |
-| Milestone Design | `~/.claude/skills/design/assets/templates/milestone-design.md` |
-| PoC Design | `~/.claude/skills/design/assets/templates/poc-design.md` |
+| Product Vision | `~/.claude/skills/design/assets/templates/1-product-vision.md` |
+| Architecture | `~/.claude/skills/design/assets/templates/2-architecture.md` |
+| Product Roadmap | `~/.claude/skills/design/assets/templates/3-product-roadmap.md` |
+| Milestone Spec | `~/.claude/skills/design/assets/templates/4-milestone-spec.md` |
+| PoC Spec | `~/.claude/skills/design/assets/templates/5-poc-spec.md` |
 | Task Design | `~/.claude/skills/dev/assets/templates/1-design.md` |
 | Plan | `~/.claude/skills/dev/assets/templates/2-plan.md` |
 | Results | `~/.claude/skills/dev/assets/templates/3-results.md` |
@@ -64,14 +64,14 @@ Check:
 
 ### 4. Type-Specific Checks
 
-**Design Docs** (north-star, architecture, milestones-overview, milestone, poc-design):
+**Design Docs** (product-vision, architecture, product-roadmap, milestone-spec, poc-spec):
 - Vision alignment with parent docs
 - Scope consistency
 - Terminology consistency
 - Feasibility of proposed approach
 
 **Task Design** (NO CODE - design only):
-- Alignment with poc-design or milestone design
+- Alignment with poc-spec or milestone design
 - Clear challenge statement
 - Defined success criteria
 - Reasonable scope

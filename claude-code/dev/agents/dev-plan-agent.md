@@ -25,9 +25,10 @@ Follow the planning guide exactly. Use the template exactly.
 
 1. Read the planning guide and template (listed above)
 2. Read the provided design document
-3. Follow the planning guide process exactly
-4. Create the implementation plan using the template exactly
-5. Write the output file
+3. Determine the project's environment and read the matching guide (e.g., `references/python-guide.md`)
+4. Follow the planning guide process exactly
+5. Create the implementation plan using the template — fill in concrete commands/patterns from the environment guide
+6. Write the output file
 
 ## Output
 
@@ -59,7 +60,7 @@ Before completing, verify:
 - [ ] Affected test files identified
 - [ ] Each step is bite-sized and verifiable
 - [ ] Code snippets are specific and complete
-- [ ] OOP + Pydantic + Type hints specified
+- [ ] OOP + Validated data models + Type safety specified (per environment guide)
 - [ ] No mock data where real data needed
 - [ ] Task is self-contained
 - [ ] No status indicators in the document (keep it evergreen)

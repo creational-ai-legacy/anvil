@@ -96,6 +96,18 @@ Planning adds actual code snippets.
 | **Testing Strategy** | Expand into specific test cases per step |
 | **Decisions Log** | Respect - don't re-decide |
 
+## Risk Profile Selection
+
+The plan's Overview table includes a Risk Profile field. Select one:
+
+| Level | When to Use | Examples |
+|-------|-------------|---------|
+| **Critical** | Production systems, money/data/auth flows, hard to rollback | Payment processing, auth changes, database migrations, production API changes |
+| **Standard** | Internal tools, non-critical features, reversible changes | New internal features, non-auth endpoints, refactors with good test coverage |
+| **Exploratory** | Prototypes, greenfield, throwaway work | PoCs, spike investigations, experimental features, throwaway scripts |
+
+Write a one-sentence justification so the review agent (and future you) knows why this level was chosen.
+
 ## Type Field
 
 Must be exactly one of: **PoC**, **Feature**, **Issue**, **Refactor**
@@ -122,12 +134,13 @@ project structure, and that AWS RDS is accessible...
 
 ## Verification Checklist
 - [ ] Plan doc created (`docs/[milestone-slug]-[task-slug]-plan.md`)
+- [ ] **Environment field set** in Overview table (determines tooling guide)
 - [ ] Prerequisites explicitly listed with setup instructions
 - [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently
 - [ ] Each step has clear verification criteria (with code)
 - [ ] **Each step includes its tests** - code and tests written/run together, never separated
-- [ ] **Implementation steps use pytest** (inline Python OK for prerequisites/Step 0 only)
+- [ ] **Implementation steps use the environment's test framework** (inline checks OK for prerequisites/Step 0 only)
 - [ ] **Test scope is intentional** (test specific change → affected tests → full suite when it makes sense)
 - [ ] No step relies on mock data where real data is needed
 - [ ] Implementation would work in production context
@@ -145,7 +158,9 @@ Unlike Stage 1, implementation planning gets into specifics:
 
 ## Code Quality Principles
 
-**Write production-grade, maintainable code from the start:**
+**Write production-grade, maintainable code from the start.**
+
+> **Environment-specific tooling**: Read the project's environment guide (e.g., `references/python-guide.md`) for concrete data model libraries, type systems, and patterns.
 
 ### Object-Oriented Design
 - **Classes over functions**: Encapsulate related behavior and state
@@ -153,11 +168,11 @@ Unlike Stage 1, implementation planning gets into specifics:
 - **Composition**: Build complex behavior from simple, composable classes
 - **Clear interfaces**: Public methods are intuitive and well-documented
 
-### Strong Typing with Pydantic
-- **Use Pydantic models** for all data structures (configs, API payloads, database records)
+### Validated Data Models
+- **Use validated models** for all data structures (configs, API payloads, database records)
 - **Type everything**: All function signatures, class attributes, variables
-- **Validation built-in**: Pydantic handles validation, serialization, and documentation
-- **No dictionaries for structured data**: Use Pydantic models instead
+- **No raw untyped containers**: Use validated models instead
+- **Specific library**: Per environment guide (e.g., Pydantic for Python)
 
 ## Step Size Guidelines
 
@@ -169,27 +184,7 @@ Each step should be:
 
 ## Tests Must Be In The Same Step
 
-**CRITICAL**: Each implementation step includes writing AND running tests for that step's code.
-
-**Never separate code and tests into different steps:**
-- ❌ Step 1: Write the class → Step 2: Write tests for the class
-- ✅ Step 1: Write the class (includes tests) → verify all pass → move on
-
-Note: Step names should NOT have "+ Tests" suffix. Tests are inherent to every step.
-
-**Why?**
-- Catch bugs immediately while context is fresh
-- Ensures each step is verified before building on it
-- Prevents "I'll test it later" which becomes never
-- Each step stands alone as complete, tested work
-
-**Step structure:**
-1. Write the code
-2. Write the tests
-3. Run the tests
-4. All pass → move to next step
-
-If a step is too big, break it into sub-steps (3a, 3b, 3c).
+Each step includes writing AND running tests. Never separate code and tests into different steps. Step names should NOT have "+ Tests" suffix — tests are inherent. If a step is too big, break it into sub-steps (3a, 3b, 3c).
 
 ## Self-Contained Task Requirement
 
@@ -209,8 +204,8 @@ When implementing something that could break existing code, add new functions/cl
 
 For each step, ensure:
 - [ ] **OOP Design**: Classes with single responsibility, clear interfaces
-- [ ] **Pydantic Models**: All data structures use Pydantic (no raw dicts for structured data)
-- [ ] **Strong Typing**: Type hints on all functions, methods, and attributes
+- [ ] **Validated Data Models**: All data structures use validated models (no raw untyped containers)
+- [ ] **Strong Typing**: Type annotations on all functions, methods, and attributes
 - [ ] No mock data where real data is needed
 - [ ] Real integrations, not stubs
 - [ ] Error handling included
@@ -220,27 +215,13 @@ For each step, ensure:
 
 ## Verification & Testing
 
-### Prefer pytest Over Inline Python
+### Prefer Test Framework Over Inline Checks
 
-**pytest is always preferred** for verification. Inline Python (`python -c`) is acceptable only for:
-- Prerequisites (e.g., "is database connected?", "can we import the module?")
+**The environment's test framework is always preferred** for verification. Inline/ad-hoc checks are acceptable only for:
+- Prerequisites (e.g., "is service reachable?", "can we import the module?")
 - Step 0 setup verification (e.g., "did the config load correctly?")
 
-**For implementation steps (Step 1+), always use pytest:**
-
-```bash
-# ✅ Prerequisites/Step 0 - inline OK for quick checks
-python -c "from mymodule import MyClass; print('Import works')"
-
-# ✅ Implementation steps - always pytest
-cd [directory] && uv run pytest tests/test_mymodule.py -v
-```
-
-**Why pytest for implementation steps:**
-- Repeatable and documented
-- Part of the test suite
-- Catches regressions
-- Professional standard
+**For implementation steps (Step 1+), always use the test framework** (see environment guide for specific commands).
 
 ### Test Scope: Intentional and Incremental
 
@@ -265,13 +246,14 @@ List affected test files in Prerequisites:
 - No verification criteria
 - Mock data that hides real complexity
 - Skipping error handling
-- **Separating code and tests into different steps** - tests must be written AND run in the same step as the code
-- **Using raw dicts instead of Pydantic models** (loses validation, type safety, documentation)
-- **Procedural code instead of OOP** (harder to test, maintain, extend)
-- **Missing type hints** (reduces IDE support, increases bugs)
-- **Breaking self-contained requirement** (add alongside don't replace; task must work independently without future tasks)
-- **Running tests without knowing what you're testing** (be intentional; test specific change, then affected tests, then expand)
-- **Using inline Python for implementation step verification** - use pytest for Steps 1+ (inline OK for prerequisites/Step 0)
+- Separating code and tests into different steps
+- Using raw untyped containers instead of validated models
+- Procedural code instead of OOP
+- Missing type annotations
+- Breaking self-contained requirement
+- Running tests without knowing what you're testing
+- Using inline checks for implementation step verification (Steps 1+ use test framework)
+- Ignoring environment guide
 
 ## Next Stage
 → Stage 3: Execution (use 3-execution-guide.md)

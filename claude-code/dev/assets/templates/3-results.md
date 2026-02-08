@@ -44,16 +44,29 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 
 **Test Results**: ✅ [X]/[Y] tests passing
 ```bash
-[pytest output]
+[test output]
 ```
 
 **Issues**:
 - [Issue encountered and how it was resolved]
 
+**Trade-offs & Decisions**:
+- **Decision:** [What choice was made]
+  - **Alternatives considered:** [What else could have been done]
+  - **Why this approach:** [Reasoning]
+  - **Risk accepted:** [What downside comes with this choice]
+
 **Lessons Learned**:
 - [Key insight 1 - patterns, gotchas, design decisions]
 - [Key insight 2]
 - [Key insight 3]
+
+**Review**: ✅ Pass / ⚠️ Flagged
+- **Intent match**: ✅ / ⚠️ [details]
+- **Assumption audit**: ✅ / ⚠️ [details]
+- **Silent trade-offs**: ✅ / ⚠️ [details]
+- **Complexity proportionality**: ✅ / ⚠️ [details]
+- **Architectural drift**: ✅ / ⚠️ [details]
 
 **Result**: [Summary of step completion and readiness for next step]
 

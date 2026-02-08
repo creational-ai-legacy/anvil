@@ -26,7 +26,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 - If omitted → plan from scratch (for simple tasks)
 
 **Other input modes:**
-- PoC identifier (e.g., `PoC 6`) → Reads from `[slug]-poc-design.md`
+- PoC identifier (e.g., `PoC 6`) → Reads from `[slug]-poc-spec.md`
 - Plan doc path + `update` → Updates to match current template
 
 **User notes (optional):**
@@ -39,7 +39,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 # Plan from design document (recommended)
 /dev-plan docs/cloud-mcp-ux-design.md
 
-# Plan a specific PoC from poc-design.md
+# Plan a specific PoC from poc-spec.md
 /dev-plan "PoC 6" --notes "Focus on error handling"
 
 # Plan from scratch (simple task, no design doc)
@@ -65,7 +65,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 
 ✅ **CODE ALLOWED** - Use concrete code snippets, configs, commands
 
-🏗️ **PRODUCTION-GRADE** - OOP, Pydantic models, type hints, real data
+🏗️ **PRODUCTION-GRADE** - OOP, validated data models, type safety, real data
 
 🔒 **SELF-CONTAINED** - Add alongside, don't replace; works independently
 
@@ -87,7 +87,7 @@ Follow the guidance in `2-planning-guide.md`:
 2. Break into bite-sized steps
 3. Define verification for each step (code + tests together)
 4. Include specific code snippets
-5. Ensure production-grade (OOP, Pydantic, typing)
+5. Ensure production-grade (OOP, validated data models, typing) per environment guide
 6. Ensure self-contained
 
 ## Output

@@ -1,6 +1,6 @@
 # Health Guide
 
-Project health check to verify alignment with north star vision.
+Project health check to verify alignment with product vision.
 
 **Template**: `assets/templates/PROJECT_STATE.md`
 
@@ -20,7 +20,7 @@ Project health check to verify alignment with north star vision.
 
 Scan the project for these artifacts (names may vary):
 
-1. **North Star** - `docs/*north-star*.md` - Vision, milestones, success metrics
+1. **Product Vision** - `docs/*product-vision*.md` - Vision, milestones, success metrics
 2. **Design** - `docs/*design*.md` - Architecture and end goals
 3. **Project State** - `PROJECT_STATE.md` - Current status tracking
 4. **Results** - `docs/*-results.md` - Completed work
@@ -32,7 +32,7 @@ Use Glob and Grep tools to search. If files don't exist, note their absence.
 ## Assessment Criteria
 
 ### 1. Alignment Check
-- Are completed tasks aligned with the North Star vision?
+- Are completed tasks aligned with the product vision?
 - Does the work support the target architecture?
 - Are we on track for current milestone?
 
@@ -50,8 +50,16 @@ Use Glob and Grep tools to search. If files don't exist, note their absence.
 - Has any work drifted from original intent?
 - Are we adding complexity beyond what's needed?
 
-### 5. Test Coverage
-- Run tests to verify all pass (e.g., `uv run pytest tests/ -v`)
+### 5. Complexity Check
+- Is complexity proportionate to problem scope?
+- Unnecessary abstractions, wrappers, or premature generalization?
+- Could this be done with fewer files or simpler data structures?
+- Files created vs. plan specified — significant drift?
+
+If disproportionate → flag and suggest simplification pass.
+
+### 6. Test Coverage
+- Run tests to verify all pass (use the project's test runner per environment guide)
 - If no tests exist, document this
 - Check test counts match expected totals
 
@@ -61,7 +69,7 @@ Use Glob and Grep tools to search. If files don't exist, note their absence.
 
 ### Step 1: Analyze
 
-Review all files above and assess against the 5 criteria.
+Review all files above and assess against the 6 criteria.
 
 ### Step 2: Update PROJECT_STATE.md
 
@@ -127,15 +135,7 @@ After updating PROJECT_STATE.md, report:
 1. [Action item]
 2. [Action item]
 
-### 🎯 North Star Check
+### 🎯 Product Vision Check
 [Still aligned? / Drifting? / Need to revisit?]
 ```
 
----
-
-## Quick Reference
-
-1. **Review** - North star, design, project state, results docs
-2. **Assess** - Alignment, production-readiness, gaps, scope, tests
-3. **Update** - PROJECT_STATE.md with latest health check
-4. **Report** - Wins, concerns, gaps, recommendations, north star alignment
