@@ -39,12 +39,7 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 |-------|-------|----------|
 | 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
 | 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
-| 3a. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
-| 3b. Review | `references/review-guide.md` | (writes to results template) |
-
-| Environment | Guide |
-|-------------|-------|
-| Python | `references/python-guide.md` |
+| 3. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
 
 | Utility | Template | Output |
 |---------|----------|--------|
@@ -57,8 +52,7 @@ Users can invoke stages explicitly via commands:
 - `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
-- `/dev-execute-run <plan>` - Run all steps to completion (auto-finalize, with review gate)
-- `/dev-review <results-doc> <step>` - Review completed step against design
+- `/dev-execute-run <plan>` - Run all steps to completion (auto-finalize)
 - `/dev-diagram <slug>` - Generate ASCII diagram for task
 - `/dev-lessons <slug>` - Consolidate lessons learned
 
@@ -105,9 +99,23 @@ Run Stage 1 when:
 
 ### Two-Section Structure
 
-**Part A: Analysis** (Non-Sequential) — Each item independently: What → Why → Approach (patterns, files, diagrams, validation). No implied order. Conceptual code OK, not full implementations.
+Stage 1 produces a design document with two distinct sections:
 
-**Part B: Proposed Sequence** — Recommended order using #1 → #2 → #3 notation. Each with Depends On + Rationale. NOT "Steps" (that's Planning stage).
+**Part A: Analysis** (Non-Sequential)
+- Each item gets its own numbered subsection (1, 2, 3...)
+- Analyzed independently - no implied order
+- Format: What (to build/fix/prove) → Why (impact) → Approach (detailed technical approach)
+- Approach includes: patterns, files to modify, diagrams, validation strategy
+- Conceptual code (signatures, patterns) OK - not full implementations
+
+**Part B: Proposed Sequence**
+- Shows recommended order using item notation (#1 → #2 → #3)
+- Each item gets its own subsection with:
+  - **Depends On**: What must come before
+  - **Rationale**: Why it's at this position
+  - **Notes**: Optional special considerations
+- NOT "Steps" - that terminology is for Planning stage
+- Planning will create actual implementation steps from this
 
 ### Process
 
@@ -149,7 +157,7 @@ Create using `assets/templates/1-design.md`:
 - [ ] 🔒 **Task is self-contained** (works independently; doesn't break existing functionality/tests)
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] `docs/[slug]-poc-spec.md` updated (if applicable)
+- [ ] `docs/[slug]-poc-design.md` updated (if applicable)
 - [ ] No full code implementations (concepts and patterns OK)
 - [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-design.md`
 
@@ -181,7 +189,7 @@ Run Stage 2 when:
 
 ⚠️ **PRODUCTION-GRADE THIN SLICES** - Real integrations, not mocks; patterns that scale
 
-🏗️ **QUALITY OOP CODE** - Use classes with clear responsibilities, validated data models, strong typing everywhere
+🏗️ **QUALITY OOP CODE** - Use classes with clear responsibilities, Pydantic models for all data structures, strong typing everywhere
 
 🔒 **SELF-CONTAINED** - Each task must be complete and functional on its own; doesn't break existing functionality and existing tests
 
@@ -192,7 +200,7 @@ See `references/2-planning-guide.md` for detailed guidance on:
 - Break into bite-sized steps (small, completable, testable)
 - Define verification for each step
 - Include specific code snippets
-- Identify production-grade requirements (OOP, data models, typing) per environment guide
+- Identify production-grade requirements (OOP, Pydantic, typing)
 - Ensure self-contained (add alongside, don't replace)
 
 ### Output
@@ -215,7 +223,7 @@ Create using templates:
 - [ ] Each step is bite-sized and independently verifiable
 - [ ] Each step has clear verification criteria with commands
 - [ ] Code snippets are specific and complete
-- [ ] 🏗️ **OOP + Validated data models + Type safety enforced** (per environment guide)
+- [ ] 🏗️ **OOP + Pydantic + Type hints enforced**
 - [ ] ⚠️ **No mock data where real data needed**
 - [ ] 🔒 **Work is self-contained** (add alongside, don't replace; works independently)
 - [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-plan.md`
@@ -261,40 +269,29 @@ Execute the implementation plan:
 
 **After all steps complete**: Ask user "Mark task as complete?" → If confirmed, record **Completed timestamp**, update Status to ✅ Complete, then run `/dev-lessons` to consolidate lessons.
 
-### Review Gate (after each execution step)
-
-After each step's tests pass, a review agent examines the output:
-- Compares implementation against design doc intent
-- Cross-references the Trade-offs & Decisions section
-- Checks for conceptual errors at depth matching the Risk Profile
-- Reports PASS or FLAG
-
-If flagged, the orchestrator sends findings back to a fresh executor for up to `MAX_FIX_ATTEMPTS` fix→re-review cycles (default: 1). If still flagged after all attempts, it stops for human intervention. Most steps pass review on first try — the fix loop is the exception, not the norm.
-
-Review runs automatically in `/dev-execute-run`. Can also run standalone via `/dev-review [results-doc] [step-number]`.
-
 ### Process
 
 See `references/3-execution-guide.md` for detailed per-step workflow:
 1. Implement code for current step
 2. Write tests
-3. Run test verification
+3. Run pytest verification
 4. **IF FAIL**: Fix and return to step 3 (loop until pass)
 5. **IF PASS**: Document in results.md and STOP
 
 **⚠️ Critical Rules:**
-- Execute ONLY ONE step, then STOP and report to user
+- Execute ONLY ONE step, then STOP
 - Loop until ALL tests pass for current step
+- DO NOT continue to next step automatically
+- When tests pass → update docs → STOP and report to user
 
 ### Implementation Guidelines
 
 - **OOP Design**: Classes with single responsibility, clear interfaces
-- **Validated Data Models**: All data structures use validated models (no raw untyped containers)
-- **Strong Typing**: Type annotations on all functions, methods, attributes
+- **Pydantic Models**: All data structures use Pydantic (no raw dicts)
+- **Strong Typing**: Type hints on all functions, methods, attributes
 - **Production-grade**: Real data, real integrations, error handling
 - **Clear docstrings**: With usage examples
 - **Self-contained**: Add alongside, don't replace
-- **Environment guide**: Follow the project's environment guide for tooling specifics
 
 ### Test Guidelines
 
@@ -315,7 +312,7 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 
 **Per step**:
 - Implementation code files (in appropriate modules)
-- Test files (per environment conventions)
+- Test files (`tests/test_[task-slug]_*.py`)
 - Updated `docs/[milestone-slug]-[task-slug]-results.md`
 
 **When work complete**:
@@ -326,7 +323,7 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 
 **After each step**:
 - [ ] Implementation code works as expected
-- [ ] ⚠️ **Tests pass** (run test suite per environment guide)
+- [ ] ⚠️ **Tests pass** (`uv run pytest tests/test_[task-slug]_*.py -v`)
 - [ ] `docs/[milestone-slug]-[task-slug]-results.md` updated with step progress and **lessons learned**
 
 **After all steps (work complete)**:
@@ -358,11 +355,26 @@ Use Glob/Grep to check for existing documents:
 
 ## Best Practices
 
-1. **Execute, review, auto-fix** — Execute step → review → if flagged: up to `MAX_FIX_ATTEMPTS` fix→re-review cycles → if still flagged: stop for human. Most steps pass on first try.
-2. **User always verifies** — Complete stage → user runs `/verify-doc` → user requests next stage.
-3. **Documentation stays clean** — Implementation docs evergreen (no status). Results docs track progress.
-4. **Tests are mandatory** — Every step requires passing tests before moving on.
-5. **Self-contained is non-negotiable** — Add alongside, don't replace. System works at every task boundary.
+1. **User always verifies before proceeding**
+   - Complete stage
+   - User runs `/verify-doc`
+   - User fixes issues
+   - User explicitly requests next stage
+
+2. **Documentation stays clean**
+   - Implementation docs are evergreen (no status)
+   - Results docs track live progress
+   - Use `/dev-health` for PROJECT_STATE.md updates
+
+3. **Tests are mandatory**
+   - Every step requires passing tests
+   - No step is complete without tests
+   - Catches issues early
+
+4. **Self-contained is non-negotiable**
+   - Add alongside, don't replace
+   - System works at every task boundary
+   - No "TODO: will work after next task" comments
 
 ---
 
@@ -379,7 +391,7 @@ Use Glob/Grep to check for existing documents:
 - `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `core-poc6-results.md`
 
 **Test Files**:
-- Follow environment conventions (e.g., Python: `tests/test_[task-slug]_*.py`)
+- `tests/test_[task-slug]_*.py` - e.g., `test_poc6_*.py`, `test_auth_fix_*.py`
 
 **Where**:
 - `[milestone-slug]` is the milestone name (e.g., `core`, `cloud`, `mobile`)
@@ -392,4 +404,4 @@ Use Glob/Grep to check for existing documents:
 
 **Standalone**: Use dev for any development work (features, bugs, refactoring).
 
-**With design skill**: The design skill creates the plan (`docs/[slug]-poc-spec.md`), then dev implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).
+**With design skill**: The design skill creates the plan (`docs/[slug]-poc-design.md`), then dev implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).

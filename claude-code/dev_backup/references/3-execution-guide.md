@@ -17,12 +17,12 @@ This stage executes the implementation plan from Stage 2 (Planning):
 - Keep implementation doc clean (no status updates there)
 - When step tests pass → STOP and report to user
 
-## ⚠️ EVERY STEP REQUIRES TEST VERIFICATION
+## ⚠️ EVERY STEP REQUIRES PYTEST VERIFICATION
 
 A step is NOT complete until:
 1. Implementation code exists (in appropriate module/file)
-2. Tests exist (per environment conventions from the plan)
-3. **ALL tests pass** (run test suite per environment guide)
+2. Tests exist (`tests/test_[task-slug]_*.py`)
+3. **ALL tests pass** (`uv run pytest tests/test_[task-slug]_*.py -v`)
 4. Results doc updated with step status
 
 **If tests fail**: Fix the issue and re-run tests. Loop until ALL tests pass.
@@ -40,27 +40,15 @@ A step is NOT complete until:
 | Phase | Action | Output | Next |
 |-------|--------|--------|------|
 | **1. Implement** | Write implementation code for current step | Implementation files in appropriate modules | → Phase 2 |
-| **2. Write Tests** | Cover critical paths + edge cases | Test files per environment conventions | → Phase 3 |
-| **3. Verify** | Run test suite | Per environment guide commands | IF FAIL → Phase 1 (fix and retry)<br>IF PASS → Phase 4 |
+| **2. Write Tests** | Cover critical paths + edge cases | `tests/test_[task-slug]_*.py` | → Phase 3 |
+| **3. Verify** | Run pytest | `uv run pytest tests/test_[task-slug]_*.py -v` | IF FAIL → Phase 1 (fix and retry)<br>IF PASS → Phase 4 |
 | **4. Document & STOP** | Update results doc, report completion | `docs/[milestone-slug]-[task-slug]-results.md` (step status + lessons learned) | **STOP - Wait for user** |
 
 **Critical**: Loop phases 1-3 until ALL tests pass. Only when tests pass → document and STOP. DO NOT continue to next step.
 
-## Fix Mode (when invoked with `--fix`)
-
-When the orchestrator or user passes `--fix` with review findings, you are in fix mode. Your scope is constrained:
-
-1. Fix ONLY the flagged issues — do not re-implement the entire step
-2. Do not restructure code beyond what's needed to address the flags
-3. Re-run affected tests
-4. Update Trade-offs & Decisions if the fix involves a new decision
-5. Update the step block in results.md **IN-PLACE**: replace Implementation, Test Results, and Issues sections with post-fix state. Do not append below the original.
-
-Then STOP and report — the orchestrator will trigger re-review.
-
 ## Output (per step)
 - Implementation code files — In appropriate modules/directories
-- Test files — Per environment conventions (add tests for this step)
+- Test files — `tests/test_[task-slug]_*.py` (add tests for this step)
 - Update results doc — Mark step complete, add test results, note issues
 
 ## Output (when work complete)
@@ -71,7 +59,7 @@ Then STOP and report — the orchestrator will trigger re-review.
 
 **After each step:**
 - [ ] Implementation code works as expected
-- [ ] Tests pass (run test suite per environment guide)
+- [ ] Tests pass (`uv run pytest tests/test_[task-slug]_*.py -v`)
 - [ ] `docs/[milestone-slug]-[task-slug]-results.md` updated with step progress and lessons learned
 
 **After all steps (work complete):**
@@ -108,36 +96,7 @@ Testing is about **scope and intentionality**, not speed. Know exactly what you'
 - Update `docs/[milestone-slug]-[task-slug]-results.md` after each step
 - Include: step status (⏳ Pending / ✅ Complete), test results, issues encountered, bug fixes
 - **Add "Lessons Learned" section** for each step documenting key insights, patterns, and gotchas
-- **Fill "Trade-offs & Decisions" section** for every step. If no meaningful decisions were made, write: "No significant trade-offs — straightforward implementation per plan."
 - Keep implementation doc clean (no status updates there)
-
-## Conceptual Review Checklist (per step)
-
-1. **Intent match** — Does the implementation match the design doc's intent, not just its letter?
-2. **Assumption audit** — Did the agent introduce assumptions not present in the design?
-3. **Silent trade-offs** — Are there decisions the agent made without surfacing them? (Cross-reference the Trade-offs & Decisions section)
-4. **Complexity proportionality** — Does the solution's complexity match the problem's complexity?
-5. **Architectural drift** — Does the code structure diverge from the architecture doc?
-
-### Review Depth by Risk Profile
-
-| Check | Critical | Standard | Exploratory |
-|-------|----------|----------|-------------|
-| 1. Intent match | Mandatory | Mandatory | Skip |
-| 2. Assumption audit | Mandatory | Mandatory | Skip |
-| 3. Silent trade-offs | Mandatory | Skip | Skip |
-| 4. Complexity proportionality | Mandatory | Skip | Skip |
-| 5. Architectural drift | Mandatory | Mandatory | Mandatory |
-
-## Risk Profile Behavior
-
-The plan doc's Overview table contains a Risk Profile field. This determines review behavior after each execution step.
-
-| Level | When to Use | Review Behavior |
-|-------|-------------|-----------------|
-| **Critical** | Production, money/data/auth, hard to rollback | All 5 checks mandatory. Flag → auto-fix → re-review (up to `MAX_FIX_ATTEMPTS`). Still flagged → stop for human. |
-| **Standard** | Internal tools, non-critical features, reversible | Checks 1, 2, 5 mandatory. Flag → auto-fix → re-review (up to `MAX_FIX_ATTEMPTS`). Still flagged → stop for human. |
-| **Exploratory** | Prototypes, greenfield, throwaway | Check 5 only (architectural drift). Advisory — log but don't fix or stop. |
 
 ## After All Steps Complete
 

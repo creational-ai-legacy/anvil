@@ -24,7 +24,6 @@ Follow the execution guide exactly.
 
 - **Required**: Path to plan (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - **Optional**: Step number (if omitted, execute next incomplete step)
-- **Optional**: `--fix` with review findings (scoped fix after review FLAG)
 - **Optional**: Notes from the user
 
 ## Critical Rules
@@ -32,30 +31,27 @@ Follow the execution guide exactly.
 1. **ONE STEP THEN STOP** - Execute ONLY current step, DO NOT continue to next automatically
 2. **LOOP UNTIL TESTS PASS** - If tests fail, fix and re-test until ALL pass
 3. **DOCUMENT AND STOP** - When tests pass, update results.md and STOP
-4. **FIX MODE = SCOPED** - When `--fix` is present, fix ONLY the flagged issues, update results.md in-place (replace, don't append), then STOP
 
 ## Process
 
 1. Read the execution guide and results template (listed above)
-2. Read the implementation plan — note the **Environment** field in the Overview table
-3. Read the matching environment guide (e.g., `references/python-guide.md`) for tooling specifics
-4. Check if results doc exists:
+2. Read the implementation plan
+3. Check if results doc exists:
    - If NOT: Create it using the template, fill in Summary/Goal/Success Criteria from plan
    - If EXISTS: Read it to find current progress
-5. Determine which step to execute:
+4. Determine which step to execute:
    - If step number provided: Execute that step
    - If no step number: Find first incomplete step in results.md
-6. Follow the execution guide's per-step workflow exactly:
-   - **Normal mode**: Implement → Write Tests → Verify (with intentional test scope) → Document & STOP
-   - **Fix mode** (`--fix`): Follow the Fix Mode section in the execution guide — scoped fixes only
+5. Follow the execution guide's per-step workflow exactly:
+   - Implement → Write Tests → Verify (with intentional test scope) → Document & STOP
    - Loop until ALL tests pass
-7. Report completion
+6. Report completion
 
 ## Output
 
 Per step:
 - Implementation code files
-- Test files (per environment conventions from the plan)
+- Test files (`tests/test_[task-slug]_*.py`)
 - Updated `docs/[milestone-slug]-[task-slug]-results.md`
 
 ## Completion Report
@@ -74,7 +70,7 @@ When step tests pass, report:
 
 **Tests**: [X]/[X] passing
 ```bash
-[test output summary]
+[pytest output summary]
 ```
 
 **Lessons Learned**:
@@ -91,6 +87,6 @@ Before marking step complete, verify:
 - [ ] Tests exist and ALL pass (follow intentional test scope from guide)
 - [ ] Results doc updated with step status
 - [ ] Lessons learned documented
-- [ ] OOP + Validated data models + Type safety followed (per environment guide)
+- [ ] OOP + Pydantic + Type hints followed
 - [ ] No mock data where real data needed
 - [ ] Code is production-grade

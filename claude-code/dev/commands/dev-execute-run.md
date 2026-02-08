@@ -29,6 +29,12 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 /dev-execute-run core-poc6 --notes "Skip step 3, already done manually"
 ```
 
+## Configuration
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `MAX_FIX_ATTEMPTS` | 3 | Fix→re-review cycles before stopping for human intervention |
+
 ## Process
 
 **You are the orchestrator. Follow these steps exactly:**
@@ -41,51 +47,34 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 4. Read or create results.md to find current progress
 5. Identify all incomplete steps
 
-### 2. Execute + Review Loop
+### 2. For Each Step
 
-**Two distinct loops exist — don't conflate them:**
-
-- **Inner loop (executor-owned):** The execute agent has its own internal cycle — implement → test → fail → fix → re-test until tests pass. This is the executor's domain. You don't touch it.
-- **Outer loop (yours):** After the executor delivers a passing step, you spawn the review gate. FLAG → fix → re-review is your loop.
-
-**For each step:**
-
-#### 2a. Execute
-
+**First**: Prereqs + Step 0 (if exists)
 ```
-Spawn dev-execute-agent: "[plan-path] [N]"
+Spawn dev-execute-agent: "[plan-path] Prereqs + Step 0 (if exists)"
 ```
 
-If the executor **fails** (tests won't pass) → STOP.
-If the executor **succeeds** (tests passing, step documented) → continue to 2b.
+**Then** Step 1, 2, 3... repeat:
 
-#### 2b. Review Gate
+1. **Execute** → `Spawn dev-execute-agent: "[plan-path] [N]"`
+   The agent handles its own test→fix→re-test cycle internally.
+   - Fails → STOP.
+   - Succeeds → Review.
 
-Read the Risk Profile extracted in Setup.
+2. **Review** → `Spawn dev-review-agent: "[results-doc] [N]"`
+   - Skip for Exploratory risk profile → next step.
+   - **PASS** → Next step.
+   - **FLAG** → Re-execute using the **fix prompt** below, then review again. Repeat up to `MAX_FIX_ATTEMPTS` times. Still flagged → stop for human.
 
-**If Exploratory:**
-- Skip review (or spawn review as advisory — log findings to results.md but don't enter the fix loop)
-- → Next step
+### Fix Prompt
 
-**If Critical or Standard:**
+When re-executing after a FLAG, paste the findings verbatim:
 ```
-Spawn dev-review-agent: "[results-doc] [step-number]"
-```
-
-Read the review agent's verdict:
-- **PASS** → Next step
-- **FLAG** → Continue to 2c
-
-#### 2c. Fix (one attempt)
-
-Spawn a fresh executor with the review findings as a scoped fix prompt:
-
-```
-Spawn dev-execute-agent: "[plan-path] [step-number] --fix
+Spawn dev-execute-agent: "[plan-path] [N] --fix
 
 Review flagged the following issues for step [N]:
 
-1. [Check name]: [Exact details from review agent — paste verbatim]
+1. [Check name]: [Exact details from review — paste verbatim]
 2. [Check name]: [Exact details]
 
 Fix ONLY these specific issues:
@@ -97,49 +86,23 @@ Fix ONLY these specific issues:
   and Issues sections with post-fix state. Do not append below the original."
 ```
 
-If the fix executor **fails** (tests break) → STOP.
-If the fix executor **succeeds** → continue to 2d.
+### Stop Templates
 
-#### 2d. Re-review
-
-```
-Spawn dev-review-agent: "[results-doc] [step-number]"
-```
-
-Read the re-review verdict:
-- **PASS** → Next step
-- **FLAG** → STOP for human.
-
+**All fix attempts exhausted:**
 ```markdown
 ## Review Still Flagging After Fix
 
 **Task**: [task-name]
 **Step**: [N] - [Step Name]
-**Remaining Issues**: [paste from re-review]
+**Remaining Issues**: [paste from latest re-review]
 
-One fix attempt wasn't enough. This likely requires a design-level decision, not a code-level fix.
+All fix attempts exhausted. This likely requires a design-level decision, not a code-level fix.
 
 ### Next Action
 Review the flagged issues, update the design doc if needed, then run `/dev-execute-run [plan]` to continue.
 ```
 
-### 3. Completion
-
-When loop ends:
-
-**If ALL steps completed successfully:**
-1. Show brief summary
-2. Automatically run finalize by spawning `dev-finalize-agent`:
-
-| Parameter | Value |
-|-----------|-------|
-| `subagent_type` | `dev-finalize-agent` |
-| `description` | `Finalize [task-slug]` |
-| `prompt` | `Finalize the task at [results-path]. Run all 4 steps: timestamp, lessons, diagram, health check.` |
-
-3. Report final status
-
-**If stopped due to failure or review:**
+**Execution failure or unrecoverable stop:**
 ```markdown
 ## Execution Stopped
 
@@ -150,6 +113,20 @@ When loop ends:
 ### Next Action
 Fix issues, then run `/dev-execute-run [plan]` to continue
 ```
+
+### 3. Completion
+
+When all steps complete successfully:
+1. Show brief summary
+2. Spawn `dev-finalize-agent`:
+
+| Parameter | Value |
+|-----------|-------|
+| `subagent_type` | `dev-finalize-agent` |
+| `description` | `Finalize [task-slug]` |
+| `prompt` | `Finalize the task at [results-path]. Run all 4 steps: timestamp, lessons, diagram, health check.` |
+
+3. Report final status
 
 ## Key Rules
 
@@ -166,31 +143,3 @@ Fix issues, then run `/dev-execute-run [plan]` to continue
 **Your job:** Spawn agents in order. Read PASS/FLAG. Paste FLAG details verbatim into fix prompts. Continue or stop. That's it.
 
 Only subagents determine completion, update results, skip done work, or judge quality. If you skip steps, results.md gets corrupted. ALWAYS DELEGATE.
-
-## Max Agent Spawns Per Step
-
-| Scenario | Execute | Review | Total |
-|----------|---------|--------|-------|
-| Step passes review | 1 | 1 | 2 |
-| Step flagged, fix passes | 2 | 2 | 4 |
-| Step flagged, fix still flagged → stop | 2 | 2 | 4 |
-| Exploratory (review skipped) | 1 | 0 | 1 |
-
-## Task Tool Invocation
-
-| Call | Agent | Prompt |
-|------|-------|--------|
-| First execute | `dev-execute-agent` | `[plan-path] Prereqs + Step 0 (if exists)` |
-| Step N execute | `dev-execute-agent` | `[plan-path] [N]` |
-| Step N review | `dev-review-agent` | `[results-doc] [N]` |
-| Step N fix | `dev-execute-agent` | `[plan-path] [N] --fix [review findings]` |
-| Step N re-review | `dev-review-agent` | `[results-doc] [N]` |
-
-## After All Steps Complete
-
-When all steps pass:
-1. Show brief summary of steps completed
-2. Spawn `dev-finalize-agent` to wrap up (timestamp + lessons + diagram + health check)
-3. Report final completion status
-
-The task is fully done when finalize completes - no manual steps needed.
