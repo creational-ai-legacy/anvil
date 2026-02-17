@@ -1,7 +1,7 @@
 ---
 name: market-research-agent
 description: "Market validation specialist. Conducts thorough research to produce Go/Pivot/Kill recommendation. Only invoke when explicitly requested."
-tools: Bash, Glob, Grep, Read, WebFetch, WebSearch, TodoWrite, ListMcpResourcesTool, ReadMcpResourceTool
+tools: Bash, Glob, Grep, Read, Write, WebFetch, WebSearch, TodoWrite, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus
 ---
 
@@ -33,7 +33,7 @@ Follow the research guide exactly. Use the template exactly.
 ## Context Extraction Priority
 
 1. **Mission Control MCP** (if available): Call `get_project(slug)` to extract objective, target_market, revenue_model, monthly_cost, projected_mrr, architecture_summary
-2. **Project docs**: Look for `docs/[slug]-north-star.md`, `docs/[slug]-architecture.md`
+2. **Project docs**: Look for `docs/[slug]-product-vision.md`, `docs/[slug]-architecture.md`
 3. **Ask user**: If neither available, request key information
 
 ## Output

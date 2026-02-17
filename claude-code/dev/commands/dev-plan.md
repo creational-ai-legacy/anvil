@@ -53,7 +53,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 1. Read design doc if provided
 2. Verify Proposed Sequence against codebase
 3. Break each Design item into bite-sized steps
-4. Add code + tests + verification for each step
+4. Write specifications, acceptance criteria, and verification for each implementation step
 
 **Update mode** (when input is plan doc + `update`):
 1. Read the current template
@@ -63,7 +63,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 
 ## Key Requirements
 
-✅ **CODE ALLOWED** - Use concrete code snippets, configs, commands
+✅ **CODE ALLOWED** - Step 0/Prerequisites: concrete commands, configs. Steps 1+: spec-driven (specifications, acceptance criteria, verification commands).
 
 🏗️ **PRODUCTION-GRADE** - OOP, validated data models, type safety, real data
 
@@ -73,22 +73,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 
 ## Process
 
-Follow the guidance in `2-planning-guide.md`:
-
-**If Design doc provided:**
-1. Read Design's Proposed Sequence (order and dependencies)
-2. Verify by researching codebase
-3. Break each Design item into bite-sized steps
-4. Use Analysis "Approach" for code details
-5. Inherit Success Criteria, respect Decisions Log
-
-**For all plans:**
-1. List prerequisites
-2. Break into bite-sized steps
-3. Define verification for each step (code + tests together)
-4. Include specific code snippets
-5. Ensure production-grade (OOP, validated data models, typing) per environment guide
-6. Ensure self-contained
+Follow `2-planning-guide.md` exactly. It contains the full process for prerequisites, step breakdown, specifications, acceptance criteria, and trade-offs.
 
 ## Output
 

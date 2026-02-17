@@ -17,20 +17,22 @@ If no Design doc → plan from scratch (for simple tasks, quick fixes)
 1. List all prerequisites (setup Supabase, configure AWS, API keys, etc.)
 2. Break implementation into bite-sized steps (small, completable, testable)
 3. Define verification for EACH step (not just end result)
-4. Include specific code snippets, commands, configs
-5. Identify what makes this "production-grade" vs "demo"
-6. Identify affected tests and test scope
+4. Write specifications and acceptance criteria for each step (Steps 1+)
+5. Include concrete commands and configs for Step 0 and Prerequisites
+6. Identify what makes this "production-grade" vs "demo"
+7. Identify affected tests and test scope
 
 ## Output
 
 One document is created:
 
 **Plan**: `docs/[milestone-slug]-[task-slug]-plan.md` using `assets/templates/2-plan.md`
-- Prerequisites with setup instructions
-- Step-by-step implementation guide
-- Code snippets, commands, configs
-- Verification commands
-- **NO status indicators** - keep it clean and focused on "how to implement"
+- Prerequisites with setup instructions and concrete commands
+- Step-by-step implementation guide with specifications and acceptance criteria
+- Verification commands per step
+- Step 0/Prerequisites: concrete commands, configs, setup instructions
+- Steps 1+: specifications describing what to build, acceptance criteria describing how to verify
+- **NO status indicators** - keep it clean and focused on "what to build and how to verify"
 
 **Examples**: `docs/core-poc6-plan.md`, `docs/cloud-auth-fix-plan.md`
 
@@ -63,50 +65,42 @@ When a Design doc exists, follow this process:
 
 - Each Design item (#1, #2, etc.) → multiple Plan steps
 - Each step bite-sized, independently verifiable
-- Code + tests together in each step
+- Each step includes a specification (what to build) and acceptance criteria (how to verify)
 
 **Example:**
 ```
 Design #1: Async Conversion
-  → Plan Step 1: get_transcript_async
-  → Plan Step 2: get_metadata_async
-  → Plan Step 3: get_video_data_async
-  → Plan Step 4: Update routes.py
+  → Plan Step 1: get_transcript_async (spec + acceptance criteria)
+  → Plan Step 2: get_metadata_async (spec + acceptance criteria)
+  → Plan Step 3: get_video_data_async (spec + acceptance criteria)
+  → Plan Step 4: Update routes.py (spec + acceptance criteria)
 ```
 
-(Tests are inherent to each step - no need to append "+ tests")
+(Tests are inherent to each step -- the acceptance criteria specify what tests must verify, and the executor writes and runs the actual tests during execution)
 
-### 4. Use Analysis Approach for Code
+### 4. Use Analysis Approach for Specification
 
 Design's Analysis has technical details:
 - Files to modify
 - Patterns to use
 - Validation strategy
 
-Planning adds actual code snippets.
+Planning adds specifications based on these details -- describing behavior, files to create/modify, patterns to follow, and constraints. Function/method signatures (without bodies) are acceptable as part of the specification to communicate interface expectations.
 
 ### 5. Inherit and Expand
 
 | Design Section | How Plan Uses It |
 |----------------|------------------|
 | **Proposed Sequence** | Guides order, Planning creates actual steps |
-| **Analysis Approach** | Technical details → actual code |
+| **Analysis Approach** | Technical details → step specifications |
 | **Files to Modify** | Starting point, verify against codebase |
 | **Success Criteria** | Copy to Plan, add verification commands |
-| **Testing Strategy** | Expand into specific test cases per step |
+| **Testing Strategy** | Expand into acceptance criteria per step |
 | **Decisions Log** | Respect - don't re-decide |
 
-## Risk Profile Selection
+## Risk Profile
 
-The plan's Overview table includes a Risk Profile field. Select one:
-
-| Level | When to Use | Examples |
-|-------|-------------|---------|
-| **Critical** | Production systems, money/data/auth flows, hard to rollback | Payment processing, auth changes, database migrations, production API changes |
-| **Standard** | Internal tools, non-critical features, reversible changes | New internal features, non-auth endpoints, refactors with good test coverage |
-| **Exploratory** | Prototypes, greenfield, throwaway work | PoCs, spike investigations, experimental features, throwaway scripts |
-
-Write a one-sentence justification so the review agent (and future you) knows why this level was chosen.
+The plan's Overview table includes a Risk Profile field. Inherit from the design doc. If no design doc exists, see `1-design-guide.md` for selection criteria. Include a one-sentence justification.
 
 ## Type Field
 
@@ -135,30 +129,38 @@ project structure, and that AWS RDS is accessible...
 ## Verification Checklist
 - [ ] Plan doc created (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - [ ] **Environment field set** in Overview table (determines tooling guide)
-- [ ] Prerequisites explicitly listed with setup instructions
+- [ ] Prerequisites explicitly listed with setup instructions and concrete commands
 - [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently
-- [ ] Each step has clear verification criteria (with code)
-- [ ] **Each step includes its tests** - code and tests written/run together, never separated
+- [ ] Each step has Specification and Acceptance Criteria sections (Steps 1+)
+- [ ] **Each step includes its tests** - acceptance criteria specify what tests must verify, executor writes and runs during execution
 - [ ] **Implementation steps use the environment's test framework** (inline checks OK for prerequisites/Step 0 only)
-- [ ] **Test scope is intentional** (test specific change → affected tests → full suite when it makes sense)
+- [ ] **Test scope is intentional** (test specific change -> affected tests -> full suite when it makes sense)
 - [ ] No step relies on mock data where real data is needed
 - [ ] Implementation would work in production context
 - [ ] Implementation doc contains NO status indicators (keep it clean)
 - [ ] **Task is self-contained** - fully functional without requiring future tasks
+- [ ] **Contract framing note** present at top of Implementation Steps section
 
 ## What CODE IS Allowed
 
-Unlike Stage 1, implementation planning gets into specifics:
-- Concrete code snippets for each step
-- Specific function signatures
-- Exact commands to run
-- Configuration examples
-- Test code structure
+Unlike Stage 1, implementation planning gets into specifics -- but the level of detail depends on the step type:
+
+**Step 0 and Prerequisites** (setup steps keep commands):
+- Concrete bash commands, configs, setup instructions
+- Exact commands to run for environment setup
+- Configuration examples with actual values
+
+**Steps 1+** (specification-driven):
+- Specifications describing behavior, files to create/modify, patterns to follow, and constraints
+- Acceptance criteria specifying measurable outcomes the reviewer validates
+- Function/method signatures (without bodies) to communicate interface expectations
+- Verification commands (test commands from environment guide)
+- Full code blocks and test code are NOT included -- the executor writes the implementation during execution
 
 ## Code Quality Principles
 
-**Write production-grade, maintainable code from the start.**
+**These are constraints the executor must follow during implementation.** Include them as part of each step's specification constraints when relevant.
 
 > **Environment-specific tooling**: Read the project's environment guide (e.g., `references/python-guide.md`) for concrete data model libraries, type systems, and patterns.
 
@@ -178,13 +180,45 @@ Unlike Stage 1, implementation planning gets into specifics:
 
 Each step should be:
 - **Bite-sized** - small enough to complete comfortably given previous steps are done
-- **Independently verifiable** (you can prove it works)
+- **Independently verifiable** (each step's acceptance criteria should be verifiable on their own)
 - **Self-contained** (doesn't require other steps to test)
-- **Tests included** (write AND run tests in the same step)
+- **Tests included** (the step specifies what tests must verify; the executor writes and runs tests during execution)
 
 ## Tests Must Be In The Same Step
 
-Each step includes writing AND running tests. Never separate code and tests into different steps. Step names should NOT have "+ Tests" suffix — tests are inherent. If a step is too big, break it into sub-steps (3a, 3b, 3c).
+Each step specifies what tests must verify (via acceptance criteria) and the executor writes, runs, and verifies tests pass during execution. Never separate code and tests into different steps. Step names should NOT have "+ Tests" suffix -- tests are inherent. If a step is too big, break it into sub-steps (3a, 3b, 3c).
+
+## Writing Acceptance Criteria
+
+Each step's acceptance criteria should be specific enough that a reviewer can verify pass/fail. The detail level scales with risk profile:
+
+| Risk Profile | Criteria Detail |
+|-------------|-----------------|
+| **Critical** | Very specific -- exact behaviors, exact error messages, exact edge cases covered |
+| **Standard** | Specific -- measurable outcomes, key behaviors verified, test coverage noted |
+| **Exploratory** | Loose -- general behaviors, proof-of-concept level verification |
+
+**Good acceptance criteria:**
+- "Function returns empty list when no items match filter" (verifiable)
+- "API responds with 400 and validation error when required field missing" (specific)
+- "Config loads from environment variable with fallback to default" (measurable)
+
+**Bad acceptance criteria:**
+- "Code works correctly" (vague)
+- "Tests pass" (not specific to what's being tested)
+- "Implementation is clean" (subjective)
+
+## Anticipating Trade-offs
+
+Document known decision points the executor will face, with preferred direction and rationale. This helps the executor make context-aware decisions and surfaces choices for the reviewer.
+
+Each trade-off should include:
+- **Decision point**: What choice the executor will face
+- **Preferred direction**: What the planner recommends
+- **Rationale**: Why this direction is preferred
+- **Alternative**: What else could be done
+
+Trade-offs are optional per step -- include them when the step has genuine decision points. If a step is straightforward with no meaningful choices, omit the Trade-offs section.
 
 ## Self-Contained Task Requirement
 

@@ -67,17 +67,13 @@ Stage 1 of dev: Analyze a problem and design a solution WITHOUT writing code.
 
 🔒 **SELF-CONTAINED** - Task works independently, doesn't break existing functionality
 
+⚖️ **RISK PROFILE** - Assign Critical / Standard / Exploratory with one-sentence justification
+
+🚧 **CONSTRAINTS** - Define scope boundaries, must-not-happen rules, and guardrails
+
 ## Process
 
-Follow the guidance in `1-design-guide.md`:
-
-1. Document current state vs target state
-2. Identify and analyze each item independently (Analysis section)
-3. Propose solution approach for each item
-4. Define proposed sequence with rationale (Proposed Sequence section)
-5. Document success criteria
-6. Document risks and mitigations
-7. Log design decisions
+Follow `1-design-guide.md` exactly. It contains the full process for analysis, constraints, sequencing, and decisions.
 
 ## Output
 

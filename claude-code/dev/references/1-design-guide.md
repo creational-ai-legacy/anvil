@@ -62,6 +62,31 @@ Stage 1 produces a design document with two distinct sections:
 - How it should work
 - Benefits achieved
 
+**Assign Risk Profile:**
+
+After establishing context, assign a Risk Profile in the Executive Summary table. This value is inherited by downstream stages (Plan, Execute, Review) and determines review depth.
+
+| Level | When to Use | Examples |
+|-------|-------------|---------|
+| **Critical** | Production systems, money/data/auth flows, hard to rollback | Payment processing, auth changes, data migrations, public API changes |
+| **Standard** | Internal tools, non-critical features, reversible changes | Internal skill updates, new optional features, refactoring with tests |
+| **Exploratory** | Prototypes, greenfield experiments, throwaway code | PoC spikes, new tool evaluation, experimental features |
+
+Choose the level that best fits the task's blast radius and reversibility. Include a one-sentence justification in the Risk Justification field explaining why this level was chosen.
+
+**Write Constraints:**
+
+After context and Risk Profile, define the hard boundaries for the task in the Constraints section. Constraints are firm limits you design within -- they differ from risks (things that might go wrong) and from scope (what you will build).
+
+**Categories to consider:**
+- **Scope boundaries**: What is explicitly out of scope for this task
+- **Must NOT happen**: Changes, behaviors, or side effects that are off-limits
+- **Compatibility**: Existing interfaces, APIs, or contracts that must not break
+- **Performance**: Latency, throughput, or resource limits if applicable
+- **Other guardrails**: Any additional hard constraints (regulatory, team policy, etc.)
+
+Not every category will apply to every task. Include the ones that are relevant and remove the rest. If a task genuinely has no constraints beyond the default "don't break existing tests," note that explicitly rather than leaving the section empty.
+
 ### 2. Analyze (Non-Sequential)
 
 For each distinct item to address (feature component, issue, proof point, etc.):
@@ -78,6 +103,8 @@ For each distinct item to address (feature component, issue, proof point, etc.):
 - Implementation options with trade-offs (if multiple approaches exist)
 - Validation strategy (how to verify it works)
 - Conceptual code structure (signatures, patterns - not full implementations)
+
+**Implementation Options:** For each Analysis item where multiple viable approaches exist, include an Implementation Options comparison (pros/cons/recommendation) within that item's Approach. This is a standard part of thorough analysis -- not reserved for the task overall.
 
 **Guidelines:**
 - Each item is independent - no implied order
@@ -119,7 +146,7 @@ Validate: `get_video_data` completes faster than sequential (parallel fetch work
 After analyzing all items, define the recommended order with dedicated reasoning for each item's placement.
 
 **Structure:**
-- Start with the overall order: `#1 → #2 → #3 → #4 → #5`
+- Start with the overall order: `#1 → #2 → #3 → #4`
 - Give each item its own subsection
 - For each, explain: dependencies and rationale for placement
 
@@ -196,17 +223,18 @@ Use the Decisions Log table in the template.
 **Created timestamp**: Use ISO 8601 with timezone (e.g., `2024-01-08T22:45:00-0800`). Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get current timestamp.
 
 **Required sections:**
-- Executive summary (challenge + solution one-liners)
+- Executive summary (challenge + solution one-liners, includes Risk Profile and Risk Justification)
 - Context (current state, target state - include architecture diagrams)
+- Constraints (hard boundaries -- scope, must-not-happen, compatibility, guardrails)
 - Analysis (non-sequential, each item independently with detailed approach)
-- Proposed Sequence (item order with rationale - e.g., #1 → #2 → #3)
+- Implementation Options (when any design decision has multiple viable approaches; omit only if genuinely no alternatives exist)
+- Proposed Sequence (item order with rationale - e.g., `#1 → #2 → #3 → #4`)
 - Success criteria
 - Risks and mitigations
 - Open questions
 - Decisions log
 
 **Optional sections** (include when relevant):
-- **Implementation Options** - when multiple approaches exist for key decisions (pros/cons, recommendation)
 - **Files to Modify** - table with file paths, change type, complexity
 - **Testing Strategy** - unit tests, integration tests, manual validation
 
@@ -215,9 +243,13 @@ Use the Decisions Log table in the template.
 ## Verification Checklist
 
 - [ ] Design document created with all sections
+- [ ] Risk Profile assigned in Executive Summary (Critical / Standard / Exploratory)
+- [ ] Risk Justification present (one sentence explaining why this level)
+- [ ] Constraints section present with relevant categories (or explicitly noted as none)
 - [ ] Current and target state clearly defined
 - [ ] Each item analyzed with What/Why/Approach
 - [ ] Analysis items are independent (no sequencing in Analysis)
+- [ ] Implementation Options section present (or explicitly noted as not applicable when no alternatives exist)
 - [ ] Proposed Sequence shows item order (#1 → #2 → ...)
 - [ ] Sequence rationale explains dependencies
 - [ ] Task is self-contained (works independently, doesn't break existing functionality/tests)

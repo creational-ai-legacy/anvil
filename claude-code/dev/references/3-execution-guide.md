@@ -80,10 +80,15 @@ Then STOP and report — the orchestrator will trigger re-review.
 - [ ] Production-grade checklist verified
 
 ## Implementation Guidelines
+
+The executor reads the step's **specification** from the plan and writes the implementation based on it. Plans are spec-driven: steps contain behavior descriptions, files to create/modify, patterns to follow, and constraints — not pre-written code blocks to copy. The executor should follow the step's constraints and patterns, but make context-aware decisions about the actual code.
+
 - Clear docstrings with usage examples
 - Production-grade (real data, real integrations)
 - Proper module structure and organization
 - Type hints on public methods/functions
+
+**Acceptance criteria self-check**: Before marking a step complete, verify the implementation meets the step's acceptance criteria from the plan. Acceptance criteria are the executor's checklist for what "done" means for this step. If any criterion is not met, the step is not complete.
 
 ## Test Guidelines
 - Cover critical paths
@@ -106,38 +111,15 @@ Testing is about **scope and intentionality**, not speed. Know exactly what you'
 
 ## Documentation Guidelines
 - Update `docs/[milestone-slug]-[task-slug]-results.md` after each step
-- Include: step status (⏳ Pending / ✅ Complete), test results, issues encountered, bug fixes
+- Include: step status (⬜ Pending / 🔄 In Progress / ✅ Complete), test results, issues encountered, bug fixes
 - **Add "Lessons Learned" section** for each step documenting key insights, patterns, and gotchas
 - **Fill "Trade-offs & Decisions" section** for every step. If no meaningful decisions were made, write: "No significant trade-offs — straightforward implementation per plan."
+- **Fill "Deviation from Plan" field** for every step. When the executor deviates from the plan's specification (different files, different approach, different structure), document what changed and why. If no deviation, write: "None -- implemented per plan specification."
 - Keep implementation doc clean (no status updates there)
 
-## Conceptual Review Checklist (per step)
+## Conceptual Review
 
-1. **Intent match** — Does the implementation match the design doc's intent, not just its letter?
-2. **Assumption audit** — Did the agent introduce assumptions not present in the design?
-3. **Silent trade-offs** — Are there decisions the agent made without surfacing them? (Cross-reference the Trade-offs & Decisions section)
-4. **Complexity proportionality** — Does the solution's complexity match the problem's complexity?
-5. **Architectural drift** — Does the code structure diverge from the architecture doc?
-
-### Review Depth by Risk Profile
-
-| Check | Critical | Standard | Exploratory |
-|-------|----------|----------|-------------|
-| 1. Intent match | Mandatory | Mandatory | Skip |
-| 2. Assumption audit | Mandatory | Mandatory | Skip |
-| 3. Silent trade-offs | Mandatory | Skip | Skip |
-| 4. Complexity proportionality | Mandatory | Skip | Skip |
-| 5. Architectural drift | Mandatory | Mandatory | Mandatory |
-
-## Risk Profile Behavior
-
-The plan doc's Overview table contains a Risk Profile field. This determines review behavior after each execution step.
-
-| Level | When to Use | Review Behavior |
-|-------|-------------|-----------------|
-| **Critical** | Production, money/data/auth, hard to rollback | All 5 checks mandatory. Flag → auto-fix → re-review (up to `MAX_FIX_ATTEMPTS`). Still flagged → stop for human. |
-| **Standard** | Internal tools, non-critical features, reversible | Checks 1, 2, 5 mandatory. Flag → auto-fix → re-review (up to `MAX_FIX_ATTEMPTS`). Still flagged → stop for human. |
-| **Exploratory** | Prototypes, greenfield, throwaway | Check 5 only (architectural drift). Advisory — log but don't fix or stop. |
+After each step, a review agent runs 5 checks at depth determined by the Risk Profile. See `review-guide.md` for the full checklist, depth table, and risk profile behavior.
 
 ## After All Steps Complete
 

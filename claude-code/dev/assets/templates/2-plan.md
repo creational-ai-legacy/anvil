@@ -10,7 +10,7 @@
 |-----------|-------|
 | **Created** | [YYYY-MM-DDTHH:MM:SS±HHMM] |
 | **Name** | [Name] |
-| **Type** | [PoC or Feature or Issue or Refactor] |
+| **Type** | [PoC / Feature / Issue / Refactor] |
 | **Environment** | [Python / Web / Unity / ...] — see `references/[env]-guide.md` |
 | **Proves** | [One sentence: what hypothesis this validates] |
 | **Production-Grade Because** | [Why this isn't a toy/mock] |
@@ -99,8 +99,6 @@ From Design doc (refined with verification commands):
     └── [test-files]          # All tests (per environment conventions)
 ```
 
-_(Use environment guide for concrete file structure patterns — e.g., `__init__.py` for Python, component folders for Web)_
-
 ### Design Principles
 1. **OOP Design**: Use classes with single responsibility and clear interfaces
 2. **Validated Data Models**: All data structures (configs, payloads, records) use validated models
@@ -113,7 +111,7 @@ _(Use environment guide for concrete file structure patterns — e.g., `__init__
 
 **Approach**: [Brief description of implementation strategy - e.g., "Build bottom-up", "Test each layer independently", etc.]
 
-> ⚠️ **Each step includes its tests.** Write code, write tests, run tests, verify all pass—then move on. Never separate code and tests into different steps.
+> This plan is a contract between the executor (builder) and reviewer (validator). Steps specify **what** to build and **how** to verify -- the executor writes the implementation.
 
 ### Step 0: [Setup/Infrastructure]
 
@@ -148,15 +146,18 @@ _(Use environment guide for concrete file structure patterns — e.g., `__init__
 - [ ] [Implementation item 2]
 - [ ] [Write tests]
 
-**Code** (add to `[file-path]`):
-```
-[actual code to write — use environment guide for code patterns]
-```
+**Specification**:
+- [What to build: behavior, files to create/modify, patterns to follow, constraints]
+- [Interface expectations: function/method signatures (without bodies) if needed to communicate API contract]
+- [What tests must verify: critical paths and edge cases to cover]
 
-**Tests** (add to `[test-file-path per environment conventions]`):
-```
-[test code — use environment guide for test patterns]
-```
+**Acceptance Criteria**:
+- [Specific, measurable outcome 1 the reviewer validates]
+- [Specific, measurable outcome 2 the reviewer validates]
+- [Specific, measurable outcome 3 the reviewer validates]
+
+**Trade-offs** _(optional -- include when the executor will face non-obvious decisions)_:
+- **[Decision point]**: [Preferred direction] because [rationale]. Alternative: [what else could be done].
 
 **Verification**:
 ```bash
@@ -175,15 +176,18 @@ _(Use environment guide for concrete file structure patterns — e.g., `__init__
 - [ ] [Implementation item 2]
 - [ ] [Write tests]
 
-**Code** (update `[file-path]`):
-```
-[actual code to write]
-```
+**Specification**:
+- [What to build: behavior, files to create/modify, patterns to follow, constraints]
+- [Interface expectations: function/method signatures (without bodies) if needed to communicate API contract]
+- [What tests must verify: critical paths and edge cases to cover]
 
-**Tests** (add to `[test-file-path]`):
-```
-[test code — use environment guide for test patterns]
-```
+**Acceptance Criteria**:
+- [Specific, measurable outcome 1 the reviewer validates]
+- [Specific, measurable outcome 2 the reviewer validates]
+- [Specific, measurable outcome 3 the reviewer validates]
+
+**Trade-offs** _(optional -- include when the executor will face non-obvious decisions)_:
+- **[Decision point]**: [Preferred direction] because [rationale]. Alternative: [what else could be done].
 
 **Verification**:
 ```bash
@@ -202,10 +206,13 @@ _(Use environment guide for concrete file structure patterns — e.g., `__init__
 - [ ] [Integration item 2]
 - [ ] [Final validation]
 
-**Tests** (add to `[test-file-path]`):
-```
-[integration test code — use environment guide for patterns]
-```
+**Specification**:
+- [What to integrate, validate, or verify end-to-end]
+- [What integration tests must verify: cross-component behavior, full-pipeline checks]
+
+**Acceptance Criteria**:
+- [Specific, measurable outcome 1 the reviewer validates]
+- [Specific, measurable outcome 2 the reviewer validates]
 
 **Verification**:
 ```bash
@@ -233,24 +240,6 @@ _(Use environment guide for concrete file structure patterns — e.g., `__init__
 **Affected tests: ~X tests**
 
 **Full suite**: ~X tests (optional - only run at checkpoints or if time permits)
-
----
-
-## Production-Grade Checklist
-
-Before marking task complete, verify:
-
-- [ ] **OOP Design**: Classes with single responsibility and clear interfaces
-- [ ] **Validated Data Models**: All data structures use validated models (no raw untyped containers)
-- [ ] **Strong Typing**: Type annotations on all functions, methods, and class attributes
-- [ ] **No mock data**: All data comes from real sources (DB, API, files)
-- [ ] **Real integrations**: External services are actually connected, not stubbed
-- [ ] **Error handling**: Failures are handled, not ignored
-- [ ] **Scalable patterns**: Code structure would work at 10x scale
-- [ ] **Tests in same step**: Each step writes AND runs its tests (never separated)
-- [ ] **Config externalized**: No hardcoded secrets or environment-specific values
-- [ ] **Clean separation**: Each file has single responsibility
-- [ ] **Self-contained**: Works independently; all existing functionality still works; doesn't require future tasks
 
 ---
 

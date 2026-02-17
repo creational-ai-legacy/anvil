@@ -33,60 +33,9 @@ Follow the guide exactly.
 9. Generate verification report
 10. Offer to apply fixes
 
-## Verification Report Format
+## Output Format
 
-```
-## Verification Report: [Document Name]
-
-**Document**: [path]
-**Type**: [identified type]
-**Status**: ✅ Sound | ⚠️ Issues Found | ❌ Needs Revision
-
-**Notes**: [user-provided notes if any]
-
----
-
-### Document Analysis
-
-#### Template Alignment
-[Does doc follow its template structure?]
-
-#### Soundness
-[Is the overall approach coherent and feasible?]
-
-#### Step Flow
-[Are steps logical and smooth? Any ordering issues?]
-
-#### Dependency Chain
-| Step | Produces | Next Step Needs | Status |
-|------|----------|-----------------|--------|
-
-#### Potential Surprises
-- **[High/Med/Low]**: [Description]
-
-#### Cross-Reference Check
-- [x] Aligned with [parent doc]
-- [ ] Conflict found: [description]
-
----
-
-### Issues Found
-
-#### Contradictions
-| Location | Contradiction | Impact |
-
-#### Unclear or Ambiguous
-| Location | Issue | Suggested Fix |
-
----
-
-### Summary
-
-| Issue | Location | Impact | Fix |
-
-### Recommendations
-1. **[Priority]** - [Specific fix]
-```
+Use the report format from `verify-doc-guide.md` (section "Generate Report"). Follow it exactly.
 
 ## After Report
 

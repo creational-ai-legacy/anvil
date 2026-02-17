@@ -82,12 +82,20 @@ Check:
 - **Analysis is non-sequential** - Each item (1, 2, 3...) analyzed independently
 - **Proposed Sequence uses item notation** - #1 → #2 → #3 (NOT "Step 1, Step 2")
 - **Proposed Sequence has per-item reasoning** - Each item has Depends On, Rationale, and optional Notes
+- **Risk Profile present** - Executive Summary has Risk Profile with valid level: Critical, Standard, or Exploratory
+- **Risk Justification present** - Executive Summary has Risk Justification as one sentence explaining why this level
+- **Constraints section present** - H2 section between Context and Analysis (or explicitly noted as "No constraints identified")
+- **Implementation Options included** - Section present when any design decision has multiple viable approaches (omit only if genuinely no alternatives exist)
 
 **Plan**:
 - Steps follow design's Proposed Sequence
 - Dependency chain complete (each step sets up the next)
-- Self-contained steps (code + tests together)
+- Self-contained steps (specification + acceptance criteria together in each step)
 - No missing prerequisites
+- Each implementation step (Step 1+) has Specification and Acceptance Criteria sections
+- Contract framing note present at top of Implementation Steps section
+- Step 0 and Prerequisites retain concrete commands and setup instructions
+- Optional Trade-offs field present for anticipated decisions
 
 **Milestone Details** (rarely verified):
 - Accurate status for each task

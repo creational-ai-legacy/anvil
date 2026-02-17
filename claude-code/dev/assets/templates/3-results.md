@@ -42,6 +42,8 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 - ✅ [What was implemented]
 - ✅ [What was implemented]
 
+**Deviation from Plan**: [Did the executor deviate from the plan's specification? Different approach, different files, different structure? If no deviation, write "None -- implemented per plan specification." If deviation occurred, describe what changed and why.]
+
 **Test Results**: ✅ [X]/[Y] tests passing
 ```bash
 [test output]
@@ -62,7 +64,8 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 - [Key insight 3]
 
 **Review**: ✅ Pass / ⚠️ Flagged
-- **Intent match**: ✅ / ⚠️ [details]
+> Review checks validate against both the design doc's intent (higher-level what/why) and the plan's per-step acceptance criteria (immediate contract for this step).
+- **Intent match**: ✅ / ⚠️ [details — check against design intent AND plan acceptance criteria]
 - **Assumption audit**: ✅ / ⚠️ [details]
 - **Silent trade-offs**: ✅ / ⚠️ [details]
 - **Complexity proportionality**: ✅ / ⚠️ [details]

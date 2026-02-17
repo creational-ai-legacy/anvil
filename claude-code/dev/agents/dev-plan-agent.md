@@ -59,9 +59,9 @@ Before completing, verify:
 - [ ] Prerequisites listed with setup instructions
 - [ ] Affected test files identified
 - [ ] Each step is bite-sized and verifiable
-- [ ] Code snippets are specific and complete
+- [ ] Specifications and acceptance criteria are present and specific for each implementation step (Steps 1+)
 - [ ] OOP + Validated data models + Type safety specified (per environment guide)
 - [ ] No mock data where real data needed
 - [ ] Task is self-contained
 - [ ] No status indicators in the document (keep it evergreen)
-- [ ] **Each step includes its tests** - code and tests written/run together, never separated
+- [ ] **Each step includes its tests** - acceptance criteria specify what tests must verify, executor writes and runs during execution

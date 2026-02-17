@@ -10,16 +10,20 @@ AI-generated code passes tests reliably. But it introduces a different class of 
 
 ### 1. Intent Match
 
-Does the implementation match the design doc's **intent**, not just its letter?
+Does the implementation match the design doc's **intent** and the plan's **acceptance criteria** for the step?
+
+The design doc provides the higher-level intent (what to build and why). The plan's per-step acceptance criteria provide the immediate contract (what was specified for this step and how to verify it). Both must be satisfied.
 
 **What to look for:**
 - The design says "lazy loading" but the code eagerly loads everything
 - The design describes a simple pipeline but the code implements a plugin system
 - The design says "use existing auth" but the code rolls its own
+- The step's acceptance criteria specify 3 outcomes but only 2 are met
+- The step's acceptance criteria specify a particular behavior but the implementation takes a different approach without documenting the deviation
 
-**How to check:** Read the design doc's approach section for the relevant item. Compare the *spirit* of the approach against the actual implementation. Code that technically satisfies requirements but goes about it in a fundamentally different way is a flag.
+**How to check:** Read the design doc's approach section for the relevant item — this is the "why" and "what" anchor. Then read the plan's acceptance criteria for the current step — this is the "what to verify" contract. Compare the *spirit* of the design approach and the *specifics* of the acceptance criteria against the actual implementation. Code that technically satisfies the design but misses acceptance criteria (or vice versa) is a flag.
 
-**Not a flag:** Minor implementation details the design didn't specify (variable names, helper methods, defensive error handling).
+**Not a flag:** Minor implementation details neither the design nor acceptance criteria specified (variable names, helper methods, defensive error handling).
 
 ### 2. Assumption Audit
 
@@ -45,7 +49,7 @@ Are there decisions the agent made without surfacing them in the Trade-offs & De
 
 **How to check:** Cross-reference the Trade-offs & Decisions section against the actual code. Every meaningful choice in the code should have a corresponding entry. If the section is empty or says "straightforward implementation," verify that claim by reading the code.
 
-**Not a flag:** Truly straightforward implementation choices that match the plan's code snippets exactly.
+**Not a flag:** Truly straightforward implementation choices that match the plan's specification exactly.
 
 ### 4. Complexity Proportionality
 
@@ -57,8 +61,9 @@ Does the solution's complexity match the problem's complexity?
 - Configuration system for something that will never be reconfigured
 - Wrapper classes that just delegate to another class
 - Generalized solution for a specific problem
+- Step created significantly more files or lines of code than the specification implies (e.g., 2x or more files, or substantial LOC beyond what the specification scope suggests)
 
-**How to check:** Count files created vs. files the plan specified. Look for abstractions with only one implementation. Ask: "Could this be done with fewer moving parts and still work?" If yes, flag it.
+**How to check:** Compare the plan's specification scope (files to modify, behaviors to implement, constraints listed) against the actual output scope (files created/modified, LOC added). If the step created significantly more files or lines of code than the specification implies — roughly 2x or more — flag for review. Count files created vs. files the plan specified. Look for abstractions with only one implementation. Ask: "Could this be done with fewer moving parts and still work?" If yes, flag it.
 
 **Not a flag:** Reasonable structure that follows project conventions even if slightly more than minimal.
 
@@ -100,8 +105,9 @@ Read the Risk Profile from the plan doc's Overview table.
 
 1. **Start with git diff** — `git diff` or `git diff HEAD~1` shows exactly what changed in this step. This is your primary input.
 2. **Read modified files in full** — The diff shows changes; full files show context. Does the new code fit with what's around it?
-3. **Cross-reference the design doc** — Not the plan (which is "how"), but the design (which is "what and why"). The design's Approach section for the relevant item is your anchor.
-4. **Read the Trade-offs & Decisions section** — This is the executor's self-report. Check it for completeness and honesty.
+3. **Cross-reference the design doc** — The design provides "what and why." The design's Approach section for the relevant item is your high-level anchor.
+4. **Read the plan's acceptance criteria for the step** — The plan's per-step acceptance criteria provide the immediate contract: what was specified and how to verify it. Check each criterion against the implementation.
+5. **Read the Trade-offs & Decisions section** — This is the executor's self-report. Check it for completeness and honesty.
 
 ---
 

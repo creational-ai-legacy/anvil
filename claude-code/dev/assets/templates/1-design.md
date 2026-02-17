@@ -13,6 +13,8 @@
 | **Type** | [PoC / Feature / Issue / Refactor] |
 | **Scope** | [What areas/components are affected] |
 | **Code** | NO - This is a design document |
+| **Risk Profile** | [Critical / Standard / Exploratory] |
+| **Risk Justification** | [One sentence -- why this level] |
 
 **Challenge**: [One sentence - what needs to be built/fixed/proven]
 
@@ -29,8 +31,6 @@
 - [Current behavior/implementation 1]
 - [Current behavior/implementation 2]
 - [Limitations or issues]
-
-Include specifics: file paths, function names, config locations, existing tools/APIs.
 
 ### Target State
 
@@ -50,6 +50,16 @@ Component A
 
 ---
 
+## Constraints
+
+- **Scope boundaries**: [What is explicitly out of scope]
+- **Must NOT happen**: [Changes, behaviors, or side effects that are off-limits]
+- **Compatibility**: [Existing interfaces, APIs, or contracts that must not break]
+- **Performance**: [Latency, throughput, or resource limits if applicable]
+- **Other guardrails**: [Any additional hard constraints]
+
+---
+
 ## Analysis
 
 > Each item analyzed independently. No implied order - read in any sequence.
@@ -62,22 +72,6 @@ Component A
 
 **Approach**:
 [How we'll solve it - be detailed about the technical approach]
-
-Include as needed:
-- Architecture/flow diagrams (ASCII)
-- Files/components to modify or create
-- Key patterns or techniques to use
-- Validation strategy (how to verify it works)
-
-Example level of detail:
-```
-Use asyncio.to_thread() to wrap blocking calls.
-Add async methods alongside sync versions for backwards compatibility.
-Enable parallel fetch via asyncio.gather() for transcript + metadata.
-
-Files: cache_service.py (add async methods), routes.py (update to await)
-Validate: get_video_data completes faster than sequential calls
-```
 
 ---
 
@@ -107,7 +101,7 @@ Validate: get_video_data completes faster than sequential calls
 
 > Shows dependencies and recommended order. Planning stage will create actual implementation steps.
 
-**Order**: #1 → #2 → #3 → #4 → #5
+**Order**: #1 → #2 → #3 → #4
 
 ### #1: [Item Name]
 
@@ -150,8 +144,6 @@ Validate: get_video_data completes faster than sequential calls
 ---
 
 ## Implementation Options
-
-> Include this section when multiple approaches exist for a key decision.
 
 ### Option A: [Name] (Recommended)
 

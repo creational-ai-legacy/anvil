@@ -73,24 +73,9 @@ Stage 3 of dev: Implement one step at a time with test verification.
 
 ## Process
 
-Follow the guidance in `3-execution-guide.md`:
+Follow `3-execution-guide.md` exactly. It contains the full per-step workflow, fix mode, and documentation requirements.
 
-**First time setup**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist, create it using the template (`assets/templates/3-results.md`). Fill in Summary, Goal, Success Criteria (from plan.md), and Prerequisites. Mark all steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-0800`).
-
-**Execution Mode**: Execute ONLY ONE step, then STOP
-- If step number provided: Execute that specific step
-- If no step number: Find first incomplete step in results.md and execute it
-- DO NOT continue to next step automatically
-
-**Normal mode** (loop until tests pass):
-1. Write implementation code for current step
-2. Write tests (per environment conventions from the plan)
-3. Run test verification (per environment guide)
-4. **IF TESTS FAIL**: Fix the issue and return to step 3 (loop until all tests pass)
-5. **IF TESTS PASS**: Update results.md (status + lessons learned) and STOP
-6. Report completion to user
-
-**Fix mode** (`--fix`): Follow the Fix Mode section in `3-execution-guide.md` — fix only flagged issues, update results.md in-place, then STOP.
+**First time**: If results doc doesn't exist, create from template. Record Started timestamp.
 
 ## Output
 
