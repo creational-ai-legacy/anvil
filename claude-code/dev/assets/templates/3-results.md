@@ -6,6 +6,7 @@
 | **Status** | ✅ Complete / 🔄 In Progress / ❌ Failed |
 | **Started** | [YYYY-MM-DDTHH:MM:SS±HHMM] |
 | **Completed** | — |
+| **Reviewed** | — |
 | **Proves** | [What this validated] |
 
 ---

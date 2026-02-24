@@ -80,9 +80,19 @@ while remaining is not empty:
 
 The **Reviewed** timestamp is the time the orchestrator merges the review into results.md. Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get it.
 
-### 4. Report Summary
+### 4. Update Summary Table
 
-After all agents have completed and all reviews merged into results.md:
+After all reviews are merged, update the **Reviewed** field in the Summary table at the top of results.md:
+
+```markdown
+| **Reviewed** | [ISO 8601 with timezone] |
+```
+
+Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get the timestamp. This records when the full review pass completed.
+
+### 5. Report Summary
+
+After all agents have completed, all reviews merged, and Summary table updated:
 
 ```markdown
 ## Review Summary
