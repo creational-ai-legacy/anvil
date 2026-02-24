@@ -178,7 +178,6 @@ CLAUDE CODE
 | **design** | 5-stage design workflow: Vision, Architecture, Roadmap, Milestone Spec, PoC Spec |
 | **dev** | Development loop: design analysis, planning, step-by-step execution with tests, review, finalization |
 | **market-research** | Market validation with Go/Pivot/Kill recommendation |
-| **video-professor** | Extract YouTube videos into structured markdown documents |
 | **skill-reviewer** | Audit skills for structure, frontmatter, cross-references, and consistency |
 
 ### Claude Desktop
