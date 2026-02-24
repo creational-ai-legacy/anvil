@@ -2,64 +2,105 @@
 
 A product engineering toolkit for Claude Code and Claude Desktop — built by a developer, for developers. Anvil applies software engineering discipline to AI-assisted development: mandatory templates prevent structural drift, stage gates enforce design-before-code, spec-driven plans eliminate hallucinated implementations, test loops catch failures on every step, and a 5-check conceptual review targets the failure modes unique to AI — silent assumptions, unsurfaced trade-offs, and architectural drift. The result is production-grade code, not demo code.
 
+## Design Workflow
+
+5 stages from raw idea to executable task plan. **Strictly no-code** — forces
+architectural thinking before any implementation.
 
 ```
-                               ┌────────────────────────────┐
-         ╭─────────────────────┤                            │
-          ╰──╮                 │      🔨 A N V I L 🔨        │
-             ╰──╮              └───┐                  ┌─────┘
-                ╰──────────────────┤                  │
-                                   └────┐        ┌────┘
-                                        │        │
-                                   ┌────┘        └────┐
-                                   │                  │
-                                   └──────────────────┘
+         ┌──────────────────────┐
+         │      Raw Idea         │
+         └──────────┬───────────┘
+                    │
+                    ▼
+         ┌──────────────────────┐
+         │  1. Vision            │  Problem, solution, feasibility
+         └──────────┬───────────┘
+                    │
+                    ▼
+         ┌──────────────────────┐
+         │  2. Architecture      │  Tech stack, data flows, integrations
+         └──────────┬───────────┘
+                    │
+              ┌─────┴──────┐
+              │  Market     │
+              │  Research   │  Go / Pivot / Kill?
+              └─────┬──────┘
+                    │ GO
+                    ▼
+         ┌──────────────────────┐
+         │  3. Roadmap           │  Strategic milestone breakdown
+         └──────────┬───────────┘
+                    │
+                    ▼
+         ┌──────────────────────┐
+         │  4. Milestone Spec    │  Detailed per-milestone design
+         └──────────┬───────────┘
+                    │
+                    ▼
+         ┌──────────────────────┐
+         │  5. PoC Spec          │  Atomic tasks + success criteria
+         └──────────┬───────────┘
+                    │
+                    ▼
+              Hand off tasks
 ```
 
-## Two Environments, One Methodology
+Each stage produces a document from a **mandatory template** — no freeform output.
+User runs `/verify-doc` between stages to catch gaps before moving forward.
+
+## Development Workflow
+
+3-stage loop per task. Spec-driven plans mean the AI implements from
+specifications, not from pre-written code it might hallucinate.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                      CLAUDE DESKTOP                             │
-│               (Design & Strategic Analysis)                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  design (v2.0.0)              market-research (v1.1.0)         │
-│  ├── Vision                   ├── Market size                  │
-│  ├── Architecture             ├── Competitors                  │
-│  ├── Roadmap                  ├── Positioning                  │
-│  ├── Milestone Spec           ├── GTM strategy                 │
-│  └── PoC Spec                 └── Go/Pivot/Kill                │
-│                                                                 │
-│  business-validation (v1.1.0) framework-alignment (v1.0.0)     │
-│  └── PoC-based experiments    └── Four Loops, Flywheel, etc.   │
-│                                                                 │
-│  Output: Artifacts            Trigger: Natural language         │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-                   Hand off design docs
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│                       CLAUDE CODE                               │
-│              (Implementation & Quality)                         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  design                       dev                               │
-│  ├── Vision                   ├── Design (no code)             │
-│  ├── Architecture             ├── Plan                         │
-│  ├── Roadmap                  ├── Execute + Tests              │
-│  ├── Milestone Spec           ├── Review (opt-in)              │
-│  └── PoC Spec                 └── Finalize                     │
-│                                                                 │
-│  market-research              video-professor                   │
-│  └── Go/Pivot/Kill            └── YouTube → Markdown           │
-│                                                                 │
-│  skill-reviewer                                                 │
-│  └── Audit skill structure                                     │
-│                                                                 │
-│  Output: docs/ + code         Trigger: /slash-commands          │
-└─────────────────────────────────────────────────────────────────┘
+         ┌──────────────────────┐
+    ┌───▶│  Pick task from plan  │
+    │    └──────────┬───────────┘
+    │               │
+    │               ▼
+    │    ┌──────────────────────┐
+    │    │  1. Design (no code)  │  Analyze, risk profile, constraints
+    │    │     /verify-doc ✓     │  Approach per item, sequence
+    │    └──────────┬───────────┘
+    │               │
+    │               ▼
+    │    ┌──────────────────────┐
+    │    │  2. Plan              │  Spec-driven steps (no code blocks)
+    │    │     /verify-doc ✓     │  Acceptance criteria per step
+    │    └──────────┬───────────┘
+    │               │
+    │               ▼
+    │    ┌──────────────────────────────┐
+    │    │  3. Execute + Finalize       │
+    │    │                              │
+    │    │    Implement ──▶ Test ──┐    │
+    │    │        ▲          FAIL  │    │
+    │    │        └────────────────┘    │
+    │    │                   PASS       │
+    │    │                    ▼         │
+    │    │             Document + STOP  │
+    │    │            ▼ next step       │
+    │    │    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄    │
+    │    │    all steps done:           │
+    │    │    Timestamp, lessons,       │
+    │    │    diagram, health check     │
+    │    └──────────────┬───────────────┘
+    │                   │
+    │                   ▼
+    │    ┌──────────────────────┐
+    │    │  Review (opt-in)      │  5 checks: intent, assumptions,
+    │    │                       │  trade-offs, complexity, drift
+    │    └──────────┬───────────┘
+    │               │
+    └───────────────┘
+          next task
 ```
+
+The test loop enforces **implement → test → fix → retest** on every single step.
+The 5-check review catches AI-specific failures: silent assumptions, unsurfaced
+trade-offs, and architectural drift from the design.
 
 ## Quick Start
 
