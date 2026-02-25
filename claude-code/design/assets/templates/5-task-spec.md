@@ -10,7 +10,7 @@
 
 ```
 ┌──────────────────────┐              ┌──────────────────────┐
-│  [Name]              │              │  [Name]              │
+│  Task: [Name]        │              │  Task: [Name]        │
 │  [Description]       │              │  [Description]       │
 └──────────┬───────────┘              └──────────┬───────────┘
            │                                     │
@@ -18,7 +18,7 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  [Name]              │
+                  │  Task: [Name]        │
                   │  [Description]       │
                   └──────────┬───────────┘
                              │
@@ -26,7 +26,7 @@
                  │                       │
                  ▼                       ▼
       ┌──────────────────────┐   ┌──────────────────────┐
-      │  [Name]              │   │  [Name]              │
+      │  Task: [Name]        │   │  Task: [Name]        │
       │  [Description]       │   │  [Description]       │
       └──────────┬───────────┘   └──────────┬───────────┘
                  │                           │
@@ -34,7 +34,7 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  [Name]              │
+                  │  Task: [Name]        │
                   │  [Description]       │
                   └──────────────────────┘
 ```
@@ -45,25 +45,25 @@
 
 ## Tasks
 
-### [Name]
+### Task: [Name]
 - **Type**: [PoC / Feature / Issue / Refactor]
 - **Validates**: [What this task proves/delivers/fixes]
 - **Unlocks**: [Which tasks depend on this]
 - **Success Criteria**: [Measurable outcome]
 
-### [Name]
+### Task: [Name]
 - **Type**: [PoC / Feature / Issue / Refactor]
 - **Validates**: [What this task proves/delivers/fixes]
 - **Unlocks**: [Which tasks depend on this]
 - **Success Criteria**: [Measurable outcome]
 
-### [Name]
+### Task: [Name]
 ...
 
 ## Execution Order
-1. [Name] (no dependencies)
-2. [Name] (no dependencies)
-3. [Name] (requires [Name])
+1. Task: [Name] (no dependencies)
+2. Task: [Name] (no dependencies)
+3. Task: [Name] (requires [Name])
 4. ...
 
 ## Integration Points
@@ -72,7 +72,7 @@
 ## Risk Assessment
 | Task | Risk Level | Mitigation |
 |------|------------|------------|
-| [Name] | [H/M/L] | [Strategy] |
+| Task: [Name] | [H/M/L] | [Strategy] |
 
 ## Feedback Loops
 

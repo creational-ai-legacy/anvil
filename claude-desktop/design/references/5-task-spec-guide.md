@@ -98,7 +98,7 @@ Each task has a Type that determines its framing:
 
 **GOOD - Minimized tasks:**
 ```
-User Management (One task)
+Task: User Management (One task)
    - Database schema for users
    - CRUD API endpoints
    - Authentication logic
@@ -108,21 +108,21 @@ User Management (One task)
 
 **BAD - Too many micro-tasks:**
 ```
-User Database Schema
-Create User API
-Read User API
-Update User API
-Delete User API
-User Authentication
+Task: User Database Schema
+Task: Create User API
+Task: Read User API
+Task: Update User API
+Task: Delete User API
+Task: User Authentication
 ```
 
 **When forced to split (e.g., full-stack feature):**
 ```
-User Management Backend
+Task: User Management Backend
    - Database + API + Auth (grouped)
    - Validates: "Backend handles users correctly"
 
-User Management Frontend
+Task: User Management Frontend
    - UI components + forms + state
    - Validates: "Frontend integrates with user API"
 ```
@@ -140,30 +140,30 @@ Create a diagram showing:
 
 Example:
 ```
-+-----------------------+              +-----------------------+
-|  Database Schema      |              |  API Server Basic     |
-+-----------+-----------+              +-----------+-----------+
-            |                                      |
-            +------------------+-------------------+
-                               |
-                               v
-                   +-----------------------+
-                   |  CRUD Operations      |
-                   +-----------+-----------+
-                               |
-                  +------------+------------+
-                  |                         |
-                  v                         v
-      +-----------------------+   +-----------------------+
-      |  Analytics            |   |  Reports              |
-      +-----------+-----------+   +-----------+-----------+
-                  |                           |
-                  +------------+------------+
-                               |
-                               v
-                   +-----------------------+
-                   |  E2E Integration      |
-                   +-----------------------+
++-----------------------------+              +-----------------------------+
+|  Task: Database Schema      |              |  Task: API Server Basic     |
++-------------+---------------+              +-------------+---------------+
+              |                                            |
+              +--------------------+-----------------------+
+                                   |
+                                   v
+                     +-----------------------------+
+                     |  Task: CRUD Operations      |
+                     +-------------+---------------+
+                                   |
+                      +------------+------------+
+                      |                         |
+                      v                         v
+        +-----------------------------+   +-----------------------------+
+        |  Task: Analytics            |   |  Task: Reports              |
+        +-------------+---------------+   +-------------+---------------+
+                      |                                 |
+                      +------------+------------+-------+
+                                   |
+                                   v
+                     +-----------------------------+
+                     |  Task: E2E Integration      |
+                     +-----------------------------+
 ```
 
 **Key Points**:

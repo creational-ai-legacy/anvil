@@ -1,6 +1,42 @@
-# A N V I L  -  🔥 Forges raw ideas into polished products. 🔥
+```
+                               ┌────────────────────────────┐
+         ╭─────────────────────┤                            │
+          ╰──╮                 │      🔨 A N V I L 🔨        │
+             ╰──╮              └───┐                  ┌─────┘
+                ╰──────────────────┤                  │
+                                   └────┐        ┌────┘
+                                        │        │
+                                   ┌────┘        └────┐
+                                   │                  │
+                                   └──────────────────┘
+```
 
-A product engineering toolkit for Claude Code and Claude Desktop — built by a developer, for developers. Anvil applies software engineering discipline to AI-assisted development: mandatory templates prevent structural drift, stage gates enforce design-before-code, spec-driven plans eliminate hallucinated implementations, test loops catch failures on every step, and a 5-check conceptual review targets the failure modes unique to AI — silent assumptions, unsurfaced trade-offs, and architectural drift. The result is production-grade code, not demo code.
+# Anvil
+
+Production-grade product engineering toolkit for Claude Code and Claude Desktop -- structured workflows with anti-hallucination stage gates from design through deployment.
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-v0.0.9-green.svg)](https://github.com/creational-ai/anvil/releases)
+[![GitHub Stars](https://img.shields.io/github/stars/creational-ai/anvil?style=social)](https://github.com/creational-ai/anvil)
+
+## Quick Start
+
+### Claude Desktop
+
+1. Download `.skill` files from [`claude-desktop/releases/`](claude-desktop/releases/)
+2. In Claude Desktop: **Settings > Skills > Import Skill**
+
+See [`claude-desktop/README.md`](claude-desktop/README.md) for details.
+
+### Claude Code
+
+```bash
+cd claude-code
+./deploy.sh
+./verify.sh
+```
+
+See [`claude-code/README.md`](claude-code/README.md) for details.
 
 ## Design Workflow
 
@@ -102,72 +138,26 @@ The test loop enforces **implement → test → fix → retest** on every single
 The 5-check review catches AI-specific failures: silent assumptions, unsurfaced
 trade-offs, and architectural drift from the design.
 
-## Quick Start
+## Built with Anvil
 
-### Claude Desktop
+Every product in the Creational ecosystem was designed and built using Anvil's stage-gated methodology.
 
-1. Download `.skill` files from [`claude-desktop/releases/`](claude-desktop/releases/)
-2. In Claude Desktop: **Settings > Skills > Import Skill**
+- **Mission Control** -- AI project intelligence and portfolio management (MCP server)
+- **Video Professor** -- YouTube data extraction and analysis (MCP server)
+- **Hexar.io** -- Mobile game with AI-powered community features
+- **Unity UI** -- Unity game interface components
 
-See [`claude-desktop/README.md`](claude-desktop/README.md) for details.
+## How Anvil Compares
 
-### Claude Code
+| Capability | Anvil | superpowers | Skill collections |
+|------------|-------|-------------|-------------------|
+| Design workflow (idea to architecture to roadmap) | Full 5-stage | -- | -- |
+| Dev workflow (design to plan to execute) | Spec-driven, stage-gated | Brainstorm to plan to execute | Individual commands |
+| Anti-hallucination gates | Mandatory templates, spec-driven plans, 5-check review | TDD-first approach | -- |
+| Market validation | Go/Pivot/Kill research | -- | -- |
+| Quality review | 5-check conceptual review | Verification skills | -- |
 
-```bash
-cd claude-code
-./deploy.sh
-./verify.sh
-```
-
-See [`claude-code/README.md`](claude-code/README.md) for details.
-
-## Workflow
-
-### Full Workflow (Both Environments)
-
-```
-CLAUDE DESKTOP
-──────────────
-1. design Stages 1-2
-   → Vision artifact
-   → Architecture artifact
-
-2. Market Research Checkpoint
-   → "Do market research for [project]"
-   → Go / Pivot / Kill?
-
-3. design Stages 3-5 (if GO)
-   → Roadmap artifact
-   → Milestone Spec artifact
-   → Task Spec artifact
-
-CLAUDE CODE
-───────────
-4. Import design docs to project
-
-5. dev loop (per task)
-   → /dev-design
-   → /dev-plan
-   → /dev-execute-run (all steps + auto-finalize)
-   → /dev-review-run (parallel reviews, opt-in)
-   → Repeat
-```
-
-### Claude Code Only Workflow
-
-```
-1. /design-vision → Vision document
-2. /design-architecture → Technical design
-3. /design-roadmap → Strategic milestone roadmap
-4. /design-milestone-spec → Detailed milestone design
-5. /design-task-spec → Atomic tasks + success criteria
-
-6. /dev-design → Analyze first task
-7. /dev-plan → Plan implementation
-8. /dev-execute-run → Execute all steps + finalize
-9. /dev-review-run → Review all steps (opt-in)
-10. Repeat 6-9 for each task
-```
+superpowers is excellent for the coding phase and has a more mature marketplace presence. Anvil's strength is the full lifecycle -- from raw idea through market validation to shipped product. They're complementary, not mutually exclusive; you can use superpowers for coding discipline alongside Anvil's design-through-deployment methodology.
 
 ## Skills
 
@@ -231,16 +221,3 @@ anvil/
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
-
-```
-                               ┌────────────────────────────┐
-         ╭─────────────────────┤                            │
-          ╰──╮                 │      🔨 A N V I L 🔨        │
-             ╰──╮              └───┐                  ┌─────┘
-                ╰──────────────────┤                  │
-                                   └────┐        ┌────┘
-                                        │        │
-                                   ┌────┘        └────┐
-                                   │                  │
-                                   └──────────────────┘
-```
