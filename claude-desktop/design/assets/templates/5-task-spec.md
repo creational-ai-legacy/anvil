@@ -1,4 +1,4 @@
-# [Milestone Name] PoC Spec
+# [Milestone Name] Task Spec
 
 ## Milestone Overview
 [What does completing this Milestone prove? What capability does it unlock?]
@@ -6,11 +6,11 @@
 ## Project
 [Parent project name - link to [slug]-vision.md]
 
-## PoC Dependency Diagram
+## Task Dependency Diagram
 
 ```
 ┌──────────────────────┐              ┌──────────────────────┐
-│  PoC 1: [Name]       │              │  PoC 2: [Name]       │
+│  Task 1: [Name]      │              │  Task 2: [Name]      │
 │  [Description]       │              │  [Description]       │
 └──────────┬───────────┘              └──────────┬───────────┘
            │                                     │
@@ -18,7 +18,7 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  PoC 3: [Name]       │
+                  │  Task 3: [Name]      │
                   │  [Description]       │
                   └──────────┬───────────┘
                              │
@@ -26,7 +26,7 @@
                  │                       │
                  ▼                       ▼
       ┌──────────────────────┐   ┌──────────────────────┐
-      │  PoC 4: [Name]       │   │  PoC 5: [Name]       │
+      │  Task 4: [Name]      │   │  Task 5: [Name]      │
       │  [Description]       │   │  [Description]       │
       └──────────┬───────────┘   └──────────┬───────────┘
                  │                           │
@@ -34,63 +34,65 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  PoC 6: [Name]       │
+                  │  Task 6: [Name]      │
                   │  [Description]       │
                   └──────────────────────┘
 ```
 
-**Parallel tracks**: [Describe which PoCs can run in parallel]
+**Parallel tracks**: [Describe which tasks can run in parallel]
 
 **Note**: This is a plan - NO status indicators (✅ ⬜) in diagram.
 
-## PoCs
+## Tasks
 
-### PoC 1: [Name]
-- **Proves**: [Specific thing this validates]
-- **Unlocks**: [Which PoCs depend on this]
+### Task 1: [Name]
+- **Type**: [PoC / Feature / Issue / Refactor]
+- **Validates**: [What this task proves/delivers/fixes]
+- **Unlocks**: [Which tasks depend on this]
 - **Success Criteria**: [Measurable outcome]
 
-### PoC 2: [Name]
-- **Proves**: [Specific thing this validates]
-- **Unlocks**: [Which PoCs depend on this]
+### Task 2: [Name]
+- **Type**: [PoC / Feature / Issue / Refactor]
+- **Validates**: [What this task proves/delivers/fixes]
+- **Unlocks**: [Which tasks depend on this]
 - **Success Criteria**: [Measurable outcome]
 
-### PoC 3: [Name]
+### Task 3: [Name]
 ...
 
 ## Execution Order
-1. PoC 1 - [Name] (no dependencies)
-2. PoC 2 - [Name] (no dependencies)
-3. PoC 3 - [Name] (requires PoC 1)
+1. Task 1 - [Name] (no dependencies)
+2. Task 2 - [Name] (no dependencies)
+3. Task 3 - [Name] (requires Task 1)
 4. ...
 
 ## Integration Points
-[How will these PoCs eventually connect?]
+[How will these tasks eventually connect?]
 
 ## Risk Assessment
-| PoC | Risk Level | Mitigation |
-|-----|------------|------------|
-| PoC 1 | [H/M/L] | [Strategy] |
+| Task | Risk Level | Mitigation |
+|------|------------|------------|
+| Task 1 | [H/M/L] | [Strategy] |
 
 ## Feedback Loops
 
-### If a PoC Fails
+### If a Task Fails
 
-**A failed PoC is valuable information, not wasted effort.**
+**A failed task is valuable information, not wasted effort.**
 
-When a PoC doesn't meet success criteria:
+When a task doesn't meet success criteria:
 
 1. **Document what we learned** — What specifically failed? Why?
-2. **Assess impact** — Does this invalidate the milestone approach? Or just this PoC?
+2. **Assess impact** — Does this invalidate the milestone approach? Or just this task?
 3. **Decide next action**:
-   - **Retry with different approach** — Update PoC design and re-attempt
+   - **Retry with different approach** — Update task design and re-attempt
    - **Pivot the milestone** — Revisit milestone spec with new constraints
    - **Revisit architecture** — If fundamental assumption was wrong
    - **Kill the milestone** — If the capability isn't achievable/valuable
 
 ### Checkpoint Questions
 
-After each PoC, ask:
+After each task, ask:
 - Did we learn something that changes our assumptions?
-- Should we update subsequent PoC designs based on this learning?
+- Should we update subsequent task designs based on this learning?
 - Is the milestone still viable and valuable?

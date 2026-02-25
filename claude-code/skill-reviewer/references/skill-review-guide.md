@@ -214,7 +214,7 @@ Do stage outputs match next stage inputs?
 Are the same terms and formats used everywhere?
 
 **Rules:**
-- Same concept uses the same term across all files (e.g., don't call it "PoC" in one place and "task" in another for the same thing)
+- Same concept uses the same term across all files (e.g., don't call it "step" in one place and "item" in another for the same concept)
 - Timestamp format is consistent (same placeholder format, same example format)
 - Status indicators are consistent (same emoji + label patterns everywhere)
 - Risk/severity levels use same definitions across files

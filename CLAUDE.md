@@ -95,7 +95,7 @@ cd claude-desktop
 - `docs/[slug]-architecture.md` - Architecture (e.g., `docs/mc-architecture.md`)
 - `docs/[slug]-roadmap.md` - Strategic milestone roadmap
 - `docs/[slug]-milestone-spec.md` - Detailed milestone spec (e.g., `docs/core-milestone-spec.md`)
-- `docs/[slug]-poc-spec.md` - PoC spec (e.g., `docs/core-poc-spec.md`)
+- `docs/[slug]-task-spec.md` - Task spec (e.g., `docs/core-task-spec.md`)
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
@@ -111,7 +111,7 @@ cd claude-desktop
 - `2-architecture.md` - Stage 2 template
 - `3-roadmap.md` - Stage 3 template
 - `4-milestone-spec.md` - Stage 4 template
-- `5-poc-spec.md` - Stage 5 template
+- `5-task-spec.md` - Stage 5 template
 
 **dev** (`claude-code/dev/assets/templates/`):
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
@@ -125,7 +125,7 @@ cd claude-desktop
 ## Reference Guides
 
 **design** (`claude-code/design/references/`):
-- `1-vision-guide.md` through `5-poc-spec-guide.md`
+- `1-vision-guide.md` through `5-task-spec-guide.md`
 
 **dev** (`claude-code/dev/references/`):
 - `1-design-guide.md` through `3-execution-guide.md`
@@ -142,7 +142,7 @@ cd claude-desktop
 - `/design-architecture` - Create architecture document (Stage 2)
 - `/design-roadmap` - Create milestone roadmap (Stage 3)
 - `/design-milestone-spec` - Create detailed milestone spec (Stage 4)
-- `/design-poc-spec` - Create PoC spec (Stage 5)
+- `/design-task-spec` - Create task spec (Stage 5)
 
 **dev commands**:
 - `/dev-design` - Create design document (Stage 1)

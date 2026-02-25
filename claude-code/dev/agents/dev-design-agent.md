@@ -44,7 +44,7 @@ Your output must have two distinct sections:
 5. Define proposed sequence with rationale (Proposed Sequence section)
 6. Document design decisions
 7. Create the design document using the template
-8. Update `docs/[slug]-poc-spec.md` if applicable
+8. Update `docs/[slug]-task-spec.md` if applicable
 
 ## Critical Rules
 

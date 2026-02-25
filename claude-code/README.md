@@ -6,7 +6,7 @@ Skills for the **implementation phase** of Anvil, designed for Claude Code (CLI)
 
 | Skill | Purpose |
 |-------|---------|
-| **design** | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
+| **design** | 5-stage design workflow (Vision → Architecture → Roadmap → Milestone Spec → Task Spec) |
 | **dev** | 3-stage development loop (Design → Plan → Execute) |
 | **market-research** | Market validation with Go/Pivot/Kill recommendation |
 
@@ -25,15 +25,15 @@ Skills for the **implementation phase** of Anvil, designed for Claude Code (CLI)
 ```
 DESIGN PHASE (design skill)
 ─────────────────────────
-/design-northstar           → Vision document
+/design-vision              → Vision document
         ↓
 /design-architecture        → Technical design
         ↓
-/design-milestones-overview → Strategic roadmap
+/design-roadmap             → Strategic roadmap
         ↓
-/design-milestone-design    → Detailed milestone design
+/design-milestone-spec      → Detailed milestone spec
         ↓
-/design-poc-design          → Atomic proof-of-concepts
+/design-task-spec           → Atomic tasks with dependencies
 
 DEVELOPMENT PHASE (dev skill)
 ─────────────────────────────
@@ -56,11 +56,11 @@ Repeat for next task
 
 | Command | Purpose |
 |---------|---------|
-| `/design-northstar` | Create vision document (Stage 1) |
+| `/design-vision` | Create vision document (Stage 1) |
 | `/design-architecture` | Create architecture document (Stage 2) |
-| `/design-milestones-overview` | Create milestone roadmap (Stage 3) |
-| `/design-milestone-design` | Create detailed milestone design (Stage 4) |
-| `/design-poc-design` | Create PoC breakdown (Stage 5) |
+| `/design-roadmap` | Create milestone roadmap (Stage 3) |
+| `/design-milestone-spec` | Create detailed milestone spec (Stage 4) |
+| `/design-task-spec` | Create task spec (Stage 5) |
 
 ### dev Commands
 
@@ -103,11 +103,11 @@ Repeat for next task
 ## Output Files
 
 **design skill creates:**
-- `docs/[slug]-north-star.md`
+- `docs/[slug]-vision.md`
 - `docs/[slug]-architecture.md`
-- `docs/[slug]-milestones-overview.md`
-- `docs/[slug]-milestone.md`
-- `docs/[slug]-poc-design.md`
+- `docs/[slug]-roadmap.md`
+- `docs/[slug]-milestone-spec.md`
+- `docs/[slug]-task-spec.md`
 
 **dev skill creates:**
 - `docs/[milestone]-[task]-design.md`

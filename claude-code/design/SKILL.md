@@ -27,11 +27,11 @@ Project (e.g., "mission-control")
 | 2. Architecture | `docs/[slug]-architecture.md` | Technical design |
 | 3. Roadmap | `docs/[slug]-roadmap.md` | Strategic milestone breakdown |
 | 4. Milestone Spec | `docs/[slug]-milestone-spec.md` | Detailed per-milestone plan |
-| 5. PoC Spec | `docs/[slug]-poc-spec.md` | Atomic proof-of-concepts |
+| 5. Task Spec | `docs/[slug]-task-spec.md` | Atomic tasks with dependencies |
 
 **File Naming**:
 - `[slug]`: Project slug for project-level docs (vision, architecture, roadmap)
-- `[slug]`: Milestone slug for milestone-level docs (milestone-spec, poc-spec)
+- `[slug]`: Milestone slug for milestone-level docs (milestone-spec, task-spec)
 
 **Next**: Hand off to **dev skill** for implementation
 
@@ -41,7 +41,7 @@ Project (e.g., "mission-control")
 - `/design-architecture` - Create architecture and integration plan (Stage 2)
 - `/design-roadmap` - Create roadmap with strategic milestones (Stage 3)
 - `/design-milestone-spec` - Expand a milestone into detailed design (Stage 4)
-- `/design-poc-spec` - Define atomic PoCs with success criteria (Stage 5)
+- `/design-task-spec` - Define atomic tasks with dependencies and success criteria (Stage 5)
 
 ---
 
@@ -63,7 +63,7 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 ## Design Philosophy: 200 Users First
 
-**This skill is for inception** -- structuring ideas into well-defined milestones and PoCs.
+**This skill is for inception** -- structuring ideas into well-defined milestones and tasks.
 
 **Production-grade, but right-sized:**
 - Build with production-quality from day one
@@ -195,38 +195,38 @@ Validate early. The more context you have, the better the research -- but don't 
 - [ ] NO forward references to other milestones
 - [ ] Run `/verify-doc docs/[slug]-milestone-spec.md`
 
-**Next**: Stage 5: PoC Spec (break milestone into atomic PoCs)
+**Next**: Stage 5: Task Spec (break milestone into atomic tasks)
 
 ---
 
-## Stage 5: PoC Spec
+## Stage 5: Task Spec
 
-**Goal**: Define what needs to be proven and in what order -- PRODUCTION-GRADE thin slices
+**Goal**: Define atomic tasks with dependencies and success criteria -- PRODUCTION-GRADE thin slices
 
 **Input**:
 - Milestone Spec (`docs/[slug]-milestone-spec.md`)
 - Roadmap (`docs/[slug]-roadmap.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
 
-**Template**: `assets/templates/5-poc-spec.md`
-**Output**: `docs/[slug]-poc-spec.md` (e.g., `docs/core-poc-spec.md`)
+**Template**: `assets/templates/5-task-spec.md`
+**Output**: `docs/[slug]-task-spec.md` (e.g., `docs/core-task-spec.md`)
 
-**PoC Requirements** (critical):
-- **Atomic**: Proves ONE specific thing
+**Task Requirements** (critical):
+- **Atomic**: Validates ONE specific thing
 - **Measurable**: Clear success criteria
 - **Self-contained**: Works independently, doesn't break existing functionality
 
-**Golden Rule**: One feature = One PoC (minimize PoCs; group related work)
+**Golden Rule**: One capability = One task (minimize tasks; group related work)
 
-> See `references/5-poc-spec-guide.md` for detailed process
+> See `references/5-task-spec-guide.md` for detailed process
 
 ### Stage 5 Complete Checklist
-- [ ] `docs/[slug]-poc-spec.md` created using template
-- [ ] Each PoC proves one specific thing
-- [ ] Dependencies mapped (which PoCs unlock others)
+- [ ] `docs/[slug]-task-spec.md` created using template
+- [ ] Each task validates one specific thing
+- [ ] Dependencies mapped (which tasks unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
-- [ ] Run `/verify-doc docs/[slug]-poc-spec.md`
+- [ ] Run `/verify-doc docs/[slug]-task-spec.md`
 
 **Next**: Hand off to **dev skill** for implementation
 
@@ -234,7 +234,7 @@ Validate early. The more context you have, the better the research -- but don't 
 
 ## Handoff to dev
 
-Once `docs/[slug]-poc-spec.md` is complete, hand off to the **dev skill** for implementation.
+Once `docs/[slug]-task-spec.md` is complete, hand off to the **dev skill** for implementation.
 
 **dev** handles all development work through a repeating cycle: plan tasks, execute step-by-step, test, repeat.
 
@@ -250,4 +250,4 @@ Read when you need detailed process, examples, or edge case handling.
 | Starting Stage 2 or designing architecture | `references/2-architecture-guide.md` |
 | Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
 | Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
-| Starting Stage 5 or defining PoCs | `references/5-poc-spec-guide.md` |
+| Starting Stage 5 or defining tasks | `references/5-task-spec-guide.md` |

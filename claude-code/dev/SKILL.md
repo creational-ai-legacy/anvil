@@ -186,4 +186,4 @@ Use Glob/Grep to check for existing documents:
 
 **Standalone**: Use dev for any development work (features, bugs, refactoring).
 
-**With design skill**: The design skill creates the plan (`docs/[slug]-poc-spec.md`), then dev implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).
+**With design skill**: The design skill creates the plan (`docs/[slug]-task-spec.md`), then dev implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).

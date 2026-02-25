@@ -1,7 +1,7 @@
-# Stage 5: PoC Spec
+# Stage 5: Task Spec
 
 ## Goal
-Define what needs to be proven and in what order -- with PRODUCTION-GRADE thin slices.
+Define atomic tasks with dependencies and success criteria -- with PRODUCTION-GRADE thin slices.
 
 ## Code Allowed
 NO
@@ -18,116 +18,131 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 
 ## Process
 1. Refine architecture with implementation perspective
-2. Identify atomic things to prove (PoCs)
-3. Map dependencies between PoCs
-4. Create PoC diagram
-5. Define success criteria for each PoC
+2. Identify atomic tasks
+3. Map dependencies between tasks
+4. Create task diagram
+5. Define success criteria for each task
 
 ## Output
-`docs/[slug]-poc-spec.md` using `assets/templates/5-poc-spec.md`
+`docs/[slug]-task-spec.md` using `assets/templates/5-task-spec.md`
 
-Example: `docs/core-poc-spec.md`, `docs/cloud-deployment-poc-spec.md`
+Example: `docs/core-task-spec.md`, `docs/cloud-deployment-task-spec.md`
 
 ## Verification Checklist
-- [ ] Template read from `assets/templates/5-poc-spec.md`
+- [ ] Template read from `assets/templates/5-task-spec.md`
 - [ ] Output follows template structure exactly
-- [ ] Each PoC proves one specific thing
-- [ ] Dependencies mapped (which PoCs unlock others)
+- [ ] Each task validates one specific thing
+- [ ] Dependencies mapped (which tasks unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
 - [ ] Feedback loop guidance included
-- [ ] Run `/verify-doc docs/[slug]-poc-spec.md`
+- [ ] Run `/verify-doc docs/[slug]-task-spec.md`
 
-## What Makes a Good PoC
+## What Makes a Good Task
 
-### A PoC Should:
-- Prove ONE specific technical or business assumption
+### A Task Should:
+- Validate ONE specific technical or business assumption
 - Be small enough to complete in 1-3 sessions
 - Have clear, measurable success criteria
 - Build toward the final MVP
 
-### A PoC Should NOT:
-- Try to prove multiple things at once
+### A Task Should NOT:
+- Try to validate multiple things at once
 - Be so large it feels like a project itself
 - Have vague "it works" success criteria
 - Be disconnected from the end goal
 
-## PoC Requirements
+## Task Requirements
 
-Each PoC must be:
-- **Atomic**: Proves one specific thing (one capability/assumption, NOT one task - may include multiple related tasks)
+Each task must be:
+- **Atomic**: Validates one specific thing (one capability/assumption, NOT one sub-task - may include multiple related sub-tasks)
 - **Measurable**: Clear success criteria
 - **Self-contained**: Works independently; doesn't break existing functionality and existing tests
 
 **Why self-contained matters:**
-- Each PoC is complete within its scope (doesn't need non-dependent PoCs to work)
-- System remains functional between PoCs (no breaking changes to existing functionality/tests)
+- Each task is complete within its scope (doesn't need non-dependent tasks to work)
+- System remains functional between tasks (no breaking changes to existing functionality/tests)
 - Prevents cascading failures
-- Clearly shows what it proves and what capabilities it opens up for dependent PoCs
-- Safe to pause work at any PoC boundary
+- Clearly shows what it validates and what capabilities it opens up for dependent tasks
+- Safe to pause work at any task boundary
 
-**CRITICAL: Minimize the Number of PoCs**
+## Task Types
 
-**Golden Rule**: One feature = One PoC (unless it spans the entire stack)
+Each task has a Type that determines its framing:
 
-**When to use ONE PoC:**
+| Type | Purpose | Validates |
+|------|---------|-----------|
+| **PoC** | Validate technical approach or assumption | "Can we do X?" |
+| **Feature** | Deliver new capability | "X works end-to-end" |
+| **Issue** | Fix a bug | "X no longer occurs" |
+| **Refactor** | Improve code structure | "X works the same but better" |
+
+**New projects** typically start with PoC-type tasks (proving technical feasibility).
+**Established projects** mix Feature, Issue, and Refactor tasks.
+**A single task spec can contain mixed types** -- e.g., Task 1 (PoC), Task 2 (Feature).
+
+**CRITICAL: Minimize the Number of Tasks**
+
+**Golden Rule**: One capability = One task (unless it spans the entire stack)
+
+**When to use ONE task:**
 - Feature is contained in one layer (frontend OR backend OR database)
-- Related tasks that test the same capability together
+- Related sub-tasks that test the same capability together
 - CRUD operations for a single entity (Create + Read + Update + Delete users)
-- All tasks validate the same technical assumption
+- All sub-tasks validate the same technical assumption
 
-**When to split into multiple PoCs:**
+**When to split into multiple tasks:**
 - Feature spans entire stack (database + API + frontend) and each layer needs independent testing
-- Clear dependency boundaries (PoC B literally cannot start until PoC A is proven)
+- Clear dependency boundaries (Task B literally cannot start until Task A is validated)
 - Different technical risks that should be validated separately
 - **BUT STILL MINIMIZE** - If you can test 2 layers together, do it
 
-**GOOD - Minimized PoCs:**
+**GOOD - Minimized tasks:**
 ```
-PoC 3: User Management (One PoC)
+Task 3: User Management (One task)
    - Database schema for users
    - CRUD API endpoints
    - Authentication logic
    - Tests for all operations
-   - Proves: "We can manage users end-to-end"
+   - Validates: "We can manage users end-to-end"
 ```
 
-**BAD - Too many micro-PoCs:**
+**BAD - Too many micro-tasks:**
 ```
-PoC 3: User Database Schema
-PoC 4: Create User API
-PoC 5: Read User API
-PoC 6: Update User API
-PoC 7: Delete User API
-PoC 8: User Authentication
+Task 3: User Database Schema
+Task 4: Create User API
+Task 5: Read User API
+Task 6: Update User API
+Task 7: Delete User API
+Task 8: User Authentication
 ```
 
 **When forced to split (e.g., full-stack feature):**
 ```
-PoC 3: User Management Backend
+Task 3: User Management Backend
    - Database + API + Auth (grouped)
-   - Proves: "Backend handles users correctly"
+   - Validates: "Backend handles users correctly"
 
-PoC 4: User Management Frontend
+Task 4: User Management Frontend
    - UI components + forms + state
-   - Proves: "Frontend integrates with user API"
+   - Validates: "Frontend integrates with user API"
 ```
 
-**Remember**: Every additional PoC adds overhead. Group related work aggressively.
+**Remember**: Every additional task adds overhead. Group related work aggressively.
 
-## PoC Dependency Mapping
+## Task Dependency Mapping
 
 Create a diagram showing:
-- Which PoCs can run in parallel (no dependencies)
-- Which PoCs depend on others
+- Which tasks can run in parallel (no dependencies)
+- Which tasks depend on others
 - The critical path to MVP
 
-**Format**: Use boxes for each PoC with clear names. No status indicators (this is a plan, not status tracking).
+**Format**: Use boxes for each task with clear names. No status indicators (this is a plan, not status tracking).
 
 Example:
 ```
 +-----------------------+              +-----------------------+
-|  PoC 1: Database      |              |  PoC 2: API Server    |
+|  Task 1: Database     |              |  Task 2: API Server   |
 |  Schema               |              |  Basic                |
 +-----------+-----------+              +-----------+-----------+
             |                                      |
@@ -135,7 +150,7 @@ Example:
                                |
                                v
                    +-----------------------+
-                   |  PoC 3: CRUD          |
+                   |  Task 3: CRUD         |
                    |  Operations           |
                    +-----------+-----------+
                                |
@@ -143,22 +158,22 @@ Example:
                   |                         |
                   v                         v
       +-----------------------+   +-----------------------+
-      |  PoC 4: Analytics     |   |  PoC 5: Reports       |
+      |  Task 4: Analytics    |   |  Task 5: Reports      |
       +-----------+-----------+   +-----------+-----------+
                   |                           |
                   +------------+------------+
                                |
                                v
                    +-----------------------+
-                   |  PoC 6: E2E           |
+                   |  Task 6: E2E          |
                    |  Integration          |
                    +-----------------------+
 ```
 
 **Key Points**:
-- Each PoC gets a box with its name and brief description
+- Each task gets a box with its name and brief description
 - Use vertical flow (top to bottom) for main dependency path
-- Show parallel PoCs side by side at the same level
+- Show parallel tasks side by side at the same level
 - Use arrows to show dependencies
 - Keep it clean - NO status indicators in the plan diagram
 
@@ -171,28 +186,28 @@ Even at planning stage, think production:
 - Real error handling, not happy-path only
 - Patterns that scale
 
-## Feedback Loops: When PoCs Fail
+## Feedback Loops: When Tasks Fail
 
-**A failed PoC is valuable information, not wasted effort.**
+**A failed task is valuable information, not wasted effort.**
 
-When a PoC doesn't meet success criteria:
+When a task doesn't meet success criteria:
 
 1. **Document what we learned** -- What specifically failed? Why?
-2. **Assess impact** -- Does this invalidate the milestone approach? Or just this PoC?
+2. **Assess impact** -- Does this invalidate the milestone approach? Or just this task?
 3. **Decide next action**:
-   - **Retry with different approach** -- Update PoC design and re-attempt
+   - **Retry with different approach** -- Update task design and re-attempt
    - **Pivot the milestone** -- Revisit milestone-spec with new constraints
    - **Revisit architecture** -- If fundamental assumption was wrong
    - **Kill the milestone** -- If the capability isn't achievable/valuable
 
-**Checkpoint Questions** (after each PoC):
+**Checkpoint Questions** (after each task):
 - Did we learn something that changes our assumptions?
-- Should we update subsequent PoC designs based on this learning?
+- Should we update subsequent task designs based on this learning?
 - Is the milestone still viable and valuable?
 
 ## Common Pitfalls
-- Planning too many PoCs
-- PoCs that are too large
+- Planning too many tasks
+- Tasks that are too large
 - Missing critical dependencies
 - Vague success criteria
 

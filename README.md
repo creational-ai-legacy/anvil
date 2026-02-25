@@ -39,7 +39,7 @@ architectural thinking before any implementation.
                     │
                     ▼
          ┌──────────────────────┐
-         │  5. PoC Spec          │  Atomic tasks + success criteria
+         │  5. Task Spec          │  Atomic tasks + success criteria
          └──────────┬───────────┘
                     │
                     ▼
@@ -139,7 +139,7 @@ CLAUDE DESKTOP
 3. design Stages 3-5 (if GO)
    → Roadmap artifact
    → Milestone Spec artifact
-   → PoC Spec artifact
+   → Task Spec artifact
 
 CLAUDE CODE
 ───────────
@@ -160,7 +160,7 @@ CLAUDE CODE
 2. /design-architecture → Technical design
 3. /design-roadmap → Strategic milestone roadmap
 4. /design-milestone-spec → Detailed milestone design
-5. /design-poc-spec → Atomic proof-of-concepts
+5. /design-task-spec → Atomic tasks + success criteria
 
 6. /dev-design → Analyze first task
 7. /dev-plan → Plan implementation
@@ -175,7 +175,7 @@ CLAUDE CODE
 
 | Skill | Purpose |
 |-------|---------|
-| **design** | 5-stage design workflow: Vision, Architecture, Roadmap, Milestone Spec, PoC Spec |
+| **design** | 5-stage design workflow: Vision, Architecture, Roadmap, Milestone Spec, Task Spec |
 | **dev** | Development loop: design analysis, planning, step-by-step execution with tests, review, finalization |
 | **market-research** | Market validation with Go/Pivot/Kill recommendation |
 | **skill-reviewer** | Audit skills for structure, frontmatter, cross-references, and consistency |

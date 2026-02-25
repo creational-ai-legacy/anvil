@@ -89,6 +89,6 @@ Creates:
 
 ## After Completion
 
-User will run `/verify-doc docs/[slug]-milestone-spec.md`, fix issues, then proceed to Stage 5 (PoC Spec).
+User will run `/verify-doc docs/[slug]-milestone-spec.md`, fix issues, then proceed to Stage 5 (Task Spec).
 
-**Next Stage**: Create PoC spec for this milestone, breaking it into atomic proof-of-concepts.
+**Next Stage**: Create task spec for this milestone, breaking it into atomic tasks.

@@ -1,25 +1,27 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-02-24T12:10:18-0800
+> **Last Updated**: 2026-02-24T19:25:06-0800
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 5-stage design workflow and 3-stage dev workflow. Naming cleanup complete: vision/roadmap file naming simplified across CC and CD. Full gap analysis complete (S1+S2+S3). Ready for production use.
+**Current Status**: Skills framework v2.0.0 with 5-stage design workflow and 3-stage dev workflow. All naming cleanups complete: vision/roadmap simplified, Stage 5 generalized to "Task Spec". Full gap analysis complete (S1+S2+S3). Ready for production use.
 
 ---
 
 ## Progress
 
-### Milestone: Core Framework
+### Milestone: Core
 
 | ID | Name | Type | Status | Docs |
 |-----|------|------|--------|------|
 | add-milestone-stage | Add Milestone Design Stage | feature | ✅ Complete | `add-milestone-stage-*.md` |
+| refactor-overview-to-design-focus | Refactor dev-cycle Overview to Design Focus | refactor | ✅ Complete | — |
 | cc-design-v2-upgrade | CC Design Skill v2.0 Upgrade | refactor | ✅ Complete | `cc-design-v2-upgrade-*.md` |
 | dev-skill-gap-s1 | Design Stage Enhancements (Risk Profile, Constraints, Impl Options, Parallelization) | refactor | ✅ Complete | `dev-skill-gap-s1-*.md` |
 | dev-skill-gap-s2 | Spec-Driven Plan Template, Results Deviation Tracking, Review Expansion | refactor | ✅ Complete | `dev-skill-gap-s2-*.md` |
 | dev-skill-gap-s3 | Stale Pre-Spec-Driven Reference Cleanup | refactor | ✅ Complete | `dev-skill-gap-s3-*.md` |
 | design-naming-cleanup | Design Naming Cleanup (drop "product-" prefix) | refactor | ✅ Complete | `design-naming-cleanup-*.md` |
+| poc-to-task | Stage 5 Rename: PoC Spec to Task Spec | refactor | ✅ Complete | `core-poc-to-task-*.md` |
 
 ---
 
@@ -34,58 +36,61 @@
 | 2026-02-16 | Add Risk Profile, Constraints, standard Implementation Options, parallelization hints to design stage | Close Stage 1 gaps from gap analysis; richer design docs for downstream stages to leverage |
 | 2026-02-16 | Spec-driven plan steps with Specification + Acceptance Criteria instead of Code/Tests blocks | Close Stage 2/3/3b gaps; leaner plans, explicit executor-reviewer contract, deviation tracking |
 | 2026-02-24 | Drop "product-" prefix from vision/roadmap naming across design skill | Redundant prefix; simplify to `vision` and `roadmap` for cleaner naming conventions |
+| 2026-02-24 | Rename Stage 5 from "PoC Spec" to "Task Spec" | Stage 5 is generic task decomposition, not PoC-specific; "PoC" stays as one of 4 task types |
 
 ---
 
 ## What's Next
 
 **Recommended Next Steps**:
-1. Update README.md with new v2.0.0 command names and simplified naming conventions
-2. Test the full design workflow end-to-end on a real project to validate naming changes
+1. Clean up legacy `poc-design` references in claude-code/README.md (older naming convention predating poc-to-task rename)
+2. Test the full design workflow end-to-end on a real project to validate all naming changes
 3. Test the spec-driven dev workflow on a real task
 4. Consider a migration note if existing active plans need updating to the new template structure
 
 **System Status**: ✅ **Production Ready**
-- 5-stage design skill v2.0.0 (simplified naming: vision, roadmap)
+- 5-stage design skill v2.0.0 (simplified naming: vision, roadmap, task-spec)
 - 3-stage dev skill with spec-driven plan workflow (full gap analysis complete)
 - Design stage enhanced (Risk Profile, Constraints, Implementation Options, parallelization)
 - Dev stage enhanced (Specification + AC steps, Deviation tracking, Review plan AC, LOC signal)
-- Naming cleanup complete (product-vision -> vision, product-roadmap -> roadmap)
+- Stage 5 generalized: "Task Spec" with Type field (PoC / Feature / Issue / Refactor)
+- All naming cleanups complete (product-vision -> vision, product-roadmap -> roadmap, poc-spec -> task-spec)
 - Market research skill
 - Video professor skill
 - Skill reviewer skill
-- 52/52 verify checks passing
+- 43/43 verify checks passing
 
 ---
 
 ## Latest Health Check
 
-### 2026-02-24 - design-naming-cleanup Finalization
+### 2026-02-24 - core-poc-to-task Finalization
 **Status**: ✅ On Track
 
 **Context**:
-Finalizing the design-naming-cleanup task which removed the redundant "product-" prefix from vision and roadmap naming across the design skill (CC + CD), updated ~135 cross-references across 38 files, and simplified the milestone-spec title format.
+Finalizing the core-poc-to-task task which renamed design skill Stage 5 from "PoC Spec" to "Task Spec" across CC and CD. Rewrote templates and guides with generalized "Task" language, added Type and Validates fields, updated all cross-references across 23 files.
 
 **Findings**:
-- ✅ All 7 success criteria met -- zero stale references in any scoped directory
-- ✅ 10 files renamed via git mv (6 CC, 4 CD), preserving git history
-- ✅ ~135 occurrences updated across 38 files in both CC and CD environments
-- ✅ Deploy script OLD_COMMANDS mechanism auto-cleans old command files
-- ✅ 52/52 verify checks passing after deploy
-- ✅ Root CLAUDE.md reflects new naming conventions throughout
-- ✅ No scope drift -- task executed exactly as designed
+- ✅ All 10 success criteria met -- zero stale `poc-spec` / "PoC Spec" references
+- ✅ 5 files renamed via git mv, 23 files updated with new references
+- ✅ Template has Type field (PoC / Feature / Issue / Refactor) and Validates field
+- ✅ Guide has Task Types section with type table and usage guidance
+- ✅ "PoC" preserved as valid task type in dev skill (25 occurrences across 11 files)
+- ✅ business-validation skill completely untouched
+- ✅ deploy.sh and verify.sh both pass; old command removed, new command deployed
+- ✅ No scope drift beyond 3 additional Stage 4 files caught during verification sweep
 
 **Challenges**:
-- Context-sensitive replacements required file-by-file review (e.g., "Product Vision" as stage heading vs. lowercase "product vision" as generic concept)
-- Plan occurrence counts were slightly off for one file (health-guide.md: planned 1, actual 2), but grep verification caught it
+- Prerequisite grep used hyphenated `poc-spec` form which missed display name "PoC Spec" in Stage 4 files; caught by comprehensive Step 6 sweep
+- Plan reference counts were approximate (CLAUDE.md had 4 refs not 2); grep verification after each step was the real acceptance check
 
 **Results**:
-- ✅ All vision/roadmap naming simplified across design skill
-- ✅ Milestone-spec title format changed from `# Milestone [Number]: [Name]` to `# [Milestone Name]`
-- ✅ Old command files automatically cleaned from ~/.claude/commands/
+- ✅ Stage 5 generalized from "PoC Spec" to "Task Spec" across all skill files
+- ✅ `/design-task-spec` command deployed and functional
+- ✅ Type field enables explicit task categorization in milestone planning
 
 **Lessons Learned**:
-- Grep verification is the real acceptance check, not plan occurrence counts
-- Deploy cleanup uses two mechanisms: wipe-first for skill dirs, OLD_COMMANDS for global commands dir
+- Baseline grep must search both path form and display name form to catch all references
+- Plan occurrence counts are approximate; grep sweeps are the real acceptance criteria
 
-**Next**: Update README.md with simplified naming conventions. Test the full design workflow end-to-end on a real project.
+**Next**: Clean up legacy `poc-design` references in claude-code/README.md. Test the full design workflow end-to-end on a real project.

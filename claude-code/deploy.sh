@@ -35,6 +35,7 @@ OLD_COMMANDS=(
     "dev-lessons.md"
     "design-product-vision.md"
     "design-product-roadmap.md"
+    "design-poc-spec.md"
 )
 #=============================================================================
 

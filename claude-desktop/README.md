@@ -6,7 +6,7 @@ Skills for the **design and validation phase** of Anvil, optimized for Claude De
 
 | Skill | Version | Purpose |
 |-------|---------|---------|
-| **design** | 1.5.0 | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
+| **design** | 1.5.0 | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → Task Spec) |
 | **market-research** | 1.1.0 | Market validation with Go/Pivot/Kill recommendation |
 | **business-validation** | 1.1.0 | Business validation roadmaps with PoC-based experiments |
 | **framework-alignment** | 1.0.0 | Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence) |
@@ -51,7 +51,7 @@ Copy skill folders to your Claude Desktop skills directory.
 │      ↓                                                  │
 │  Stage 4: Milestone Design                             │
 │      ↓                                                  │
-│  Stage 5: PoC Design                                   │
+│  Stage 5: Task Spec                                     │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
                           ↓

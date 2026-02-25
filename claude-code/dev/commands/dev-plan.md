@@ -26,7 +26,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 - If omitted → plan from scratch (for simple tasks)
 
 **Other input modes:**
-- PoC identifier (e.g., `PoC 6`) → Reads from `[slug]-poc-spec.md`
+- Task identifier (e.g., `PoC 6`, `Feature 3`) → Reads from `[slug]-task-spec.md`
 - Plan doc path + `update` → Updates to match current template
 
 **User notes (optional):**
@@ -39,7 +39,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 # Plan from design document (recommended)
 /dev-plan docs/cloud-mcp-ux-design.md
 
-# Plan a specific PoC from poc-spec.md
+# Plan a specific task from task-spec.md
 /dev-plan "PoC 6" --notes "Focus on error handling"
 
 # Plan from scratch (simple task, no design doc)

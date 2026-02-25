@@ -19,13 +19,13 @@ Identify document type from filename pattern:
 | `*-architecture.md` | Architecture | vision |
 | `*-roadmap.md` | Roadmap | architecture, vision |
 | `[milestone]-milestone-spec.md` | Milestone Spec | roadmap, architecture |
-| `[milestone]-poc-spec.md` | PoC Spec | milestone-spec |
+| `[milestone]-task-spec.md` | Task Spec | milestone-spec |
 
 ### Dev Docs (dev skill)
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[slug]-design.md` | Task Design | poc-spec or milestone-spec |
+| `docs/[slug]-design.md` | Task Design | task-spec or milestone-spec |
 | `docs/[slug]-plan.md` | Plan | design for same slug |
 | `docs/[slug]-results.md` | Results | plan (rarely verified) |
 | `docs/[milestone]-milestone-details.md` | Milestone Details | all task results for milestone |
@@ -52,7 +52,7 @@ Each doc type has a template. Verify the document follows its template structure
 | Architecture | `~/.claude/skills/design/assets/templates/2-architecture.md` |
 | Roadmap | `~/.claude/skills/design/assets/templates/3-roadmap.md` |
 | Milestone Spec | `~/.claude/skills/design/assets/templates/4-milestone-spec.md` |
-| PoC Spec | `~/.claude/skills/design/assets/templates/5-poc-spec.md` |
+| Task Spec | `~/.claude/skills/design/assets/templates/5-task-spec.md` |
 | Task Design | `~/.claude/skills/dev/assets/templates/1-design.md` |
 | Plan | `~/.claude/skills/dev/assets/templates/2-plan.md` |
 | Results | `~/.claude/skills/dev/assets/templates/3-results.md` |
@@ -64,14 +64,14 @@ Check:
 
 ### 4. Type-Specific Checks
 
-**Design Docs** (vision, architecture, roadmap, milestone-spec, poc-spec):
+**Design Docs** (vision, architecture, roadmap, milestone-spec, task-spec):
 - Vision alignment with parent docs
 - Scope consistency
 - Terminology consistency
 - Feasibility of proposed approach
 
 **Task Design** (NO CODE - design only):
-- Alignment with poc-spec or milestone design
+- Alignment with task-spec or milestone design
 - Clear challenge statement
 - Defined success criteria
 - Reasonable scope

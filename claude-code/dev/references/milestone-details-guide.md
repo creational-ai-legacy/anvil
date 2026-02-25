@@ -17,7 +17,7 @@ docs/[milestone]-*-design.md
 docs/[milestone]-*-plan.md
 docs/[milestone]-*-results.md
 docs/[milestone]-architecture.md (if exists)
-docs/[milestone]-poc-spec.md (if exists)
+docs/[milestone]-task-spec.md (if exists)
 ```
 
 Also check mission-control for milestone status if available.

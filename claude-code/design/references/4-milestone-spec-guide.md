@@ -529,4 +529,4 @@ Example: `docs/web-core-milestone-spec.md`
 ## Next Stage
 
 After completing the detailed milestone spec doc, proceed to:
--> Stage 5: PoC Spec (break milestone into atomic proof-of-concepts)
+-> Stage 5: Task Spec (break milestone into atomic tasks)

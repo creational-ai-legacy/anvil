@@ -3,11 +3,11 @@ name: design
 description: >
   Structured workflow for taking ideas from concept to executable task plan.
   Use when starting a new project, designing architecture, planning milestones,
-  or creating PoC designs. Covers 5 stages - Vision (refine idea into
+  or creating task specs. Covers 5 stages - Vision (refine idea into
   vision), Architecture (technical design), Roadmap (strategic milestone
-  breakdown), Milestone Spec (detailed per-milestone planning), PoC Spec
-  (atomic proof-of-concept definitions). This is a NO-CODE skill focused on
-  design and planning only.
+  breakdown), Milestone Spec (detailed per-milestone planning), Task Spec
+  (atomic task definitions with dependencies). This is a NO-CODE skill focused
+  on design and planning only.
 ---
 
 # design
@@ -39,7 +39,7 @@ Project (e.g., "mission-control")
 | 2. Architecture | `[slug]-architecture.md` | Technical design |
 | 3. Roadmap | `[slug]-roadmap.md` | Strategic milestone breakdown |
 | 4. Milestone Spec | `[slug]-milestone-spec.md` | Detailed per-milestone plan |
-| 5. PoC Spec | `[slug]-poc-spec.md` | Atomic proof-of-concepts |
+| 5. Task Spec | `[slug]-task-spec.md` | Atomic tasks with dependencies |
 
 ---
 
@@ -63,7 +63,7 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 ## 🎯 Design Philosophy: 200 Users First
 
-**This skill is for inception** — structuring ideas into well-defined milestones and PoCs.
+**This skill is for inception** — structuring ideas into well-defined milestones and tasks.
 
 **Production-grade, but right-sized:**
 - Build with production-quality from day one
@@ -143,28 +143,28 @@ Validate early. The more context you have, the better the research — but don't
 
 ---
 
-## Stage 5: PoC Spec
+## Stage 5: Task Spec
 
-**Goal**: Define what needs to be proven and in what order — PRODUCTION-GRADE thin slices
+**Goal**: Define atomic tasks with dependencies and success criteria — PRODUCTION-GRADE thin slices
 
 **Input**: Milestone Spec, Roadmap, Architecture doc
-**Template**: `assets/templates/5-poc-spec.md`
-**Output**: `[slug]-poc-spec.md` artifact
+**Template**: `assets/templates/5-task-spec.md`
+**Output**: `[slug]-task-spec.md` artifact
 
-**PoC Requirements** (critical):
-- **Atomic**: Proves ONE specific thing
+**Task Requirements** (critical):
+- **Atomic**: Validates ONE specific thing
 - **Measurable**: Clear success criteria
 - **Self-contained**: Works independently, doesn't break existing functionality
 
-**Golden Rule**: One feature = One PoC (minimize PoCs; group related work)
+**Golden Rule**: One capability = One task (minimize tasks; group related work)
 
-→ See `references/5-poc-spec-guide.md` for detailed process
+→ See `references/5-task-spec-guide.md` for detailed process
 
 ---
 
 ## Handoff to Implementation
 
-Once `[slug]-poc-spec.md` is complete, you're ready to implement.
+Once `[slug]-task-spec.md` is complete, you're ready to implement.
 
 **Options**: Manual implementation | Claude Code dev | Other tools
 
@@ -182,4 +182,4 @@ Read when you need detailed process, examples, or edge case handling.
 | Starting Stage 2 or designing architecture | `references/2-architecture-guide.md` |
 | Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
 | Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
-| Starting Stage 5 or defining PoCs | `references/5-poc-spec-guide.md` |
+| Starting Stage 5 or defining tasks | `references/5-task-spec-guide.md` |
