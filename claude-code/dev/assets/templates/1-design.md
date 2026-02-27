@@ -227,6 +227,6 @@ Component A
 ## Next Steps
 
 1. Review this design and confirm approach
-2. Run `/verify-doc` to check for issues
+2. Run `/review-doc` to check for issues
 3. Create implementation plan (`/dev-plan`)
 4. Execute implementation (`/dev-execute`)

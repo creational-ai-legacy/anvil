@@ -84,4 +84,4 @@ Create one document:
 
 ## After Completion
 
-User will run `/verify-doc` on the design, fix issues, then request Stage 2 (Planning).
+User will run `/review-doc` on the design, fix issues, then request Stage 2 (Planning).

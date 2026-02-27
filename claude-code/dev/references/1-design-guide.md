@@ -271,4 +271,4 @@ Use the Decisions Log table in the template.
 
 → Stage 2: Planning (use `references/2-planning-guide.md`)
 
-User should review design, run `/verify-doc`, fix issues, then request Stage 2.
+User should review design, run `/review-doc`, fix issues, then request Stage 2.

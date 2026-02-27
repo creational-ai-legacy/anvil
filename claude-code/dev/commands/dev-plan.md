@@ -84,4 +84,4 @@ Create one document:
 
 ## After Completion
 
-User will run `/verify-doc` on the plan, fix issues, then request Stage 3 (Execution).
+User will run `/review-doc` on the plan, fix issues, then request Stage 3 (Execution).

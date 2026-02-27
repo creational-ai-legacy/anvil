@@ -12,9 +12,8 @@ set -e
 SKILLS=(
     "design"
     "dev"
-    "verify"
     "research"
-    "skill-reviewer"
+    "review"
 )
 
 # Old skill directories to clean up (add deprecated skills here)
@@ -24,6 +23,8 @@ OLD_SKILLS=(
     "dev-design"
     "dev-cycle"
     "market-research"
+    "verify"
+    "skill-reviewer"
 )
 
 # Old agents to clean up (renamed to role-based names)
@@ -37,6 +38,8 @@ OLD_AGENTS=(
     "market-research-agent.md"
     "naming-research-agent.md"
     "milestone-summarizer.md"
+    "verify-doc-agent.md"
+    "skill-review-agent.md"
 )
 
 # Old commands to clean up (replaced by skills or removed)
@@ -62,6 +65,10 @@ OLD_COMMANDS=(
     "milestone-details.md"
     "design-naming-research.md"
     "spawn-milestone-summarizer.md"
+    "verify-doc.md"
+    "agent-verify-doc.md"
+    "skill-review.md"
+    "agent-skill-review.md"
 )
 #=============================================================================
 

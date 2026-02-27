@@ -16,7 +16,8 @@ Review a completed execution step for conceptual errors by comparing the impleme
 Before starting any work, read these files:
 
 1. **Review Guide**: `~/.claude/skills/dev/references/review-guide.md`
-2. **Results Template**: `~/.claude/skills/dev/assets/templates/3-results.md`
+2. **Review Template**: `~/.claude/skills/dev/assets/templates/review.md`
+3. **Results Template**: `~/.claude/skills/dev/assets/templates/3-results.md`
 
 **Follow the review guide exactly.** It contains the full review process, the 5 checks, risk profile depth, verdict logic, output format, and completion report format.
 
@@ -35,7 +36,7 @@ Before starting any work, read these files:
 5. Read the results doc → find step output + Trade-offs & Decisions section
 6. Read actual code changes (git diff or file reads)
 7. Run checks at appropriate depth per Risk Profile (see review guide)
-8. Write review findings to the step in results.md
+8. Return review block (standalone: also write to results.md; background: return only)
 9. Report verdict (PASS or FLAG per review guide verdict logic)
 
 ## Constraints
@@ -43,19 +44,15 @@ Before starting any work, read these files:
 - Do NOT modify implementation code files
 - Do NOT re-run tests (the executor already verified those)
 - Do NOT fix problems — flag them
-- **Only write to the designated output file.** All other files are read-only.
 
-## Output Destination
+## Output
 
-The orchestrator specifies where to write via `output:` in the prompt.
+**Always** return the structured review block as your final output. Use the format from `~/.claude/skills/dev/assets/templates/review.md`. Omit check lines skipped per risk profile. Keep each line to one sentence.
 
-- If `output: <path>` is provided → write your review to that file
-- If no output path → write to results.md (default for single-step reviews)
+**Standalone** (`/dev-review` in main conversation): Also write the review block into the step in results.md.
 
-## Output Format
-
-Write **only** the structured review block to the output file. No preamble, no extra narrative. Use the exact format defined in the review guide. Omit check lines that were skipped per risk profile. Keep each line to one sentence.
+**Background** (spawned by `/dev-review-run` orchestrator): Only return the review block. Do NOT write to results.md or any file — the orchestrator handles merging.
 
 ## Completion Report
 
-When done, report the verdict (PASS/FLAG) and confirm the output file was written.
+Report the verdict (PASS/FLAG) using the format from the review guide. Include the review block in your final message.

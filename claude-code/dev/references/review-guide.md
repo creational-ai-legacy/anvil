@@ -135,17 +135,10 @@ The threshold: would this matter in a code review between two experienced develo
 
 ## Output Format
 
-Write the review section into the step block in results.md. This format matches the results template (`assets/templates/3-results.md`):
+Return the review block as your final output. Use the format from `assets/templates/review.md`.
 
-```markdown
-**Review**: ✅ Pass / ⚠️ Flagged
-**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
-- **Intent match**: ✅ / ⚠️ — [one sentence]
-- **Assumption audit**: ✅ / ⚠️ — [one sentence]
-- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
-- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
-- **Architectural drift**: ✅ / ⚠️ — [one sentence]
-```
+**Standalone** (`/dev-review`): Also write the review block into the step in results.md.
+**Background** (spawned by `/dev-review-run`): Only return the block — the orchestrator handles merging.
 
 For checks that were skipped (per risk profile), omit them from the list — only show checks that were actually run.
 

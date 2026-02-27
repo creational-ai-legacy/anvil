@@ -10,9 +10,8 @@
 SKILLS=(
     "design"
     "dev"
-    "verify"
     "research"
-    "skill-reviewer"
+    "review"
 )
 
 # Old skill directories that should NOT exist
@@ -22,6 +21,8 @@ OLD_SKILLS=(
     "dev-design"
     "dev-cycle"
     "market-research"
+    "verify"
+    "skill-reviewer"
 )
 
 # Old commands that should NOT exist (replaced by skills or removed)
@@ -44,6 +45,10 @@ OLD_COMMANDS=(
     "milestone-details.md"
     "design-naming-research.md"
     "spawn-milestone-summarizer.md"
+    "verify-doc.md"
+    "agent-verify-doc.md"
+    "skill-review.md"
+    "agent-skill-review.md"
 )
 
 # Old agents that should NOT exist (renamed to role-based names)
@@ -57,18 +62,21 @@ OLD_AGENTS=(
     "market-research-agent.md"
     "naming-research-agent.md"
     "milestone-summarizer.md"
+    "verify-doc-agent.md"
+    "skill-review-agent.md"
 )
 
 # Key commands that must exist (sanity check)
 REQUIRED_COMMANDS=(
-    "verify-doc.md"
+    "review-doc.md"
+    "review-skill.md"
     "dev-health.md"
     "market-research.md"
 )
 
 # Key agents that must exist (sanity check)
 REQUIRED_AGENTS=(
-    "skill-review-agent.md"
+    "doc-reviewer.md"
 )
 #=============================================================================
 

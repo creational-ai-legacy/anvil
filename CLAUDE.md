@@ -9,9 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Claude Code** (`claude-code/`):
 1. **design** - Design phase (concept to executable plan)
 2. **dev** - Development loop (plan to working code)
-3. **verify** - Document verification
-4. **research** - Market validation and naming research
-5. **skill-reviewer** - Audit skills for structure, frontmatter, and consistency
+3. **research** - Market validation and naming research
+4. **review** - Quality assurance (doc review + skill review)
 
 **Claude Desktop** (`claude-desktop/`):
 1. **design** - Same 5-stage design workflow (outputs artifacts)
@@ -138,8 +137,12 @@ cd claude-desktop
 - `lessons-guide.md`, `diagram-guide.md`, `milestone-summary-guide.md`
 - `health-guide.md`
 
-**verify** (`claude-code/verify/references/`):
-- `verify-doc-guide.md` - Document verification guide
+**review** (`claude-code/review/references/`):
+- `review-doc-guide.md` - Sequential document review guide
+- `review-doc-run-guide.md` - Parallel document review orchestrator guide
+- `review-item-guide.md` - Per-item review checks
+- `review-holistic-guide.md` - Cross-cutting review checks
+- `skill-review-guide.md` - Skill auditing guide
 
 **research** (`claude-code/research/references/`):
 - `market-research-guide.md` - Market research process guide
@@ -175,18 +178,17 @@ cd claude-desktop
 - `/spawn-dev-milestone-summarizer` - Milestone summary agent
 - `/spawn-market-researcher` - Market research agent
 - `/spawn-naming-researcher` - Naming research agent
-- `/agent-verify-doc` - Document verification agent
-- `/agent-skill-review` - Skill review agent
+- `/spawn-doc-reviewer` - Document review agent
+- `/spawn-skill-reviewer` - Skill review agent
 
 **Research commands**:
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation
 - `/naming-research` - Research and evaluate product/project name candidates
 
-**Verify commands**:
-- `/verify-doc` - Document verification
-
-**Skill maintenance commands**:
-- `/skill-review` - Audit a skill for structure, frontmatter, architecture, and consistency
+**Review commands**:
+- `/review-doc` - Sequential document review
+- `/review-doc-run` - Parallel document review with scatter-gather subagents
+- `/review-skill` - Audit a skill for structure, frontmatter, and consistency
 
 Commands are deployed to `~/.claude/commands/`
 
@@ -195,9 +197,8 @@ Commands are deployed to `~/.claude/commands/`
 **Claude Code (local)**: `claude-code/deploy.sh` deploys to:
 - `~/.claude/skills/design/`
 - `~/.claude/skills/dev/`
-- `~/.claude/skills/verify/`
 - `~/.claude/skills/research/`
-- `~/.claude/skills/skill-reviewer/`
+- `~/.claude/skills/review/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
 
@@ -240,6 +241,24 @@ git push
 - dev skill allows code (Stage 1 is design-only, Stages 2-3 allow code)
 
 **Agent `tools` field gotcha**: Do NOT add a `tools` field to agents that need MCP tools (e.g., `dev-executor`). Specifying `tools` in agent frontmatter creates an allowlist that **excludes** all MCP tools (UnityMCP, mission-control, etc.). Omitting `tools` entirely lets the agent inherit ALL tools including MCP. This is intentional — execution agents work across different projects with different MCP servers, so the tool set cannot be hardcoded.
+
+---
+
+## Creational.ai GitHub Profile
+
+The org GitHub profile repo is managed here via symlink:
+
+```
+creational-github-profile → ~/Development/creational.ai/profile/profile/
+```
+
+- **Edit**: `creational-github-profile/README.md`
+- **Commit & push** (separate repo, not anvil):
+  ```bash
+  cd /Users/docchang/Development/creational.ai/profile && git add profile/README.md && git commit -m "message" && git push
+  ```
+- **Remote**: `git@github-creational:creational-ai/.github.git`
+- The symlink is gitignored in anvil
 
 ---
 

@@ -79,7 +79,7 @@ When done, report:
 - Items Analyzed: [count]
 - Proposed Sequence: [count] items
 
-**Next**: Run `/verify-doc docs/[slug]-design.md` then proceed to Stage 2
+**Next**: Run `/review-doc docs/[slug]-design.md` then proceed to Stage 2
 ```
 
 ## Quality Checklist

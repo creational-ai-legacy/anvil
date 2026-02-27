@@ -64,13 +64,13 @@ Does the skill have the required files and directories?
 
 Do all commands have valid YAML frontmatter?
 
-**Rules for regular commands** (`commands/[name].md` where name does NOT start with `agent-`):
+**Rules for regular commands** (`commands/[name].md` where name does NOT start with `spawn-`):
 - Has YAML frontmatter between `---` delimiters
 - Has `description` field (non-empty string)
 - Has `argument-hint` if the command takes arguments (look for examples with args in the body)
 - Has `disable-model-invocation: true`
 
-**Rules for agent commands** (`commands/agent-[name].md`):
+**Rules for spawn commands** (`commands/spawn-[name].md`):
 - All regular command rules above, PLUS:
 - Has `context: fork`
 - Has `agent: [agent-name]` that matches a file in `agents/`
@@ -85,18 +85,18 @@ Do all commands have valid YAML frontmatter?
 
 Do all agents have valid frontmatter and follow a consistent structure?
 
-**Frontmatter rules** — each agent must have:
+**Frontmatter rules** -- each agent must have:
 - `name` field (matches filename without `.md`)
 - `description` field (non-empty, describes when to use this agent)
 - `tools` field (comma-separated list of allowed tools), OR intentionally omitted with `<!-- no-tools: inherits all -->` comment to inherit all tools including MCP
 - `model` field (`opus`, `sonnet`, or `haiku`)
 
-**Structural consistency** — all agents within the same skill should follow the same section pattern:
+**Structural consistency** -- all agents within the same skill should follow the same section pattern:
 
 | Section | Required | Description |
 |---------|----------|-------------|
 | Role statement | Yes | "You are a [Role] specialist for the [skill] workflow." |
-| Load Instructions | Yes | "First: Load Your Instructions" — lists guide + template to read |
+| Load Instructions | Yes | "First: Load Your Instructions" -- lists guide + template to read |
 | Input | Yes | What the agent receives |
 | Process | Yes | High-level steps (defers to guide for details) |
 | Constraints / Critical Rules | Recommended | What the agent must NOT do |
@@ -145,7 +145,7 @@ This is the most important conceptual check. It ensures logic lives in the right
 
 - Command says "Read the guide. Follow it exactly." (or equivalent)
 - Command describes WHAT it does and its inputs/outputs
-- Command does NOT contain the full process — it references the guide
+- Command does NOT contain the full process -- it references the guide
 - Command may have a brief high-level process list that defers to the guide
 
 **Flag examples:**
@@ -154,7 +154,7 @@ This is the most important conceptual check. It ensures logic lives in the right
 
 **Not a flag:**
 - Commands with "Key Requirements" bullets, brief process lists, or input/output descriptions
-- **Orchestrator commands** that coordinate multiple stages/commands (e.g., a "run all steps" command). The orchestration logic IS the command — it doesn't need a separate guide because no other file needs to share that logic.
+- **Orchestrator commands** that coordinate multiple stages/commands (e.g., a "run all steps" command). The orchestration logic IS the command -- it doesn't need a separate guide because no other file needs to share that logic.
 - **Aggregate commands** that bundle multiple simple steps into one workflow. If the command has no corresponding guide AND no agent duplicates its logic, it can serve as its own source of truth.
 - Commands without a guide where no agent references the command as a guide substitute.
 
@@ -181,7 +181,7 @@ This is the most important conceptual check. It ensures logic lives in the right
 Do all internal file references resolve?
 
 **Rules:**
-- Every `agent: [name]` in an agent command frontmatter has a matching `agents/[name].md` file
+- Every `agent: [name]` in a spawn command frontmatter has a matching `agents/[name].md` file
 - Every template path referenced in a guide (e.g., `assets/templates/foo.md`) exists
 - Every guide path referenced in an agent (e.g., `~/.claude/skills/[skill]/references/foo.md`) exists
 - SKILL.md lists all commands that exist in `commands/` (and doesn't list commands that don't exist)
@@ -189,7 +189,7 @@ Do all internal file references resolve?
 
 **How to check:** Extract all file path references from all files (look for backtick-quoted paths, `agent:` fields). Verify each path resolves to an actual file.
 
-**Not a flag:** References to files in other skills (cross-skill references are valid). References to user-created docs (e.g., `docs/[slug]-design.md` — these are generated at runtime).
+**Not a flag:** References to files in other skills (cross-skill references are valid). References to user-created docs (e.g., `docs/[slug]-design.md` -- these are generated at runtime).
 
 ---
 
@@ -198,14 +198,14 @@ Do all internal file references resolve?
 Do stage outputs match next stage inputs?
 
 **Rules:**
-- If the skill has sequential stages (like dev's Design → Plan → Execute), each stage's output should match the next stage's expected input
-- File naming patterns should be consistent across stages (e.g., `docs/[slug]-design.md` → `docs/[slug]-plan.md`)
+- If the skill has sequential stages (like dev's Design -> Plan -> Execute), each stage's output should match the next stage's expected input
+- File naming patterns should be consistent across stages (e.g., `docs/[slug]-design.md` -> `docs/[slug]-plan.md`)
 - Template placeholders should be consistent (same placeholder format everywhere)
 - No dead-end outputs (a stage produces something that no subsequent stage consumes)
 
 **How to check:** Read each command/guide's Input and Output sections. Trace the chain: does Stage 1's output file match Stage 2's input specification?
 
-**Not a flag:** Terminal outputs (e.g., the final stage's output doesn't feed into anything — that's expected). Optional stages that can be skipped.
+**Not a flag:** Terminal outputs (e.g., the final stage's output doesn't feed into anything -- that's expected). Optional stages that can be skipped.
 
 ---
 
@@ -221,7 +221,7 @@ Are the same terms and formats used everywhere?
 
 **How to check:** Grep for key terms across all files in the skill. Check for variations. Compare timestamp examples and placeholders.
 
-**Not a flag:** Intentional terminology differences between different concepts (e.g., "item" in design vs "step" in planning — these are different things by design).
+**Not a flag:** Intentional terminology differences between different concepts (e.g., "item" in design vs "step" in planning -- these are different things by design).
 
 ---
 
@@ -230,7 +230,7 @@ Are the same terms and formats used everywhere?
 Does the skill follow general conventions?
 
 **Rules:**
-- Templates have no hardcoded values — all content should be placeholders
+- Templates have no hardcoded values -- all content should be placeholders
 - No stale references to deleted or renamed files
 - Severity/priority definitions are consistent if used in multiple places
 - No orphaned files (files that exist but aren't referenced by anything)
@@ -246,24 +246,24 @@ Does the skill follow general conventions?
 Use the template (`assets/templates/skill-review-report.md`) to generate the report.
 
 Fill in:
-- `[skill-name]` — the skill being reviewed
-- `[timestamp]` — current time (`date "+%Y-%m-%dT%H:%M:%S%z"`)
-- `[count]` — number of files scanned
-- Each check row — ✅ if all rules pass, ⚠️ with issue count if any fail
-- Issues section — list each issue with `file:line` reference, grouped by severity
-- Verdict — ✅ Clean if zero issues, ⚠️ [N] issues found otherwise
+- `[skill-name]` -- the skill being reviewed
+- `[timestamp]` -- current time (`date "+%Y-%m-%dT%H:%M:%S%z"`)
+- `[count]` -- number of files scanned
+- Each check row -- PASS if all rules pass, ISSUES with issue count if any fail
+- Issues section -- list each issue with `file:line` reference, grouped by severity
+- Verdict -- Clean if zero issues, [N] issues found otherwise
 
 ---
 
 ## Quick Reference
 
-1. **Resolve** — Find `claude-code/[skill-name]/`, read all files
-2. **Structure** — SKILL.md exists, directories present
-3. **Command frontmatter** — description, argument-hint, disable-model-invocation
-4. **Agent frontmatter & structure** — name, description, tools, model + consistent sections
-5. **Architecture** — Guide = logic, Template = formatting, Command = wrapper, Agent = wrapper
-6. **Cross-refs** — All file references resolve
-7. **Input/Output** — Stage chain is connected
-8. **Terminology** — Same terms and formats everywhere
-9. **Conventions** — No hardcoded values, no stale references
-10. **Report** — Generate using template, classify by severity
+1. **Resolve** -- Find `claude-code/[skill-name]/`, read all files
+2. **Structure** -- SKILL.md exists, directories present
+3. **Command frontmatter** -- description, argument-hint, disable-model-invocation
+4. **Agent frontmatter & structure** -- name, description, tools, model + consistent sections
+5. **Architecture** -- Guide = logic, Template = formatting, Command = wrapper, Agent = wrapper
+6. **Cross-refs** -- All file references resolve
+7. **Input/Output** -- Stage chain is connected
+8. **Terminology** -- Same terms and formats everywhere
+9. **Conventions** -- No hardcoded values, no stale references
+10. **Report** -- Generate using template, classify by severity

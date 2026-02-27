@@ -8,9 +8,8 @@ Skills for the **implementation phase** of Anvil, designed for Claude Code (CLI)
 |-------|---------|
 | **design** | 5-stage design workflow (Vision → Architecture → Roadmap → Milestone Spec → Task Spec) |
 | **dev** | 3-stage development loop (Design → Plan → Execute) |
-| **verify** | Document verification |
 | **research** | Market validation and naming research |
-| **skill-reviewer** | Audit skills for structure, frontmatter, and consistency |
+| **review** | Quality assurance (doc review + skill review) |
 
 ## Installation
 
@@ -91,8 +90,8 @@ Repeat for next task
 | `/spawn-dev-milestone-summarizer` | Milestone summary agent |
 | `/spawn-market-researcher` | Market research agent |
 | `/spawn-naming-researcher` | Naming research agent |
-| `/agent-verify-doc` | Document verification agent |
-| `/agent-skill-review` | Skill review agent |
+| `/spawn-doc-reviewer` | Document review agent |
+| `/spawn-skill-reviewer` | Skill review agent |
 
 ### Research Commands
 
@@ -101,17 +100,13 @@ Repeat for next task
 | `/market-research` | Market validation with Go/Pivot/Kill recommendation |
 | `/naming-research` | Research and evaluate product/project name candidates |
 
-### Verify Commands
+### Review Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/verify-doc` | Verify design or implementation documents |
-
-### Skill Maintenance Commands
-
-| Command | Purpose |
-|---------|---------|
-| `/skill-review` | Audit skills for structure, frontmatter, and consistency |
+| `/review-doc` | Sequential document review |
+| `/review-doc-run` | Parallel document review with scatter-gather subagents |
+| `/review-skill` | Audit skills for structure, frontmatter, and consistency |
 
 ## Output Files
 
@@ -158,7 +153,7 @@ claude-code/
     └── references/         # Detailed guides
 ```
 
-**Current skills:** design, dev, verify, research, skill-reviewer
+**Current skills:** design, dev, research, review
 
 **Deploys to:**
 - `~/.claude/skills/[skill-name]/` (SKILL.md, assets/, references/)

@@ -33,19 +33,11 @@ Review all completed steps in parallel by spawning a `dev-reviewer` for each.
 
 ### 2. Spawn Reviews in Parallel
 
-For each completed step, spawn a `dev-reviewer` in background. Each agent writes to its own temp file in the session scratchpad — agents never touch results.md.
-
-**Temp file pattern**: `[session-scratchpad]/review-step-{N}.md`
-
-Use the session scratchpad path from the system prompt. If no scratchpad path is available, fall back to `/tmp/`.
+For each completed step, spawn a `dev-reviewer` in background. Agents return their review block directly — no temp files needed.
 
 ```
 Spawn dev-reviewer (run_in_background: true):
-"[results-doc-path] step [N]
-
-output: [session-scratchpad]/review-step-[N].md
-
-Write your review to the output file above. Do NOT write to results.md."
+"[results-doc-path] step [N]"
 ```
 
 Launch ALL review agents in a single message — do not wait between spawns.
@@ -61,7 +53,7 @@ while remaining is not empty:
   for each agent_id in remaining:
     check agent_id with TaskOutput (block: false)
     if done:
-      1. Read [session-scratchpad]/review-step-{N}.md
+      1. Extract the review block from the Task result
       2. Insert **Review** section into step {N} block in results.md
       3. Report to user: "Step {N} review: PASS/FLAG"
       4. Remove agent_id from remaining
@@ -69,16 +61,7 @@ while remaining is not empty:
     wait briefly, then poll again (block: true, timeout: 15000 on first remaining agent)
 ```
 
-**Format for results.md** (matches review guide and results template):
-```markdown
-**Review**: ✅ Pass / ⚠️ Flagged
-**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
-- **Intent match**: ✅ / ⚠️ — [one sentence]
-- **Assumption audit**: ✅ / ⚠️ — [one sentence]
-- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
-- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
-- **Architectural drift**: ✅ / ⚠️ — [one sentence]
-```
+**Format for results.md**: Use `~/.claude/skills/dev/assets/templates/review.md` for the review block format.
 
 The **Reviewed** timestamp is the time the orchestrator merges the review into results.md. Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get it.
 
@@ -119,8 +102,8 @@ After all agents have completed, all reviews merged, and Summary table updated:
 ## Key Rules
 
 1. **All reviews in parallel** — spawn all agents in a single message with `run_in_background: true`
-2. **Temp file per agent** — each agent writes to `[session-scratchpad]/review-step-{N}.md`, never to results.md
+2. **Agents return reviews directly** — no temp files; read the review block from the Task result
 3. **Orchestrator merges** — only the orchestrator writes to results.md
-4. **Write as they arrive** — as each agent completes, read its temp file and merge immediately
+4. **Merge as they arrive** — as each agent completes, extract its review from the Task result and merge immediately
 5. **Only review completed steps** — skip steps that are Pending or In Progress
 6. **Report all results** — even if all PASS, show the summary table

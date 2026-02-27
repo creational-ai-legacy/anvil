@@ -48,7 +48,7 @@ When done, report:
 **Steps**: [count] implementation steps
 **Prerequisites**: [count] prerequisites identified
 
-**Next**: Run `/verify-doc docs/[milestone-slug]-[task-slug]-plan.md`
+**Next**: Run `/review-doc docs/[milestone-slug]-[task-slug]-plan.md`
 ```
 
 ## Quality Checklist

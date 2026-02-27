@@ -13,7 +13,7 @@
 
 # Anvil
 
-Production-grade product engineering toolkit for Claude Code and Claude Desktop -- structured workflows with anti-hallucination stage gates from design through deployment.
+Turns Claude into a full product team — architect, developer, QA reviewer, market researcher, strategist — with stage-gated workflows that eliminate hallucination from design through deployment.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v0.0.9-green.svg)](https://github.com/creational-ai/anvil/releases)

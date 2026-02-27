@@ -40,7 +40,7 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 | 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
 | 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
 | 3a. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
-| 3b. Review | `references/review-guide.md` | (writes to results template) |
+| 3b. Review | `references/review-guide.md` | `assets/templates/review.md` |
 
 | Environment | Guide |
 |-------------|-------|
@@ -91,7 +91,7 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 
 **Structure**: Part A (Analysis — each item independently) + Part B (Proposed Sequence — #1 → #2 → #3)
 
-**After completion**: User reviews, runs `/verify-doc`, then requests Stage 2.
+**After completion**: User reviews, runs `/review-doc`, then requests Stage 2.
 
 ---
 
@@ -107,7 +107,7 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 
 **Key rules**: Production-grade (OOP, validated models, typing). Self-contained (add alongside, don't replace). Each step includes its tests.
 
-**After completion**: User reviews, runs `/verify-doc`, then requests Stage 3.
+**After completion**: User reviews, runs `/review-doc`, then requests Stage 3.
 
 ---
 
@@ -151,7 +151,7 @@ Use Glob/Grep to check for existing documents:
 ## Best Practices
 
 1. **Execute, review, auto-fix** — Execute step → review → if flagged: up to 2 fix→re-review cycles → if still flagged: stop for human. Most steps pass on first try.
-2. **User always verifies** — Complete stage → user runs `/verify-doc` → user requests next stage.
+2. **User always verifies** — Complete stage → user runs `/review-doc` → user requests next stage.
 3. **Documentation stays clean** — Implementation docs evergreen (no status). Results docs track progress.
 4. **Tests are mandatory** — Every step requires passing tests before moving on.
 5. **Self-contained is non-negotiable** — Add alongside, don't replace. System works at every task boundary.

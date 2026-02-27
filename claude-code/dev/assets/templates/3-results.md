@@ -64,13 +64,7 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 - [Key insight 2]
 - [Key insight 3]
 
-**Review**: ✅ Pass / ⚠️ Flagged
-**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
-- **Intent match**: ✅ / ⚠️ — [one sentence]
-- **Assumption audit**: ✅ / ⚠️ — [one sentence]
-- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
-- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
-- **Architectural drift**: ✅ / ⚠️ — [one sentence]
+[Review block — see `assets/templates/review.md` for format]
 
 **Result**: [Summary of step completion and readiness for next step]
 

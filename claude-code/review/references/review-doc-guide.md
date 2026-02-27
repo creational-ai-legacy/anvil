@@ -1,6 +1,6 @@
-# Verify Document Guide
+# Review Document Guide (Sequential)
 
-Verify design or implementation documents are sound, logical, consistent, and free of surprises.
+Review design or implementation documents for soundness, logic, consistency, and surprises. This guide runs all checks in a single pass -- no agent coordination required.
 
 ## Input
 
@@ -27,8 +27,8 @@ Identify document type from filename pattern:
 |---------|------|-----------------|
 | `docs/[slug]-design.md` | Task Design | task-spec or milestone-spec |
 | `docs/[slug]-plan.md` | Plan | design for same slug |
-| `docs/[slug]-results.md` | Results | plan (rarely verified) |
-| `docs/[milestone]-milestone-details.md` | Milestone Details | all task results for milestone |
+| `docs/[slug]-results.md` | Results | plan (rarely reviewed) |
+| `docs/[milestone]-milestone-summary.md` | Milestone Summary | all task results for milestone |
 
 ## Verification Process
 
@@ -80,7 +80,7 @@ Check:
 - **No full code in document** - this is design phase only (patterns/signatures OK)
 - **Single task only** - Design should not list "Task 1, Task 2, Task 3" (each task gets its own design)
 - **Analysis is non-sequential** - Each item (1, 2, 3...) analyzed independently
-- **Proposed Sequence uses item notation** - #1 → #2 → #3 (NOT "Step 1, Step 2")
+- **Proposed Sequence uses item notation** - #1 -> #2 -> #3 (NOT "Step 1, Step 2")
 - **Proposed Sequence has per-item reasoning** - Each item has Depends On, Rationale, and optional Notes
 - **Risk Profile present** - Executive Summary has Risk Profile with valid level: Critical, Standard, or Exploratory
 - **Risk Justification present** - Executive Summary has Risk Justification as one sentence explaining why this level
@@ -97,7 +97,7 @@ Check:
 - Step 0 and Prerequisites retain concrete commands and setup instructions
 - Optional Trade-offs field present for anticipated decisions
 
-**Milestone Details** (rarely verified):
+**Milestone Summary** (rarely reviewed):
 - Accurate status for each task
 - Consistent with individual results docs
 - Complete coverage of all tasks
@@ -139,7 +139,7 @@ Apply to all document types:
 **Terminology** (critical for Design docs)
 - **Task** = a unit of work (PoC, Feature, Issue, Refactor) - each task gets its own Design
 - **Analysis** = non-sequential section analyzing each item independently (numbered 1, 2, 3...)
-- **Proposed Sequence** = item order with rationale (#1 → #2 → #3) - NOT "Steps"
+- **Proposed Sequence** = item order with rationale (#1 -> #2 -> #3) - NOT "Steps"
 - **Step** = implementation sub-unit - used ONLY in Planning stage, not Design
 - Flag if Design uses "Step 1, Step 2" terminology (should use #1, #2 item notation)
 - Flag if Design lists multiple tasks ("Task 1, Task 2" or "Phase 1, Phase 2") - should be a single task
@@ -170,64 +170,16 @@ Use WebSearch only if document makes claims about:
 
 ### 8. Generate Report
 
-Output verification report:
+Use the `final-report.md` template at `~/.claude/skills/review/assets/templates/final-report.md` for report structure.
 
-```
-## Verification Report: [Document Name]
+Set the **Review Mode** field to `Sequential`.
 
-**Document**: [path]
-**Type**: [identified type]
-**Status**: ✅ Sound | ⚠️ Issues Found | ❌ Needs Revision
-
-**Notes**: [user-provided notes if any]
-
----
-
-### Document Analysis
-
-#### Soundness
-[Is the overall approach coherent and feasible?]
-
-#### Step Flow
-[Are steps logical and smooth? Any ordering issues?]
-
-#### Dependency Chain
-| Step | Produces | Next Step Needs | Status |
-|------|----------|-----------------|--------|
-| Step 1 | X, Y | Y, Z | ✅ OK / ⚠️ Gap |
-
-#### Potential Surprises
-- **[High/Med/Low]**: [Description of gotcha or hidden assumption]
-
-#### Cross-Reference Check
-- [x] Aligned with [parent doc]
-- [ ] Conflict found: [description]
-
----
-
-### Issues Found
-
-#### Contradictions
-| Location | Contradiction | Impact |
-|----------|---------------|--------|
-| Section X | [What conflicts] | High/Med/Low |
-
-#### Unclear or Ambiguous
-| Location | Issue | Suggested Fix |
-|----------|-------|---------------|
-| Line X | Vague: "might need" | Change to: "Must..." |
-
----
-
-### Summary
-
-| Issue | Location | Impact | Fix |
-|-------|----------|--------|-----|
-| [Type] | [section] | High/Med/Low | [How to fix] |
-
-### Recommendations
-1. **[High/Med/Low]** - [Specific actionable fix]
-```
+Populate all sections:
+- **Template Alignment**: results from Step 3
+- **Document Analysis**: results from Steps 4-5 (Soundness, Step Flow, Dependency Chain, Clarity & Terminology, Potential Surprises, Cross-Reference Check)
+- **Codebase Verification**: results from Step 6
+- **Issues Found**: consolidated table with severity, location, issue, and suggested fix. Set the **Item** column to `--` (sequential mode does not use item agents).
+- **Recommendations**: prioritized list of actionable fixes
 
 ### 9. Offer Fixes
 
@@ -243,7 +195,7 @@ Use AskUserQuestion to present these options. Wait for user response before proc
 
 ## Key Questions
 
-By the end of verification, answer:
+By the end of review, answer:
 
 1. **Is it sound?** Does the overall plan make sense?
 2. **Is it logical?** Are steps in the right order?
@@ -262,8 +214,8 @@ By the end of verification, answer:
 2. **Load** - Read cross-reference docs for context
 3. **Template** - Check doc follows its template structure
 4. **Type-specific** - Checks per doc type (design = NO CODE, sound, incremental)
-5. **Universal** - Soundness, flow, dependencies, contradictions, clarity, surprises
+5. **Universal** - Soundness, flow, dependencies, contradictions, clarity, terminology, surprises
 6. **Codebase** - Verify against existing code
 7. **External** - WebSearch if needed for APIs/versions
-8. **Report** - Issues and recommendations
+8. **Report** - Use final-report.md template
 9. **Fix** - Offer to apply changes

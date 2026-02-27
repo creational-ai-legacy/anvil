@@ -1,10 +1,10 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-02-26T13:08:47-0800
+> **Last Updated**: 2026-02-26T17:54:23-0800
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 5 Anvil skills (design, dev, verify, research, skill-reviewer). Naming refactor complete: all agents use bare role names, /spawn-* prefix for forked commands, research skill consolidated, verify skill extracted. 66/66 verify.sh checks passing. Marketing milestone 1/6 tasks complete.
+**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill consolidates verify + skill-reviewer with parallel subagent architecture. 73/73 verify.sh checks passing. Marketing milestone 1/6 tasks complete.
 
 ---
 
@@ -23,6 +23,7 @@
 | design-naming-cleanup | Design Naming Cleanup (drop "product-" prefix) | refactor | ✅ Complete | `design-naming-cleanup-*.md` |
 | poc-to-task | Stage 5 Rename: PoC Spec to Task Spec | refactor | ✅ Complete | `core-poc-to-task-*.md` |
 | naming-refactor | Naming Refactor (Claude Code Conventions) | refactor | ✅ Complete | `core-naming-refactor-*.md` |
+| review-skill | Unified Review Skill (verify + skill-reviewer consolidation) | refactor | ✅ Complete | `core-review-skill-*.md` |
 
 ### Milestone: Marketing
 
@@ -53,60 +54,59 @@
 | 2026-02-24 | Org profile lists only verified public repos | Broken links on a profile card look incomplete; list only Anvil, VisualFlow, Unity Builds |
 | 2026-02-24 | No links on "Built with Anvil" product list | Only Anvil has a confirmed public repo in the org; linking others would create dead links |
 | 2026-02-26 | Naming refactor: spawn-* prefix, bare role agents, research/ skill, verify/ skill | Align with official Claude Code conventions; fix skill-command collision; clean foundation for verify v2 |
+| 2026-02-26 | Consolidate verify + skill-reviewer into unified review skill | 4-skill toolkit cleaner than 5; parallel subagent architecture enables faster doc reviews; single quality assurance entry point |
 
 ---
 
 ## What's Next
 
 **Recommended Next Steps**:
-1. Proceed to verify-doc v2 task (rename verify-doc-agent -> doc-verifier, agent-verify-doc -> spawn-doc-verifier within verify/ skill)
-2. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
-3. Begin LinkedIn Launch task (profile optimization, first posts)
-4. Manual: Pin Anvil as flagship repo on creational-ai org page (GitHub web UI)
+1. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
+2. Begin LinkedIn Launch task (profile optimization, first posts)
+3. Manual: Pin Anvil as flagship repo on creational-ai org page (GitHub web UI)
 
-**System Status**: ✅ **Production Ready + Naming Aligned**
-- 5 Anvil skills: design, dev, verify, research, skill-reviewer
+**System Status**: ✅ **Production Ready + Review Consolidated**
+- 4 Anvil skills: design, dev, research, review
 - 5-stage design skill v2.0.0 (simplified naming: vision, roadmap, task-spec)
 - 3-stage dev skill with spec-driven plan workflow (full gap analysis complete)
-- All agents use bare role names (8 renamed, 2 deferred to verify v2)
-- All forked commands use /spawn-* prefix (8 renamed, 2 deferred to verify v2)
+- review skill: parallel (/review-doc-run) and sequential (/review-doc) doc review + skill auditing (/review-skill)
+- All agents use bare role names, all forked commands use /spawn-* prefix
 - research/ skill consolidates market-research and naming-research
-- verify/ skill extracted from dev/ (foundation for verify v2)
-- 66/66 verify.sh checks passing
+- 73/73 verify.sh checks passing
 - Marketing milestone 1/6 tasks complete (GitHub Presence)
 
 ---
 
 ## Latest Health Check
 
-### 2026-02-26 - core-naming-refactor Finalization
+### 2026-02-26 - core-review-skill Finalization
 **Status**: ✅ On Track
 
 **Context**:
-Finalizing the core-naming-refactor task -- systematic rename of all Anvil naming to align with official Claude Code conventions. Extracted verify/ skill, renamed 8 agents to bare role names, consolidated research/ skill, renamed /agent-* to /spawn-*, renamed /milestone-details to /dev-milestone-summary, and updated all cross-references.
+Finalizing the core-review-skill task -- consolidated verify/ and skill-reviewer/ skills into a unified review/ skill with parallel subagent architecture for doc review, sequential doc review, and skill auditing. Created 19 new files, updated deploy/verify scripts, deleted old directories.
 
 **Findings**:
-- ✅ Alignment: Naming conventions now match official Claude Code patterns (bare role agents, no skill-command collisions), directly supporting credibility for open-source distribution
-- ✅ Production: All changes deployed via deploy.sh and verified via verify.sh (66/66 checks) -- no mocks, real deployment
-- ✅ Scope: All 7 implementation steps (0-6) executed per plan specification with minimal deviations; all 10 success criteria met
-- ✅ Complexity: Proportionate -- mechanical renames with systematic verification at each step; no unnecessary abstractions
-- ✅ Gap: verify-doc-agent and skill-review-agent still use old naming, but this is intentional (deferred to verify v2 scope)
-- ✅ Tests: 66/66 verify.sh checks passing; grep sweep confirms zero stale references in markdown files
+- ✅ Alignment: 4-skill toolkit (design, dev, research, review) is cleaner and more cohesive than 5 skills. Parallel review architecture adds genuine capability for faster, more thorough doc reviews.
+- ✅ Production: All changes deployed via deploy.sh and verified via verify.sh (73/73 checks) -- real deployment, not mocks. Old verify/ and skill-reviewer/ artifacts fully cleaned up.
+- ✅ Scope: All 12 implementation steps (0-11) executed per plan specification. All 10 success criteria met. Minimal deviations (milestone-details->milestone-summary rename, fallback edge case addition).
+- ✅ Complexity: Proportionate -- 19 files is the natural count for 4 agents + 5 commands + 4 templates + 5 guides + 1 SKILL.md. Self-contained sequential guide duplicates check logic intentionally for architectural clarity.
+- ✅ Gap: No outstanding gaps. Cross-reference integrity validated across all 19 files. All internal and external paths resolve correctly.
+- ✅ Tests: 73/73 verify.sh checks passing (up from 66 baseline due to review skill additions and old skill cleanup checks).
 
 **Challenges**:
-- verify.sh template check was too rigid for verify/ skill (no templates directory); resolved by making the check informational
-- Multi-project `~/.claude/` directories required scoped orphan checks to avoid false positives from external files (Mission Control, Video Professor)
+- Self-contained vs cross-referencing guides: chose duplication for clear scope boundaries between sequential and parallel modes
+- Convention updates (agent- to spawn-) required semantic guide rewrites beyond simple path substitution
 
 **Results**:
-- ✅ 5 Anvil skills: design, dev, verify, research, skill-reviewer
-- ✅ 8 agents renamed to bare role names; 8 spawn commands created
-- ✅ research/ skill consolidates market-research and naming-research
-- ✅ verify/ skill extracted as foundation for verify v2
-- ✅ All cross-references updated (CLAUDE.md, README.md, deploy scripts, SKILL.md files, naming conventions doc)
+- ✅ 4 Anvil skills: design, dev, research, review
+- ✅ 4-agent review architecture: doc-reviewer, item-reviewer, holistic-reviewer, skill-reviewer
+- ✅ 5 commands: /review-doc, /review-doc-run, /review-skill, /spawn-doc-reviewer, /spawn-skill-reviewer
+- ✅ Old verify/ and skill-reviewer/ directories deleted from source and deployment
+- ✅ CLAUDE.md and README.md updated for 4-skill toolkit
 
 **Lessons Learned**:
-- Forward-updating dependent files in earlier steps eliminates cross-step dependencies
-- deploy.sh cleanup arrays (OLD_AGENTS, OLD_COMMANDS) ensure renamed files are removed on deploy
-- Grep sweeps must check .md and .sh files separately since shell scripts intentionally contain old names
+- Cross-check migrated content against current codebase state, not just the source file
+- Convention updates go beyond path search-and-replace -- guide logic may need semantic rewrites
+- Cleanup validation (old files absent) is as important as creation validation (new files present)
 
-**Next**: Proceed to verify-doc v2 task (rename verify-doc-agent and agent-verify-doc within verify/ skill). Continue Marketing milestone tasks.
+**Next**: Begin Marketing milestone tasks (Distribution Listings, LinkedIn Launch). Core milestone is fully complete.
