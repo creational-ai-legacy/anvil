@@ -237,6 +237,7 @@ git push
 - References provide detailed stage guidance
 - Test slash commands after changes
 - Deploy before pushing to verify changes work
+- **Severity / risk / probability / confidence labels**: Always use `HIGH / MED / LOW` (uppercase, abbreviated). Never use `Medium`, `H/M/L`, `High/Medium/Low`, or other variations.
 - design skill is pure design (NO CODE)
 - dev skill allows code (Stage 1 is design-only, Stages 2-3 allow code)
 

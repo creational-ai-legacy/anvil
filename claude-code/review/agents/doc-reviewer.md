@@ -55,7 +55,7 @@ When done, report:
 
 **File**: [document path]
 **Type**: [Design / Plan / Results / Task Spec / etc.]
-**Status**: [Pass (Sound) / Issues Found]
+**Status**: [Sound / Issues Found / Needs Revision]
 
 **Checks**:
 - Template alignment: [Pass / Issues]
@@ -63,7 +63,7 @@ When done, report:
 - Universal checks: [Pass / Issues]
 - Codebase verification: [Pass / Issues]
 
-**Issues**: [count] ([X] HIGH, [X] MEDIUM, [X] LOW)
+**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
 
 **Next**: [Apply fixes / No action needed]
 ```

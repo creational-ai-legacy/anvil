@@ -203,8 +203,8 @@ Component A
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| [Risk 1] | H/M/L | H/M/L | [How to mitigate] |
-| [Risk 2] | H/M/L | H/M/L | [How to mitigate] |
+| [Risk 1] | HIGH/MED/LOW | HIGH/MED/LOW | [How to mitigate] |
+| [Risk 2] | HIGH/MED/LOW | HIGH/MED/LOW | [How to mitigate] |
 
 ---
 

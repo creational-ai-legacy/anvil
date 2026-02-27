@@ -162,7 +162,7 @@ Use Glob/Grep to check for existing documents:
 
 **Project Tracking** (created once, updated throughout):
 - `PROJECT_STATE.md` - Milestone progress, key decisions, system status, latest health check
-- Template: `~/.claude/skills/dev/assets/templates/PROJECT_STATE.md`
+- Template: `assets/templates/PROJECT_STATE.md`
 - Keep it concise - remove resolved questions, keep only latest health check
 
 **Per Task**:

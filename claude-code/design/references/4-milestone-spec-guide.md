@@ -356,8 +356,8 @@ For each significant risk:
 ```markdown
 ### Risk: [Risk Name]
 
-**Impact**: [High/Medium/Low] - [What happens if this occurs]
-**Probability**: [High/Medium/Low] - [Likelihood assessment]
+**Impact**: [HIGH/MED/LOW] - [What happens if this occurs]
+**Probability**: [HIGH/MED/LOW] - [Likelihood assessment]
 **Mitigation**:
 - [Mitigation strategy 1]
 - [Mitigation strategy 2]
@@ -368,8 +368,8 @@ For each significant risk:
 ```markdown
 ### Risk: AWS Credits Run Out Early
 
-**Impact**: High - Would need to pay $75/month before revenue covers costs
-**Probability**: Medium - Usage could spike unexpectedly
+**Impact**: HIGH - Would need to pay $75/month before revenue covers costs
+**Probability**: MED - Usage could spike unexpectedly
 **Mitigation**:
 - Set up CloudWatch billing alarms at $40, $60, $70
 - Monitor daily costs in AWS Cost Explorer

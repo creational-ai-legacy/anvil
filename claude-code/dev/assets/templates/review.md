@@ -1,4 +1,4 @@
-**Review**: ✅ Pass / ⚠️ Flagged
+**Review**: ✅ PASS / ⚠️ FLAG
 **Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 - **Intent match**: ✅ / ⚠️ — [one sentence]
 - **Assumption audit**: ✅ / ⚠️ — [one sentence]

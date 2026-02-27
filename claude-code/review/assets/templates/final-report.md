@@ -26,7 +26,7 @@
 [From holistic report -- vague language, inconsistent naming]
 
 #### Potential Surprises
-- **[High/Med/Low]**: [Description]
+- **[HIGH/MED/LOW]**: [Description]
 
 #### Cross-Reference Check
 - [x] Aligned with [parent doc]
@@ -40,7 +40,7 @@
 
 ### Issues Found
 
-**Total**: [N] issues ([X] HIGH, [X] MEDIUM, [X] LOW)
+**Total**: [N] issues ([X] HIGH, [X] MED, [X] LOW)
 
 | # | Severity | Item | Location | Issue | Suggested Fix |
 |---|----------|------|----------|-------|---------------|

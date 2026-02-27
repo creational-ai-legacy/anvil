@@ -41,5 +41,5 @@ Read the guide. Follow it exactly.
 
 Review report displayed to user with:
 - Summary table (8 checks, pass/fail)
-- Issues listed by severity (HIGH / MEDIUM / LOW)
+- Issues listed by severity (HIGH / MED / LOW)
 - Verdict (Clean or issues found)

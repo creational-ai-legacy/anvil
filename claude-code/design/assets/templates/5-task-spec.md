@@ -70,7 +70,7 @@
 ## Risk Assessment
 | Task | Risk Level | Mitigation |
 |------|------------|------------|
-| Task: [Name] | [High/Medium/Low] | [Strategy] |
+| Task: [Name] | [HIGH/MED/LOW] | [Strategy] |
 
 ## Feedback Loops
 

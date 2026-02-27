@@ -35,7 +35,7 @@ Every skill should follow this layered architecture. The reviewer enforces it.
 | Level | Meaning | Examples |
 |-------|---------|---------|
 | **HIGH** | Breaks functionality or missing required fields | Missing frontmatter, broken file references, missing SKILL.md |
-| **MEDIUM** | Inconsistency or misleading content | Duplicated logic between agent and guide, contradictory descriptions |
+| **MED** | Inconsistency or misleading content | Duplicated logic between agent and guide, contradictory descriptions |
 | **LOW** | Style or cosmetic | Minor formatting differences, structural inconsistency between agents |
 
 ---

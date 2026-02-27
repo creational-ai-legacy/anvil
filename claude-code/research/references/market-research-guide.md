@@ -380,17 +380,17 @@ LTV:CAC ratio target: 3:1 or higher
 
 | Severity | Definition |
 |----------|------------|
-| **High** | Could kill the business if it materializes |
-| **Medium** | Significant setback, but recoverable |
-| **Low** | Minor issue, manageable |
+| **HIGH** | Could kill the business if it materializes |
+| **MED** | Significant setback, but recoverable |
+| **LOW** | Minor issue, manageable |
 
 | Likelihood | Definition |
 |------------|------------|
-| **High** | More likely than not (>50%) |
-| **Medium** | Possible (20-50%) |
-| **Low** | Unlikely (<20%) |
+| **HIGH** | More likely than not (>50%) |
+| **MED** | Possible (20-50%) |
+| **LOW** | Unlikely (<20%) |
 
-**Priority**: High/High risks need mitigation plan before GO decision.
+**Priority**: HIGH/HIGH risks need mitigation plan before GO decision.
 
 ---
 

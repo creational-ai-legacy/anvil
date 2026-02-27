@@ -27,7 +27,7 @@
 ## Executive Summary
 
 **Recommendation**: [GO / PIVOT / KILL]
-**Confidence**: [High / Medium / Low]
+**Confidence**: [HIGH / MED / LOW]
 
 [2-3 paragraphs summarizing:
 - The core opportunity (or lack thereof)
@@ -188,10 +188,10 @@
 
 | Channel | Potential | Effort | Cost | Priority |
 |---------|-----------|--------|------|----------|
-| [Channel 1] | [H/M/L] | [H/M/L] | [$/$$/$$$] | 1 |
-| [Channel 2] | [H/M/L] | [H/M/L] | [$/$$/$$$] | 2 |
-| [Channel 3] | [H/M/L] | [H/M/L] | [$/$$/$$$] | 3 |
-| [Channel 4] | [H/M/L] | [H/M/L] | [$/$$/$$$] | 4 |
+| [Channel 1] | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [$/$$/$$$] | 1 |
+| [Channel 2] | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [$/$$/$$$] | 2 |
+| [Channel 3] | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [$/$$/$$$] | 3 |
+| [Channel 4] | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [$/$$/$$$] | 4 |
 
 ### Path to First 200 Users
 
@@ -273,11 +273,11 @@
 
 | Risk | Category | Severity | Likelihood | Mitigation |
 |------|----------|----------|------------|------------|
-| [Risk 1] | Market | [H/M/L] | [H/M/L] | [Strategy] |
-| [Risk 2] | Competition | [H/M/L] | [H/M/L] | [Strategy] |
-| [Risk 3] | Technical | [H/M/L] | [H/M/L] | [Strategy] |
-| [Risk 4] | Distribution | [H/M/L] | [H/M/L] | [Strategy] |
-| [Risk 5] | Timing | [H/M/L] | [H/M/L] | [Strategy] |
+| [Risk 1] | Market | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [Strategy] |
+| [Risk 2] | Competition | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [Strategy] |
+| [Risk 3] | Technical | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [Strategy] |
+| [Risk 4] | Distribution | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [Strategy] |
+| [Risk 5] | Timing | [HIGH/MED/LOW] | [HIGH/MED/LOW] | [Strategy] |
 
 ### Critical Risks (if any)
 

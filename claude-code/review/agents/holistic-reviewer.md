@@ -71,5 +71,15 @@ When done, report:
 **Doc Type**: [document type]
 **Status**: Pass | Issues Found
 
-**Issues**: [count] ([X] HIGH, [X] MEDIUM, [X] LOW)
+**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
 ```
+
+## Quality Checklist
+
+Before completing, verify:
+
+- [ ] All cross-cutting checks completed
+- [ ] Cross-reference docs loaded and checked
+- [ ] Surprises rated with correct severity
+- [ ] Issues classified with correct severity
+- [ ] No duplicate findings across sections

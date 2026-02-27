@@ -66,5 +66,15 @@ When done, report:
 **Doc Type**: [Task Spec / Design / Plan]
 **Status**: Pass | Issues Found
 
-**Issues**: [count] ([X] HIGH, [X] MEDIUM, [X] LOW)
+**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
 ```
+
+## Quality Checklist
+
+Before completing, verify:
+
+- [ ] Correct item extracted from document
+- [ ] Doc type correctly identified
+- [ ] Codebase references verified
+- [ ] All type-specific checks completed
+- [ ] Issues classified with correct severity

@@ -246,8 +246,8 @@ Step 3
 
 ### Risk: [Risk Name]
 
-**Impact**: [High/Medium/Low] - [What happens if this occurs]
-**Probability**: [High/Medium/Low] - [Likelihood assessment]
+**Impact**: [HIGH/MED/LOW] - [What happens if this occurs]
+**Probability**: [HIGH/MED/LOW] - [Likelihood assessment]
 **Mitigation**:
 - [Mitigation strategy 1]
 - [Mitigation strategy 2]

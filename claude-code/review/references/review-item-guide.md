@@ -102,10 +102,10 @@ Fill in:
 - **Status**: "Pass" if no issues found, "Issues Found" if any issues
 - **Correctness**: Summary of whether the item is technically sound and complete
 - **Codebase Refs**: Table of all verified references
-- **Issues**: Table of all issues found, with severity (HIGH/MEDIUM/LOW), location within the item, description, and suggested fix
+- **Issues**: Table of all issues found, with severity (HIGH/MED/LOW), location within the item, description, and suggested fix
 
 ### Severity Guidelines
 
 - **HIGH**: Incorrect information, missing critical section, reference to nonexistent codebase artifact that should exist, approach that would not work
-- **MEDIUM**: Vague or ambiguous content that could lead to misinterpretation, missing optional section that would add clarity, reference verification inconclusive
+- **MED**: Vague or ambiguous content that could lead to misinterpretation, missing optional section that would add clarity, reference verification inconclusive
 - **LOW**: Minor style issues, suggestions for improvement, optional enhancements

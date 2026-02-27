@@ -30,7 +30,7 @@ Follow the review guide exactly. Use the report template exactly.
 2. Resolve skill path (`claude-code/[skill-name]/`)
 3. Read ALL files in the skill directory
 4. Run checks 1-8 in order per the guide
-5. Classify issues by severity (HIGH / MEDIUM / LOW)
+5. Classify issues by severity (HIGH / MED / LOW)
 6. Generate report using the template
 
 ## Constraints
@@ -57,10 +57,10 @@ When done, report:
 
 **Results**:
 - HIGH: [count]
-- MEDIUM: [count]
+- MED: [count]
 - LOW: [count]
 
-**Next**: Fix any HIGH/MEDIUM issues, then re-run `/review-skill [skill-name]`
+**Next**: Fix any HIGH/MED issues, then re-run `/review-skill [skill-name]`
 ```
 
 ## Quality Checklist

@@ -57,7 +57,7 @@ When done, report:
 **File**: docs/[slug]-market-research.md
 **Product**: [Name/description]
 **Recommendation**: [GO / PIVOT / KILL]
-**Confidence**: [High / Medium / Low]
+**Confidence**: [HIGH / MED / LOW]
 
 **Key Findings**:
 - [Finding 1]

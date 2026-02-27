@@ -24,7 +24,7 @@
 #### HIGH
 - `[file]:[line]` [description]
 
-#### MEDIUM
+#### MED
 - `[file]:[line]` [description]
 
 #### LOW

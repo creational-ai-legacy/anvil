@@ -22,7 +22,7 @@
 [Vague language? Inconsistent naming? Missing context?]
 
 #### Surprises
-- **[High/Med/Low]**: [Description]
+- **[HIGH/MED/LOW]**: [Description]
 
 #### Cross-Reference Alignment
 - [x/!] Aligned with [parent doc]: [detail]

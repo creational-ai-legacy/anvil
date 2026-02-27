@@ -293,8 +293,8 @@ Then run:
 
 | Risk | Likelihood | Mitigation |
 |------|------------|------------|
-| [Risk 1] | H/M/L | [Strategy] |
-| [Risk 2] | H/M/L | [Strategy] |
+| [Risk 1] | HIGH/MED/LOW | [Strategy] |
+| [Risk 2] | HIGH/MED/LOW | [Strategy] |
 
 ---
 
