@@ -16,7 +16,7 @@
 Turns Claude into a full product team — architect, developer, QA reviewer, market researcher, strategist — with stage-gated workflows that eliminate hallucination from design through deployment.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v0.0.9-green.svg)](https://github.com/creational-ai/anvil/releases)
+[![Version](https://img.shields.io/badge/version-v0.0.11-green.svg)](https://github.com/creational-ai/anvil/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/creational-ai/anvil?style=social)](https://github.com/creational-ai/anvil)
 
 ## Quick Start
@@ -83,7 +83,7 @@ architectural thinking before any implementation.
 ```
 
 Each stage produces a document from a **mandatory template** — no freeform output.
-User runs `/verify-doc` between stages to catch gaps before moving forward.
+User runs `/review-doc` between stages to catch gaps before moving forward.
 
 ## Development Workflow
 
@@ -98,13 +98,13 @@ specifications, not from pre-written code it might hallucinate.
     │               ▼
     │    ┌──────────────────────┐
     │    │  1. Design (no code) │  Analyze, risk profile, constraints
-    │    │     /verify-doc ✓    │  Approach per item, sequence
+    │    │     /review-doc ✓    │  Approach per item, sequence
     │    └──────────┬───────────┘
     │               │
     │               ▼
     │    ┌──────────────────────┐
     │    │  2. Plan             │  Spec-driven steps (no code blocks)
-    │    │     /verify-doc ✓    │  Acceptance criteria per step
+    │    │     /review-doc ✓    │  Acceptance criteria per step
     │    └──────────┬───────────┘
     │               │
     │               ▼
@@ -155,7 +155,7 @@ Every product in the Creational ecosystem was designed and built using Anvil's s
 | Dev workflow (design to plan to execute) | Spec-driven, stage-gated | Brainstorm to plan to execute | Individual commands |
 | Anti-hallucination gates | Mandatory templates, spec-driven plans, 5-check review | TDD-first approach | -- |
 | Market validation | Go/Pivot/Kill research | -- | -- |
-| Quality review | 5-check conceptual review | Verification skills | -- |
+| Quality review | Doc review (sequential + parallel), skill audits, 5-check conceptual review | Verification skills | -- |
 
 superpowers is excellent for the coding phase and has a more mature marketplace presence. Anvil's strength is the full lifecycle -- from raw idea through market validation to shipped product. They're complementary, not mutually exclusive; you can use superpowers for coding discipline alongside Anvil's design-through-deployment methodology.
 
@@ -167,8 +167,8 @@ superpowers is excellent for the coding phase and has a more mature marketplace 
 |-------|---------|
 | **design** | 5-stage design workflow: Vision, Architecture, Roadmap, Milestone Spec, Task Spec |
 | **dev** | Development loop: design analysis, planning, step-by-step execution with tests, review, finalization |
-| **market-research** | Market validation with Go/Pivot/Kill recommendation |
-| **skill-reviewer** | Audit skills for structure, frontmatter, cross-references, and consistency |
+| **research** | Market validation (Go/Pivot/Kill) and naming research with scoring matrix |
+| **review** | Document review (sequential + parallel scatter-gather), skill auditing |
 
 ### Claude Desktop
 
@@ -199,13 +199,13 @@ anvil/
 ├── claude-code/                # Claude Code skills
 │   ├── README.md
 │   ├── deploy.sh              # Deploy skills and commands (local)
-│   ├── deploy-genesis.sh      # Deploy skills to genesis (Raspberry Pi)
 │   ├── verify.sh              # Verify deployment
 │   ├── sync-from-user.sh      # Sync from deployed skills
+│   ├── common/                # Shared commands (commit, bump version)
 │   ├── design/                # 5-stage design workflow
 │   ├── dev/                   # Development loop
-│   ├── market-research/       # Market validation
-│   └── skill-reviewer/        # Skill auditing
+│   ├── research/              # Market validation + naming research
+│   └── review/                # Doc review + skill auditing
 │
 └── claude-desktop/             # Claude Desktop skills
     ├── README.md

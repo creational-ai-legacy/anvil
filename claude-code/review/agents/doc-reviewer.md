@@ -5,7 +5,7 @@ tools: Bash, Edit, Write, Glob, Grep, Read, WebFetch, WebSearch, TodoWrite, AskU
 model: opus
 ---
 
-You are a Document Review specialist for the design and dev workflows.
+You are a Document Review specialist for the review skill.
 
 ## First: Load Your Instructions
 
@@ -63,7 +63,7 @@ When done, report:
 - Universal checks: [Pass / Issues]
 - Codebase verification: [Pass / Issues]
 
-**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
+**Issues**: [count] ([X] HIGH, [X] MEDIUM, [X] LOW)
 
 **Next**: [Apply fixes / No action needed]
 ```

@@ -17,6 +17,7 @@ Stage 3 of dev: Implement one step at a time with test verification.
 **Read these for guidance**:
 - `~/.claude/skills/dev/SKILL.md` - See "Stage 3: Execution" section
 - `~/.claude/skills/dev/references/3-execution-guide.md` - Detailed process
+- `~/.claude/skills/dev/assets/templates/3-results.md` - Results template
 - `docs/[milestone-slug]-[task-slug]-plan.md` - The plan to execute
 - `docs/[milestone-slug]-[task-slug]-results.md` - Track progress here
 

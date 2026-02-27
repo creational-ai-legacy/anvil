@@ -66,5 +66,5 @@ When done, report:
 **Doc Type**: [Task Spec / Design / Plan]
 **Status**: Pass | Issues Found
 
-**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
+**Issues**: [count] ([X] HIGH, [X] MEDIUM, [X] LOW)
 ```

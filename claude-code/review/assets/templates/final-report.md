@@ -40,7 +40,7 @@
 
 ### Issues Found
 
-**Total**: [N] issues ([X] HIGH, [X] MED, [X] LOW)
+**Total**: [N] issues ([X] HIGH, [X] MEDIUM, [X] LOW)
 
 | # | Severity | Item | Location | Issue | Suggested Fix |
 |---|----------|------|----------|-------|---------------|

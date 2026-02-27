@@ -71,5 +71,5 @@ When done, report:
 **Doc Type**: [document type]
 **Status**: Pass | Issues Found
 
-**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
+**Issues**: [count] ([X] HIGH, [X] MEDIUM, [X] LOW)
 ```

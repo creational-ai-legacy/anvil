@@ -220,10 +220,10 @@ Apply these merging rules to combine all agent results into a unified report:
 
 **Step 2 -- Deduplicate**: If two agents flag the same location (same section heading or same line range) for the same concern, keep the entry with more detail and the higher severity. Discard the duplicate.
 
-**Step 3 -- Elevate**: If an issue appears in both an item agent result AND the holistic agent result, elevate its severity by one level (LOW becomes MED, MED becomes HIGH, HIGH stays HIGH). This signals that the issue has both per-item and cross-cutting impact.
+**Step 3 -- Elevate**: If an issue appears in both an item agent result AND the holistic agent result, elevate its severity by one level (LOW becomes MEDIUM, MEDIUM becomes HIGH, HIGH stays HIGH). This signals that the issue has both per-item and cross-cutting impact.
 
 **Step 4 -- Sort**: Sort the merged list by:
-1. Severity descending (HIGH first, then MED, then LOW)
+1. Severity descending (HIGH first, then MEDIUM, then LOW)
 2. Document location (order of appearance in the document)
 
 **Step 5 -- Group**: Map findings to the final report sections:

@@ -227,10 +227,10 @@ Fill in:
 - **Clarity & Terminology**: Assessment of language precision and consistency
 - **Surprises**: List of hidden risks and edge cases
 - **Cross-Reference Alignment**: Checklist of alignment with parent/sibling docs
-- **Issues**: Table of all issues found, with severity (HIGH/MED/LOW), location, description, and suggested fix
+- **Issues**: Table of all issues found, with severity (HIGH/MEDIUM/LOW), location, description, and suggested fix
 
 ### Severity Guidelines
 
 - **HIGH**: Template section missing entirely, circular dependency, direct contradiction between document and cross-reference, terminology that would cause misimplementation
-- **MED**: Vague language in critical sections, missing optional template section, unstated assumption that could cause problems, terminology inconsistency
+- **MEDIUM**: Vague language in critical sections, missing optional template section, unstated assumption that could cause problems, terminology inconsistency
 - **LOW**: Minor ordering suggestions, style improvements, optional enhancements, extra sections beyond template
