@@ -38,19 +38,7 @@ Before starting any work, read these files:
 7. Read the actual code changes — use `git diff` or read modified files to see what was built
 8. Run each check per the risk profile depth table from the review guide
 
-### How to Write Each Check
-
-For each check, provide evidence by connecting three things: (1) what the design/plan specified, (2) what was actually implemented, and (3) your assessment of whether they align.
-
-**Intent match**: List the plan's acceptance criteria for the step. Verify each criterion against the actual files on disk. Reference specific file paths, directory contents, or code patterns that confirm or contradict each criterion.
-
-**Assumption audit**: Identify decisions in the implementation that go beyond what the design specified. For each, note whether it's documented in the Trade-offs & Decisions section or is a reasonable obvious default.
-
-**Architectural drift**: Compare the plan's Architecture/File Structure section against actual file locations. Note any structural additions or deviations and whether they preserve the intended organization.
-
-**Silent trade-offs** (Critical only): Cross-reference every meaningful implementation choice against the Trade-offs section.
-
-**Complexity proportionality** (Critical only): Count files created vs files planned. Flag if scope exceeds specification by 2x or more.
+9. Write each check following the review guide's "How to Write Each Check" section
 
 ## Scope
 

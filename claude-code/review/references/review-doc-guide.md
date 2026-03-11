@@ -256,6 +256,30 @@ See [review-doc-path] for full details.
 ```
 Apply each fix from the findings using Edit tool. Report each fix applied. If a fix cannot be applied (ambiguous target, already correct, or outside document scope), annotate the issue line in the review doc with `[Skipped: reason]` and report the skip to the user.
 
+#### Applying Step-Splitting Fixes (Plan Documents Only)
+
+When a step scope issue suggests splitting a step into sub-steps (e.g., Step 8 into 8a, 8b, 8c), follow this process:
+
+**1. Pre-execution guard**: Before applying, check the results doc (derive path from plan path: replace `-plan.md` with `-results.md`). If the results doc exists, search for the step's status. If the step is `Complete` or `In Progress`, annotate the issue with `[Skipped: step already executed]` and do not apply the split.
+
+**2. Read the full step block**: Extract the entire step from its `### Step N:` heading to the next `### Step` heading (or `## Test Summary`, or end of document). This is the `old_string` for the Edit tool.
+
+**3. Generate sub-step blocks**: Using the reviewer's split guidance (which specifies strategy, content assignment per sub-step, and ordering):
+- Create one `### Step Na:` block per sub-step (e.g., `### Step 8a:`, `### Step 8b:`, `### Step 8c:`)
+- Each sub-step gets the same structure as a regular step: Goal, checklist, Specification, Acceptance Criteria, Verification, Output
+- Distribute the original step's specification items, acceptance criteria, and verification commands across sub-steps as the reviewer's guidance directs
+- Each sub-step's Goal is derived from the original Goal, narrowed to its scope
+- Each sub-step must be self-contained -- no cross-references between sub-steps (no "as described in Step 8a")
+- Determine sub-step ordering based on the reviewer's dependency rationale
+
+**4. Replace using Edit tool**: Use the Edit tool with `old_string` set to the full original step block and `new_string` set to the concatenated sub-step blocks (8a + 8b + 8c).
+
+**5. Match failure handling**: If the Edit tool cannot match the full step block (whitespace variations, block length, concurrent edits):
+1. Re-read the plan to get current content
+2. Re-extract the step block boundaries
+3. Retry the replacement with the updated `old_string`
+4. If the retry also fails, annotate the issue with `[Skipped: step block match failed]` and report to the user for manual intervention
+
 **If issues found -- without `--auto`**:
 Show simplified summary with issue counts and pointer to review doc:
 ```

@@ -12,7 +12,7 @@ This stage executes the implementation plan from Stage 2 (Planning):
 - Execute ONLY the current step
 - DO NOT continue to next step automatically
 - Each step is bite-sized (small, completable, testable)
-- Steps are always whole numbers (Step 1, Step 2, Step 3) — never sub-steps like 3a, 3b
+- Steps use whole numbers (Step 1, Step 2, Step 3) or letter-suffixed sub-steps (Step 3a, Step 3b, Step 3c) when a step has been split during review
 - Document progress in results doc after step completes
 - Keep implementation doc clean (no status updates there)
 - When step tests pass → STOP and report to user

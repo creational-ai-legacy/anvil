@@ -23,7 +23,7 @@ Follow the execution guide exactly.
 ## Input
 
 - **Required**: Path to plan (`docs/[milestone-slug]-[task-slug]-plan.md`)
-- **Optional**: Step number (if omitted, execute next incomplete step)
+- **Optional**: Step identifier (number or letter-suffixed, e.g., 3 or 3a; if omitted, execute next incomplete step)
 - **Optional**: `--fix` with review findings (scoped fix after review FLAG)
 - **Optional**: Notes from the user
 
@@ -43,8 +43,8 @@ Follow the execution guide exactly.
    - If NOT: Create it using the template, fill in Summary/Goal/Success Criteria from plan
    - If EXISTS: Read it to find current progress
 5. Determine which step to execute:
-   - If step number provided: Execute that step
-   - If no step number: Find first incomplete step in results.md
+   - If step identifier provided: Execute that step
+   - If no step identifier: Find first incomplete step in results.md
 6. Follow the execution guide's per-step workflow exactly:
    - **Normal mode**: Implement → Write Tests → Verify (with intentional test scope) → Document & STOP
    - **Fix mode** (`--fix`): Follow the Fix Mode section in the execution guide — scoped fixes only
@@ -63,10 +63,10 @@ Per step:
 When step tests pass, report:
 
 ```
-## Step [N] Complete
+## Step [ID] Complete
 
 **Task**: [milestone-slug]-[task-slug]
-**Step**: [N] - [Step Name]
+**Step**: [ID] - [Step Name]
 **Status**: Tests passing
 
 **Implementation**:

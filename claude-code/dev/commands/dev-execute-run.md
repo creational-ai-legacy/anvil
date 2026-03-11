@@ -36,7 +36,7 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 ### 1. Setup
 
 1. Resolve the plan path (if task name given, convert to `docs/[name]-plan.md`)
-2. Read the plan to get total step count
+2. Read the plan and extract the ordered list of step identifiers by scanning for `### Step [ID]:` headings (e.g., `0, 1, 2, 3` or `0, 1, 2, 3a, 3b, 3c, 4`)
 3. Read or create results.md to find current progress
 4. Identify all incomplete steps
 
@@ -47,9 +47,9 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 Spawn dev-executor: "[plan-path] Prereqs + Step 0 (if exists)"
 ```
 
-**Then** Step 1, 2, 3... repeat:
+**Then** iterate through remaining step IDs in order:
 
-1. **Execute** → `Spawn dev-executor: "[plan-path] [N]"`
+1. **Execute** → `Spawn dev-executor: "[plan-path] [step-id]"`
    - Fails → STOP.
    - Succeeds → Next step.
 

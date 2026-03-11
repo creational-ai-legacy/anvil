@@ -64,7 +64,7 @@ When a Design doc exists, follow this process:
 ### 3. Break Each Item into Steps
 
 - Each Design item (#1, #2, etc.) → one or more Plan steps
-- Steps are always whole numbers (Step 1, Step 2, Step 3) — never use sub-steps like 4a, 4b
+- Steps use whole numbers (Step 1, Step 2, Step 3) or letter-suffixed sub-steps (Step 4a, Step 4b, Step 4c) when a step has been split during review
 - If one design item needs 3 steps and the next needs 2, number them sequentially (Step 4, 5, 6, 7, 8)
 - Each step bite-sized, independently verifiable
 - Each step includes a specification (what to build) and acceptance criteria (how to verify)
@@ -188,7 +188,7 @@ Each step should be:
 
 ## Tests Must Be In The Same Step
 
-Each step specifies what tests must verify (via acceptance criteria) and the executor writes, runs, and verifies tests pass during execution. Never separate code and tests into different steps. Step names should NOT have "+ Tests" suffix -- tests are inherent. If a step is too big, split it into multiple steps with their own whole numbers (Step 3, Step 4, Step 5). Never use sub-step notation like 3a, 3b, 3c — each step gets a unique whole number.
+Each step specifies what tests must verify (via acceptance criteria) and the executor writes, runs, and verifies tests pass during execution. Never separate code and tests into different steps. Step names should NOT have "+ Tests" suffix -- tests are inherent. If a step is too big, split it into multiple steps with their own whole numbers (Step 3, Step 4, Step 5). Steps normally use whole numbers. Sub-step notation (3a, 3b, 3c) is used only when a step has been split during review.
 
 ## Writing Acceptance Criteria
 

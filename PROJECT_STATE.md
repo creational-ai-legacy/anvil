@@ -1,10 +1,10 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-02-27T18:08:21-0800
+> **Last Updated**: 2026-03-10T23:08:21-0700
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking with per-item history and auto-fix support. 73/73 verify.sh checks passing. Marketing milestone 1/6 tasks complete.
+**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking with per-item history, auto-fix support, and step-splitting review capability. Sub-step notation (8a, 8b, 8c) supported across plan, execution, and review systems. Marketing milestone 1/6 tasks complete.
 
 ---
 
@@ -25,6 +25,7 @@
 | naming-refactor | Naming Refactor (Claude Code Conventions) | refactor | ✅ Complete | `core-naming-refactor-*.md` |
 | review-skill | Unified Review Skill (verify + skill-reviewer consolidation) | refactor | ✅ Complete | `core-review-skill-*.md` |
 | review-tracking | Persistent Review Tracking with Per-Item History | feature | ✅ Complete | `core-review-tracking-*.md` |
+| step-splitting | Sub-Step Support for Plan Step Splitting | feature | ✅ Complete | `core-step-splitting-*.md` |
 
 ### Milestone: Marketing
 
@@ -56,58 +57,61 @@
 | 2026-02-24 | No links on "Built with Anvil" product list | Only Anvil has a confirmed public repo in the org; linking others would create dead links |
 | 2026-02-26 | Naming refactor: spawn-* prefix, bare role agents, research/ skill, verify/ skill | Align with official Claude Code conventions; fix skill-command collision; clean foundation for verify v2 |
 | 2026-02-26 | Consolidate verify + skill-reviewer into unified review skill | 4-skill toolkit cleaner than 5; parallel subagent architecture enables faster doc reviews; single quality assurance entry point |
+| 2026-03-10 | Sub-step notation (8a, 8b, 8c) for plan step splitting | Letter suffixes preserve existing step numbers (no renumbering), one level only, review-driven splits with pre-execution guard |
 
 ---
 
 ## What's Next
 
 **Recommended Next Steps**:
-1. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
-2. Begin LinkedIn Launch task (profile optimization, first posts)
-3. Manual: Pin Anvil as flagship repo on creational-ai org page (GitHub web UI)
+1. Deploy step-splitting changes: `cd claude-code && ./deploy.sh && ./verify.sh`
+2. Manual e2e validation: run `/review-doc-run` on an existing integer-only plan to confirm backward compatibility
+3. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
+4. Begin LinkedIn Launch task (profile optimization, first posts)
 
-**System Status**: ✅ **Production Ready + Review Tracking**
+**System Status**: ✅ **Production Ready + Step Splitting**
 - 4 Anvil skills: design, dev, research, review
 - 5-stage design skill v2.0.0 (simplified naming: vision, roadmap, task-spec)
-- 3-stage dev skill with spec-driven plan workflow (full gap analysis complete)
-- review skill: persistent review tracking with per-item history, --auto support, parallel + sequential doc review, skill auditing
+- 3-stage dev skill with spec-driven plan workflow and sub-step support
+- review skill: persistent review tracking with per-item history, --auto support, step scope check with split suggestions, parallel + sequential doc review, skill auditing
 - All agents use bare role names, all forked commands use /spawn-* prefix
 - research/ skill consolidates market-research and naming-research
-- 73/73 verify.sh checks passing
 - Marketing milestone 1/6 tasks complete (GitHub Presence)
 
 ---
 
 ## Latest Health Check
 
-### 2026-02-27 - core-review-tracking Finalization
+### 2026-03-10 - core-step-splitting Finalization
 **Status**: ✅ On Track
 
 **Context**:
-Finalizing the core-review-tracking task -- added persistent review tracking to the doc review workflow with a new review-tracking template, updated sequential and parallel guides, updated doc-reviewer agent, commands, SKILL.md, CLAUDE.md, and README.md. 1 file created, 9 files modified.
+Finalizing the core-step-splitting task -- added sub-step support (8a, 8b, 8c) to the plan step splitting workflow. Review system can now flag oversized steps and suggest concrete splits. Execution system handles sub-steps as first-class citizens. 11 existing files modified, zero new files created.
 
 **Findings**:
-- ✅ Alignment: Persistent review tracking directly supports the review skill's purpose -- review history is no longer lost when sessions end. Per-item tracking and auto-fix mode make reviews more useful and save conversation context.
-- ✅ Production: All changes deployed via deploy.sh and verified via verify.sh (73/73 checks). Deployed files match source (8/8 diff-verified). --auto chain traceable end-to-end through command -> agent -> guide layers.
-- ✅ Scope: All 8 implementation steps (0-8 including baseline) executed per plan specification. All 8 success criteria met. Zero deviations from plan.
-- ✅ Complexity: Proportionate -- 1 new template + 9 targeted modifications. Sequential guide went from 9 to 11 steps; parallel guide from 5 to 7 phases. No unnecessary abstractions.
-- ✅ Gap: No stale behavioral references to final-report.md in modified files. SKILL.md catalog entry for final-report.md retained correctly (file still exists on disk; deprecation is a follow-up). Manual e2e testing is the recommended next step.
-- ✅ Tests: 73/73 verify.sh checks passing consistently across all 9 implementation steps.
+- ✅ Alignment: Sub-step support directly extends the review and dev skills' capability -- oversized steps that were previously flagged as "structural suggestions" and skipped can now be split and applied. This completes a gap identified during review usage.
+- ✅ Production: All changes are to production guide files (references, templates, agents, commands) that control real agent behavior. Changes are surgical line replacements, blockquote additions, and subsection additions. Deploy + verify not yet run after changes.
+- ✅ Scope: All 11 implementation steps (0-10) executed per plan specification. Zero deviations from plan across all steps. 11/14 success criteria checked off in results doc; remaining 3 (step scope check details, plan template notation, backward compatibility) are implemented but pending deploy verification.
+- ✅ Complexity: Proportionate -- 11 files modified with targeted edits. No new files created. No new abstractions or indirection layers. Sub-steps reuse existing step structure entirely.
+- ⚠️ Gap: deploy.sh and verify.sh have not been run after the changes. Manual e2e validation (running review on an existing integer-only plan) not yet performed. These are the recommended next actions.
+- ✅ Tests: N/A -- all changes are documentation-only. Each step validated via grep verification against acceptance criteria.
 
 **Challenges**:
-- Downstream format changes cascaded to upstream grouping table (Phase 3.2) -- changing persistence target from final-report.md to review-tracking.md required updating merge grouping, not just downstream phases
-- Distinguishing catalog references (legitimate) from behavioral references (stale) during final-report.md migration
+- Fix application logic needed to be duplicated in both review guides (sequential and parallel) to maintain each guide's self-contained property
+- Pre-execution guard requires checking the results doc status before applying a split, adding a cross-document dependency to the fix application flow
 
 **Results**:
-- ✅ review-tracking.md template with per-item structure (summary tables, detail sections, holistic section, review log)
-- ✅ Sequential guide: 11 steps with arg parsing, history cross-ref, persistence, simplified summary, fix status
-- ✅ Parallel guide: 7 phases (3.1-3.7) with same capabilities
-- ✅ --auto flag supported across all 3 review doc commands
-- ✅ All project docs (SKILL.md, CLAUDE.md, README.md) updated
+- ✅ Review check #5 (step scope manageable) with cohesion-first decision logic and 4 splitting strategies
+- ✅ Sub-step notation documented in plan template and results template
+- ✅ Three sub-step prohibitions removed (execution guide line 15, planning guide lines 67 and 191)
+- ✅ Execute-run orchestrator reads step IDs from plan headings instead of incrementing counter
+- ✅ Executor agent and spawn command updated for step identifier notation
+- ✅ Fix application logic documented in both review paths with pre-execution guard and match failure handling
+- ✅ Review tracking template documents split step transition across review rounds
 
 **Lessons Learned**:
-- Deploy/verify pipeline auto-discovers new templates without configuration changes
-- Fork context handling is critical for spawn commands -- must handle absence of user for interactive prompts
-- Three-layer flag chain (command -> agent -> guide) requires end-to-end tracing during validation
+- Generic heading matching (`### Step` without `N:`) future-proofs extraction against notation extensions
+- Dumb orchestrators benefit from reading data from documents rather than generating it from assumptions
+- Duplicating rules across self-contained guides is the right trade-off when cross-referencing would break readability
 
-**Next**: Manual e2e test of review tracking. Follow-up: deprecate final-report.md template. Continue Marketing milestone tasks.
+**Next**: Run `deploy.sh` + `verify.sh` to deploy changes. Manual e2e validation with integer-only plan. Continue Marketing milestone tasks.

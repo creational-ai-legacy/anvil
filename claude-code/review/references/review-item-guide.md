@@ -59,7 +59,7 @@ Each item is a `### N. [Name]` analysis block. Shared context includes the Execu
 
 ### Plan Items
 
-Each item is a `### Step N:` implementation block. Shared context includes the Overview table, Prerequisites section, and Success Criteria section.
+Each item is a `### Step N:` (or `### Step Na:`) implementation block. Shared context includes the Overview table, Prerequisites section, and Success Criteria section.
 
 **Checks**:
 
@@ -70,6 +70,55 @@ Each item is a `### Step N:` implementation block. Shared context includes the O
 3. **Verification commands present** -- The step should include verification commands or describe how to verify the step's output. This may be in a Verification section, in the Acceptance Criteria, or inline. Flag steps that have no way to verify completion.
 
 4. **Trade-offs documented if applicable** -- If the step involves a design decision with multiple viable approaches, a Trade-offs section should document the choice. Not every step needs this -- only flag when there is an obvious decision point (e.g., choosing between two libraries, two architectures, two API designs) with no Trade-offs documentation.
+
+5. **Step scope manageable** (Step 1+ only) -- The step should be focused enough that a single executor can implement and verify it in one pass. Step 0 is exempt (setup/scaffolding steps are inherently varied in scope).
+
+   **When to split -- decision logic** (evaluate in order):
+
+   The primary signal is **low cohesion**, not size alone. A step with 10 tightly-related specification items (e.g., 10 properties on a single model class) is fine. A step with 6 items covering 3 unrelated concerns should be split. Evaluate cohesion first, then use size as an amplifier.
+
+   1. **Does the step mix multiple unrelated concerns?** -- The strongest split signal. Look for specification items that serve different purposes bundled into one step (e.g., "create data model" + "add API endpoint" + "write migration script" + "update CLI output"). If yes, flag for split.
+
+   2. **Does the step have multiple independent deliverables?** -- If the step produces several outputs that don't depend on each other (e.g., "add 3 new commands" where each command is self-contained), each deliverable could be its own sub-step. If yes, flag for split.
+
+   3. **Can the step be verified with a single focused test target?** -- If the Verification section requires running tests across multiple unrelated modules or test files, the step may be covering too much ground. If verification naturally breaks into separate test commands for separate concerns, that is a split signal.
+
+   4. **Is the step large AND unfocused?** -- Size amplifies the problem. Use these thresholds as supporting indicators (not standalone triggers):
+      - More than ~8 specification bullet points
+      - More than ~5 acceptance criteria
+      - More than ~5 files to create/modify
+
+      Large + unfocused = split. Large + focused = OK.
+
+   **NOT a split signal:**
+   - A step with many specification items that are all tightly related (e.g., implementing one class with many methods that form a single interface)
+   - A step with many acceptance criteria that all verify different aspects of the same feature
+   - A step that touches many files but for the same reason (e.g., adding the same import to 6 files)
+
+   **How to split -- splitting strategy:**
+
+   When the check determines a split is warranted, identify natural boundaries and produce a concrete split proposal using one of these strategies:
+
+   | Strategy | When to Use | Example |
+   |----------|------------|---------|
+   | **By concern** | Step mixes unrelated responsibilities | Model layer -> 8a, API endpoints -> 8b, migration -> 8c |
+   | **By layer** | Step spans multiple architectural layers | Data access -> 8a, business logic -> 8b, presentation -> 8c |
+   | **By deliverable** | Step produces multiple independent outputs | Command A -> 8a, Command B -> 8b, Command C -> 8c |
+   | **By dependency** | Some items within the step must happen before others | Schema changes -> 8a, code that uses new schema -> 8b |
+
+   **Suggested fix format:**
+
+   ```
+   [MED] Step 8 specification covers 12 items across 3 unrelated concerns (model, API, migration).
+   -> Split by concern into 3 sub-steps:
+      - Step 8a: Data Model (spec items 1-4, acceptance criteria 1-2)
+      - Step 8b: API Endpoints (spec items 5-8, acceptance criteria 3-5)
+      - Step 8c: Migration + Cleanup (spec items 9-12, acceptance criteria 6-7)
+      Each sub-step gets its own Specification, Acceptance Criteria, and Verification from the original.
+      Order: 8a -> 8b -> 8c (8b depends on model from 8a).
+   ```
+
+   The suggested fix must include: the splitting strategy used, what content goes in each sub-step (by reference to original spec item numbers or descriptions), and the sub-step ordering with dependency rationale.
 
 ---
 

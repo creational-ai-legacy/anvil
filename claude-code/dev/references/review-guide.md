@@ -133,6 +133,22 @@ The threshold: would this matter in a code review between two experienced develo
 
 ---
 
+## How to Write Each Check
+
+For each check, provide evidence by connecting three things: (1) what the design/plan specified, (2) what was actually implemented, and (3) your assessment of whether they align.
+
+**Intent match**: List the plan's acceptance criteria for the step. Verify each criterion against the actual files on disk. Reference specific file paths, directory contents, or code patterns that confirm or contradict each criterion.
+
+**Assumption audit**: Identify decisions in the implementation that go beyond what the design specified. For each, note whether it's documented in the Trade-offs & Decisions section or is a reasonable obvious default.
+
+**Architectural drift**: Compare the plan's Architecture/File Structure section against actual file locations. Note any structural additions or deviations and whether they preserve the intended organization.
+
+**Silent trade-offs** (Critical only): Cross-reference every meaningful implementation choice against the Trade-offs section.
+
+**Complexity proportionality** (Critical only): Count files created vs files planned. Flag if scope exceeds specification by 2x or more.
+
+---
+
 ## Output Format
 
 Return the review block as your final output. Use the format from `assets/templates/review.md`.

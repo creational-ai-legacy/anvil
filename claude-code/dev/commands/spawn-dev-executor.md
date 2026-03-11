@@ -1,6 +1,6 @@
 ---
 description: Execute implementation step with tests (Stage 3)
-argument-hint: <plan-doc> [step-number]
+argument-hint: <plan-doc> [step-id]
 context: fork
 agent: dev-executor
 disable-model-invocation: true

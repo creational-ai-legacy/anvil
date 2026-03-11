@@ -113,6 +113,11 @@ From Design doc (refined with verification commands):
 
 > This plan is a contract between the executor (builder) and reviewer (validator). Steps specify **what** to build and **how** to verify -- the executor writes the implementation.
 
+> **Sub-steps**: When a step is split during review, it becomes sub-steps (e.g., Step 8 -> Steps 8a, 8b, 8c).
+> Sub-steps are full steps with letter suffixes. Each has the same sections as a regular step.
+> Sub-steps execute in order (8a -> 8b -> 8c) before proceeding to the next whole number.
+> Sub-steps are limited to one level -- no 8a-i, 8a-ii.
+
 ### Step 0: [Setup/Infrastructure]
 
 **Goal**: [What this step accomplishes]

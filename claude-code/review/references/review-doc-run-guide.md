@@ -105,16 +105,16 @@ Parse the document to identify individual items based on doc type rules.
 
 #### Plan Extraction
 
-**Item boundary**: Each `### Step N:` implementation block.
-- Start: `### Step N:` heading
-- End: Next `### Step N+1:` heading, or `## Test Summary` section, or end of document
+**Item boundary**: Each `### Step N:` or `### Step Na:` implementation block.
+- Start: `### Step` heading (matches both `### Step 3:` and `### Step 3a:`)
+- End: Next `### Step` heading, or `## Test Summary` section, or end of document
 
 **Shared context** (same for all items): Extract and concatenate:
 - The **Overview** table (from `## Overview` to the next `##`)
 - The **Prerequisites** section (from `## Prerequisites` to the next `##`)
 - The **Success Criteria** section (from `## Success Criteria` to the next `##`)
 
-**Item count**: Number of `### Step N:` blocks found.
+**Item count**: Number of `### Step` headings found (regardless of whether they are whole numbers or sub-steps).
 
 ---
 
@@ -209,7 +209,7 @@ Replace the placeholders:
 - `{cross_ref_paths}`: List of cross-reference document paths (the holistic agent will read them itself)
 - `{template_path}`: Path to the template for this doc type (from the template mapping table in the holistic guide)
 
-After spawning, proceed immediately to Phase 3.
+After spawning, produce a brief status message (e.g., "Spawned N item agents + holistic agent. Processing as they complete."). This ends the current turn and allows background agent completion notifications to arrive.
 
 ---
 
@@ -217,23 +217,20 @@ After spawning, proceed immediately to Phase 3.
 
 ### 3.1 Process Agents as They Complete
 
-Use incremental polling to process each agent's results as they finish, rather than waiting for all agents to complete.
+Background agents auto-notify on completion — each notification contains the agent's full result. **Write to the review doc immediately for each notification** using the Edit tool. Do not batch writes or defer them to the end.
 
-```
-remaining = [all spawned agent IDs]
+For each notification, in the same turn:
 
-while remaining is not empty:
-  for each agent_id in remaining:
-    check agent_id with TaskOutput (block: false)
-    if done:
-      1. Extract findings from the Task result
-      2. Cross-reference against item's prior entries (history check)
-      3. Write findings to review doc (update summary table cell from `...` to issue counts or `✅`, write detail entry)
-      4. Report to user: "[Item/Step/Task] N: Sound / X issues"
-      5. Remove agent_id from remaining
-  if remaining is not empty:
-    wait briefly, then poll again (block: true, timeout: 15000 on first remaining agent)
-```
+1. Extract findings from the notification result
+2. Read the review doc (find the item's summary table cell, check history if not R1)
+3. Edit the review doc — update summary table cell from `...` to issue counts or `✅`, write the detail entry
+4. Brief status to user: "[Item/Step/Task] N: Sound / X issues"
+
+When multiple notifications arrive at once, process all of them in one turn — read, edit, report for each.
+
+Continue until all agents have reported back.
+
+**Do NOT call `TaskOutput`** on agents that already auto-notified — the task is cleaned up after notification. Calling `TaskOutput` on a cleaned-up task returns "No task found" and if called in a parallel batch, cascades failure to all sibling calls.
 
 **For each completed item agent**:
 
@@ -300,6 +297,30 @@ Issues: [total] ([X] HIGH, [X] MED, [X] LOW)
 See [review-doc-path] for full details.
 ```
 Apply each fix from the findings using Edit tool. Report each fix applied. If a fix cannot be applied (ambiguous target, already correct, or outside document scope), annotate the issue line in the review doc with `[Skipped: reason]` and report the skip to the user. Update the current review entry's Status from `Pending` to `Applied (X of Y)` where X is fixes applied and Y is total issues.
+
+#### Applying Step-Splitting Fixes (Plan Documents Only)
+
+When a step scope issue suggests splitting a step into sub-steps (e.g., Step 8 into 8a, 8b, 8c), follow this process:
+
+**1. Pre-execution guard**: Before applying, check the results doc (derive path from plan path: replace `-plan.md` with `-results.md`). If the results doc exists, search for the step's status. If the step is `Complete` or `In Progress`, annotate the issue with `[Skipped: step already executed]` and do not apply the split.
+
+**2. Read the full step block**: Extract the entire step from its `### Step N:` heading to the next `### Step` heading (or `## Test Summary`, or end of document). This is the `old_string` for the Edit tool.
+
+**3. Generate sub-step blocks**: Using the reviewer's split guidance (which specifies strategy, content assignment per sub-step, and ordering):
+- Create one `### Step Na:` block per sub-step (e.g., `### Step 8a:`, `### Step 8b:`, `### Step 8c:`)
+- Each sub-step gets the same structure as a regular step: Goal, checklist, Specification, Acceptance Criteria, Verification, Output
+- Distribute the original step's specification items, acceptance criteria, and verification commands across sub-steps as the reviewer's guidance directs
+- Each sub-step's Goal is derived from the original Goal, narrowed to its scope
+- Each sub-step must be self-contained -- no cross-references between sub-steps (no "as described in Step 8a")
+- Determine sub-step ordering based on the reviewer's dependency rationale
+
+**4. Replace using Edit tool**: Use the Edit tool with `old_string` set to the full original step block and `new_string` set to the concatenated sub-step blocks (8a + 8b + 8c).
+
+**5. Match failure handling**: If the Edit tool cannot match the full step block (whitespace variations, block length, concurrent edits):
+1. Re-read the plan to get current content
+2. Re-extract the step block boundaries
+3. Retry the replacement with the updated `old_string`
+4. If the retry also fails, annotate the issue with `[Skipped: step block match failed]` and report to the user for manual intervention
 
 **If issues found -- without `--auto`**:
 Show simplified summary with issue counts and pointer to review doc:

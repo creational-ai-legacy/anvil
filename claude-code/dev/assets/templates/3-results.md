@@ -35,6 +35,9 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 
 ## Implementation Progress
 
+> Sub-steps (e.g., Step 3a, 3b, 3c) appear when a step was split during review.
+> Each sub-step has its own progress block, tracked independently.
+
 ### Step [N]: [Step Name] ✅/🔄/⬜
 **Status**: Complete / In Progress / Pending ([YYYY-MM-DDTHH:MM:SS±HHMM])
 **Expected**: [What should be built]
