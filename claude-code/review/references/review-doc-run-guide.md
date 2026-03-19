@@ -240,7 +240,7 @@ Continue until all agents have reported back.
    - If a match is found in an **older** entry but not the most recent: annotate as `[Regression from RN]`
    - If no match: leave as-is (new issue)
    - **Matching guidance**: Match on issue description similarity. False negatives are acceptable -- false positives are worse. If unsure, treat as a new issue.
-3. **Write to review doc**: Update the item's summary table cell from `...` to issue counts (e.g., `1 HIGH 2 MED`) or `✅` for sound. Write the detail entry with timestamp, command (`review-doc-run`), and issues in `- [SEV] Description -> Suggested fix` format. Include history annotations if present.
+3. **Write to review doc**: Update the item's summary table cell from `...` to issue counts (e.g., `1 HIGH 2 MED`) or `✅` for sound. Write the detail entry with timestamp, command (`review-doc-run`), and issues in `- [SEV] Description -> Suggested fix` format. Include history annotations if present. **Important**: When appending a new review entry (R2, R3, ...) after an existing entry that ends with list items, always insert a blank line before the `**RN**` line. Without the blank line, markdown renders the RN label as a continuation of the preceding list.
 4. **Report**: Tell the user which item completed and its status.
 
 **For the completed holistic agent**:
@@ -345,3 +345,24 @@ After user-chosen fixes in non-auto mode. Update the review document's Review Lo
 - If user chose "Apply all" or "Pick which": apply selected fixes. For any fix the user explicitly declines, annotate the issue line in the review doc with `[Skipped: user declined]`. For fixes that cannot be applied, annotate with `[Skipped: reason]`. Update Status to `Applied (X of Y)` where X is fixes applied and Y is total issues.
 - If user chose "Done": leave Status as `Pending`.
 - For `--auto` mode: this phase is a no-op (status already updated in Phase 3.4).
+
+### 3.6 Completion Notification
+
+Play an audio notification and speak a brief summary when the review is fully done. Derive the task slug and doc type from the document filename (e.g., `core-settings-redesign-plan.md` → slug `core-settings-redesign`, type `plan`).
+
+Run a single Bash command:
+
+**Without `--auto`**:
+```bash
+afplay /System/Library/Sounds/Glass.aiff && say "Review COMPLETED for [doc-type] doc. [brief-result]."
+```
+
+**With `--auto`**:
+```bash
+afplay /System/Library/Sounds/Glass.aiff && say "Review and auto-fix COMPLETED for [doc-type] doc. [brief-result]."
+```
+
+Replace placeholders:
+- `[task-slug]`: The slug portion of the filename (e.g., `core-settings-redesign`). Pronounce hyphens as spaces.
+- `[doc-type]`: `design` or `plan` (from filename pattern)
+- `[brief-result]`: Issue counts spoken naturally (e.g., "2 high, 5 medium, 3 low") or "Sound, no issues found." if clean. Omit zero-count severities.
