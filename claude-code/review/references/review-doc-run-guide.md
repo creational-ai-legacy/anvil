@@ -348,21 +348,18 @@ After user-chosen fixes in non-auto mode. Update the review document's Review Lo
 
 ### 3.6 Completion Notification
 
-Play an audio notification and speak a brief summary when the review is fully done. Derive the task slug and doc type from the document filename (e.g., `core-settings-redesign-plan.md` → slug `core-settings-redesign`, type `plan`).
+Play an audio notification and speak a brief one-line summary when the review is fully done. Same format for both `--auto` and non-auto modes.
 
 Run a single Bash command:
 
-**Without `--auto`**:
 ```bash
-afplay /System/Library/Sounds/Glass.aiff && say "Review COMPLETED for [doc-type] doc. [brief-result]."
-```
-
-**With `--auto`**:
-```bash
-afplay /System/Library/Sounds/Glass.aiff && say "Review and auto-fix COMPLETED for [doc-type] doc. [brief-result]."
+afplay /System/Library/Sounds/Glass.aiff && say "Review run completed for [project] [task-slug] [doc-type] doc"
 ```
 
 Replace placeholders:
-- `[task-slug]`: The slug portion of the filename (e.g., `core-settings-redesign`). Pronounce hyphens as spaces.
-- `[doc-type]`: `design` or `plan` (from filename pattern)
-- `[brief-result]`: Issue counts spoken naturally (e.g., "2 high, 5 medium, 3 low") or "Sound, no issues found." if clean. Omit zero-count severities.
+- `[project]`: basename of the current working directory (e.g., `anvil`).
+- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `roadmap`, `milestone-spec`, `task-spec`, `milestone-summary`.
+- `[task-slug]`: the filename with `.md`, the `-[doc-type]` suffix, AND the first milestone segment (everything up to and including the first hyphen of the remaining slug) all stripped.
+  - Example: `core-settings-redesign-plan.md` → project=`anvil`, task-slug=`settings-redesign`, doc-type=`plan` → "Review run completed for anvil settings-redesign plan doc"
+  - Example: `core-review-staggered-auto-design.md` → project=`anvil`, task-slug=`review-staggered-auto`, doc-type=`design` → "Review run completed for anvil review-staggered-auto design doc"
+  - If only ONE segment remains after stripping the doc-type suffix (e.g., `mc-vision.md` → `mc`), there is no separate milestone/task split — use that single segment as `[task-slug]` (voiced: "Review run completed for anvil mc vision doc").
