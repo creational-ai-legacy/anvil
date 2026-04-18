@@ -29,7 +29,8 @@ anvil/
 │   ├── README.md               # CC-specific documentation
 │   ├── deploy.sh               # Deploy skills and commands (local)
 │   ├── deploy-genesis.sh       # Deploy skills to genesis (Raspberry Pi)
-│   ├── verify.sh               # Verify deployment
+│   ├── verify.sh               # Verify deployment (local)
+│   ├── verify-genesis.sh       # Verify deployment (genesis)
 │   ├── sync-from-user.sh       # Sync from deployed skills
 │   └── [skill-name]/           # Each skill follows this structure
 │       ├── SKILL.md            # Skill definition (required)
@@ -65,6 +66,8 @@ anvil/
 **IMPORTANT**: Always edit the source in `claude-code/`, then deploy. Never edit deployed files in `~/.claude/skills/` — they get overwritten on deploy.
 
 **IMPORTANT**: `deploy-genesis.sh` is a SEPARATE manual action. Do NOT run it as part of "deploy and verify" or any routine deploy. Only run it when the user explicitly asks to deploy to genesis.
+
+**IMPORTANT - Keep local/genesis pairs in sync**: `deploy.sh` ↔ `deploy-genesis.sh` and `verify.sh` ↔ `verify-genesis.sh` must stay mirrored. Whenever you edit one, apply the same change to its pair. The `SKILLS`, `OLD_SKILLS`, `OLD_COMMANDS`, `OLD_AGENTS`, `REQUIRED_COMMANDS`, and `REQUIRED_AGENTS` arrays must match across the pair (genesis scripts just target a remote host via SSH/SCP). Drift between local and genesis means genesis deploys will be stale or miss cleanup.
 
 ## Key Commands
 
@@ -205,7 +208,7 @@ Commands are deployed to `~/.claude/commands/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
 
-**Claude Code (genesis)**: `claude-code/deploy-genesis.sh` deploys the same skills to `genesis:/home/pi/.claude/` via SSH.
+**Claude Code (genesis)**: `claude-code/deploy-genesis.sh` deploys the same skills to `genesis:/home/pi/.claude/` via SSH. `claude-code/verify-genesis.sh` validates the remote deployment (mirrors `verify.sh` via SSH). Keep the local/genesis pairs in sync — see "Keep local/genesis pairs in sync" note above.
 
 **Claude Desktop**: `claude-desktop/package.sh` creates:
 - `releases/design.skill`
