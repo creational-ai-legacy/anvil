@@ -1,1 +1,2 @@
 claude-code/deploy-genesis.sh
+.claude/scheduled_tasks.lock

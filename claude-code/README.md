@@ -125,7 +125,9 @@ The typical dev task workflow with review loops:
 |---------|---------|
 | `/review-doc` | Sequential document review (supports --auto) |
 | `/review-doc-run` | Parallel document review with background subagents (supports --auto) |
+| `/review-doc-run-loop` | Tick-driven loop that pairs with `/exam-loop` (long-running, main conversation only) |
 | `/review-skill` | Audit skills for structure, frontmatter, and consistency |
+| `/exam-loop` | Tick-driven loop that pairs with `/review-doc-run-loop` (long-running, main conversation only) |
 
 ## Output Files
 

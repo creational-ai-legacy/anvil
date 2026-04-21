@@ -1,10 +1,10 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-03-10T23:08:21-0700
+> **Last Updated**: 2026-04-18T00:12:50-0700
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking with per-item history, auto-fix support, and step-splitting review capability. Sub-step notation (8a, 8b, 8c) supported across plan, execution, and review systems. Marketing milestone 1/6 tasks complete.
+**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking, per-item history, auto-fix support, step-splitting, and now paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`) backed by a single-source-of-truth `review-loop-guide.md`. Sub-step notation (8a, 8b, 8c) supported across plan, execution, and review systems. Marketing milestone 1/6 tasks complete.
 
 ---
 
@@ -26,6 +26,7 @@
 | review-skill | Unified Review Skill (verify + skill-reviewer consolidation) | refactor | ✅ Complete | `core-review-skill-*.md` |
 | review-tracking | Persistent Review Tracking with Per-Item History | feature | ✅ Complete | `core-review-tracking-*.md` |
 | step-splitting | Sub-Step Support for Plan Step Splitting | feature | ✅ Complete | `core-step-splitting-*.md` |
+| review-auto-loops | Auto Loops: /review-doc-run-loop + /exam-loop (tick-driven staggered review) | feature | ✅ Complete (Step 6 ⏭️ skipped) | `core-review-auto-loops-*.md` |
 
 ### Milestone: Marketing
 
@@ -58,60 +59,64 @@
 | 2026-02-26 | Naming refactor: spawn-* prefix, bare role agents, research/ skill, verify/ skill | Align with official Claude Code conventions; fix skill-command collision; clean foundation for verify v2 |
 | 2026-02-26 | Consolidate verify + skill-reviewer into unified review skill | 4-skill toolkit cleaner than 5; parallel subagent architecture enables faster doc reviews; single quality assurance entry point |
 | 2026-03-10 | Sub-step notation (8a, 8b, 8c) for plan step splitting | Letter suffixes preserve existing step numbers (no renumbering), one level only, review-driven splits with pre-execution guard |
+| 2026-04-18 | Add paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`) with single-source-of-truth `review-loop-guide.md` | Two independent main-conversation sessions coordinate staggered R → E → R → E cycles via shared review doc without manual hand-off. Echo-encoded state survives compaction; tuning constants (POLL_INTERVAL_SECONDS=240, MAX_IDLE_TICKS=4, MAX_ROUNDS=20) defined once in guide. Single-pass `/review-doc-run` and `/exam` untouched. |
+| 2026-04-18 | SKIP Step 6 integration tests entirely for core-review-auto-loops | User directive: exercise new commands in daily use and iterate empirically. Two-session paired integration tests deemed unnecessary overhead; load-bearing wake-up-when-idle assumption accepted as unverified at feature-ship time. Rework cost identical whether discovered now or later. |
 
 ---
 
 ## What's Next
 
 **Recommended Next Steps**:
-1. Deploy step-splitting changes: `cd claude-code && ./deploy.sh && ./verify.sh`
-2. Manual e2e validation: run `/review-doc-run` on an existing integer-only plan to confirm backward compatibility
-3. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
-4. Begin LinkedIn Launch task (profile optimization, first posts)
+1. User manual `/help` check in a fresh Claude Code session: confirm `/review-doc-run-loop` and `/exam-loop` appear with expected `argument-hint`
+2. Exercise new loop commands in actual daily use; log any wake-up, resume-math, or parser issues as follow-up bugs
+3. If the wake-up-when-idle primitive fails in real use, escalate to Monitor-tool pivot per plan's Step 6 Trade-offs (~14–24 hour rework)
+4. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
+5. Begin LinkedIn Launch task (profile optimization, first posts)
 
-**System Status**: ✅ **Production Ready + Step Splitting**
+**System Status**: ✅ **Production Ready + Auto Loops**
 - 4 Anvil skills: design, dev, research, review
 - 5-stage design skill v2.0.0 (simplified naming: vision, roadmap, task-spec)
 - 3-stage dev skill with spec-driven plan workflow and sub-step support
-- review skill: persistent review tracking with per-item history, --auto support, step scope check with split suggestions, parallel + sequential doc review, skill auditing
+- review skill: persistent review tracking with per-item history, --auto support, step scope check with split suggestions, parallel + sequential doc review, skill auditing, paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`)
+- review-loop-guide.md owns all loop mechanics (parser, roles, gates, tick loop, echo state, termination, tuning) as single source of truth
 - All agents use bare role names, all forked commands use /spawn-* prefix
 - research/ skill consolidates market-research and naming-research
 - Marketing milestone 1/6 tasks complete (GitHub Presence)
+- 42 deployed commands, 16 agents, 73/73 verify checks passing
 
 ---
 
 ## Latest Health Check
 
-### 2026-03-10 - core-step-splitting Finalization
-**Status**: ✅ On Track
+### 2026-04-18 - core-review-auto-loops Finalization
+**Status**: ⚠️ Minor Concerns (structural completion ✅, runtime validation deliberately deferred)
 
 **Context**:
-Finalizing the core-step-splitting task -- added sub-step support (8a, 8b, 8c) to the plan step splitting workflow. Review system can now flag oversized steps and suggest concrete splits. Execution system handles sub-steps as first-class citizens. 11 existing files modified, zero new files created.
+Finalizing the core-review-auto-loops task — delivered paired tick-driven review loops via two new commands (`/review-doc-run-loop`, `/exam-loop`) and one new reference (`review-loop-guide.md`). All 5 structural steps (0-5) complete. Step 6 integration tests (12 subtests) skipped entirely per explicit user directive; validation deferred to empirical daily use.
 
 **Findings**:
-- ✅ Alignment: Sub-step support directly extends the review and dev skills' capability -- oversized steps that were previously flagged as "structural suggestions" and skipped can now be split and applied. This completes a gap identified during review usage.
-- ✅ Production: All changes are to production guide files (references, templates, agents, commands) that control real agent behavior. Changes are surgical line replacements, blockquote additions, and subsection additions. Deploy + verify not yet run after changes.
-- ✅ Scope: All 11 implementation steps (0-10) executed per plan specification. Zero deviations from plan across all steps. 11/14 success criteria checked off in results doc; remaining 3 (step scope check details, plan template notation, backward compatibility) are implemented but pending deploy verification.
-- ✅ Complexity: Proportionate -- 11 files modified with targeted edits. No new files created. No new abstractions or indirection layers. Sub-steps reuse existing step structure entirely.
-- ⚠️ Gap: deploy.sh and verify.sh have not been run after the changes. Manual e2e validation (running review on an existing integer-only plan) not yet performed. These are the recommended next actions.
-- ✅ Tests: N/A -- all changes are documentation-only. Each step validated via grep verification against acceptance criteria.
+- ✅ Alignment: The new loop commands extend the review skill's value proposition (staggered R → E cycles without manual hand-off) while preserving single-pass `/review-doc-run` and `/exam` behavior unchanged. Additive-only across SKILL.md, CLAUDE.md, README.md documentation surfaces. Matches the review skill's "parallel + sequential doc review, skill auditing" evolution trajectory.
+- ✅ Production: All changes are to production surfaces (commands, references, skill metadata, project docs). `deploy.sh && verify.sh` passes 73/73 checks. Byte-identical deploy diffs across all four review-skill surfaces.
+- ⚠️ Gap: Step 6 runtime validation skipped per user directive. 12 integration subtests NOT executed; the load-bearing wake-up-when-idle primitive (Test 6.1) remains empirically unverified at feature-ship time. Risk accepted: failure would surface on first real-workflow use and trigger reactive rework (~14-24 hours for Monitor-tool pivot per plan's Step 6 Trade-offs).
+- ✅ Scope: Five structural steps executed per plan specification with zero deviations on behavioral content. Two documented deviations are procedural only: (a) Prerequisite 3 baseline capture bypassed per user directive; (b) Step 6 entire block skipped per user directive. Both recorded in Key Decisions with full rationale.
+- ✅ Complexity: Proportionate — 3 new files (1 guide, 2 thin wrappers) + 3 additive documentation edits. Loop guide is 554 lines (within 400-600 target). Each wrapper is ~49 lines (within 40-60 target). Single-source-of-truth principle upheld: all loop mechanics live in `review-loop-guide.md`; wrappers only expose per-side surface area.
+- ✅ Tests: N/A for this task — all changes are documentation/command files validated via structural greps and deploy+verify. Runtime integration tests deliberately skipped per user directive; daily-use iteration is the validation pathway.
 
 **Challenges**:
-- Fix application logic needed to be duplicated in both review guides (sequential and parallel) to maintain each guide's self-contained property
-- Pre-execution guard requires checking the results doc status before applying a split, adding a cross-document dependency to the fix application flow
+- The load-bearing wake-up-when-idle primitive (tick-driven background timer via echo-encoded state) could not be empirically validated within the `/dev-execute` session — integration phase is structurally user-driven. The executor correctly surfaced this limit rather than fabricating success.
+- User directive to skip Step 6 arrived after the executor had prepared Track A / Track B recipes; the honest response was to record the directive with full Deviation from Plan narrative and preserve `⏭️ SKIPPED` status, not silent ✅.
 
 **Results**:
-- ✅ Review check #5 (step scope manageable) with cohesion-first decision logic and 4 splitting strategies
-- ✅ Sub-step notation documented in plan template and results template
-- ✅ Three sub-step prohibitions removed (execution guide line 15, planning guide lines 67 and 191)
-- ✅ Execute-run orchestrator reads step IDs from plan headings instead of incrementing counter
-- ✅ Executor agent and spawn command updated for step identifier notation
-- ✅ Fix application logic documented in both review paths with pre-execution guard and match failure handling
-- ✅ Review tracking template documents split step transition across review rounds
+- ✅ `review-loop-guide.md` deployed (554 lines): parser, role assignment, coordination protocol, tick-driven loop structure, mid-round compaction recovery, termination rules, tuning constants (single-definition-site)
+- ✅ `/review-doc-run-loop` command deployed with `disable-model-invocation: true` and paired-flag warning in Usage block
+- ✅ `/exam-loop` command deployed with mirror-symmetric Process list (byte-identical across both wrappers)
+- ✅ Three documentation surfaces updated additively (SKILL.md, CLAUDE.md, README.md) with consistent "tick-driven loop" terminology
+- ✅ Non-regression confirmed: `/review-doc-run`, `/exam`, `review-tracking.md` all byte-identical pre/post
+- ✅ `deploy.sh && verify.sh` 73/73 passing; command count rose 40 → 42
 
 **Lessons Learned**:
-- Generic heading matching (`### Step` without `N:`) future-proofs extraction against notation extensions
-- Dumb orchestrators benefit from reading data from documents rather than generating it from assumptions
-- Duplicating rules across self-contained guides is the right trade-off when cross-referencing would break readability
+- Empirical-use-over-synthetic-tests is a legitimate validation strategy when users have high workflow exposure and failure modes are obvious in use. Preserve skips as explicit `⏭️ SKIPPED` status with Deviation from Plan narrative, not silent completion — keeps decisions auditable.
+- Integration phases needing multiple paired sessions or wall-clock elapse cannot run inside `/dev-execute`. Future plans should mark such steps "user-driven, executor produces readiness checklist only" — extend the Prerequisite 3 ("USER ACTION REQUIRED") pattern into the step itself.
+- Single-source-of-truth bears out: thin wrappers + one fat guide means future loop-semantics changes touch only the guide. "Do NOT duplicate guide content" in surface docs is a forcing function that prevents drift.
 
-**Next**: Run `deploy.sh` + `verify.sh` to deploy changes. Manual e2e validation with integer-only plan. Continue Marketing milestone tasks.
+**Next**: User runs `/help` in a fresh session to confirm both new commands are discoverable. User exercises `/review-doc-run-loop` and `/exam-loop` in daily use. Any wake-up, resume-math, or parser issues feed a follow-up `/dev-design` cycle; Monitor-tool pivot is the escalation path if the wake-up primitive fails.

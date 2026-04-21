@@ -147,6 +147,7 @@ cd claude-desktop
 - `review-holistic-guide.md` - Cross-cutting review checks
 - `skill-review-guide.md` - Skill auditing guide
 - `exam-guide.md` - Independent examination guide (review + monitor modes)
+- `review-loop-guide.md` - Tick-driven loop guide for /review-doc-run-loop and /exam-loop (single source of truth for loop mechanics)
 
 **research** (`claude-code/research/references/`):
 - `market-research-guide.md` - Market research process guide
@@ -192,8 +193,10 @@ cd claude-desktop
 **Review commands**:
 - `/review-doc` - Sequential document review (supports --auto)
 - `/review-doc-run` - Parallel document review with background subagents (supports --auto)
+- `/review-doc-run-loop` - Tick-driven loop that coordinates with `/exam-loop` via the shared review doc (long-running, main conversation only)
 - `/review-skill` - Audit a skill for structure, frontmatter, and consistency
 - `/exam` - Independent critical examination of a document
+- `/exam-loop` - Tick-driven loop that coordinates with `/review-doc-run-loop` via the shared review doc (long-running, main conversation only)
 - `/monitor` - Monitor execution progress with periodic status reports
 
 Commands are deployed to `~/.claude/commands/`

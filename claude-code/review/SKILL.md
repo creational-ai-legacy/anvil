@@ -46,13 +46,16 @@ This skill consolidates document verification and skill auditing into a single r
 | Skill Review Report Template | `assets/templates/skill-review-report.md` |
 | Exam Guide | `references/exam-guide.md` |
 | Monitor Status Template | `assets/templates/monitor-status.md` |
+| Loop Guide | `references/review-loop-guide.md` |
 
 ## Commands
 
 - `/review-doc <path> [--auto] [notes]` -- Sequential doc review (main conversation)
 - `/review-doc-run <path> [--auto] [notes]` -- Parallel doc review with background agents (main conversation)
+- `/review-doc-run-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/exam-loop` via the shared review doc; main conversation only. `N` defaults to 2
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
 - `/exam <path> [notes]` -- Independent critical examination of a document (main conversation)
+- `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-run-loop` via the shared review doc; main conversation only. `N` defaults to 2
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports (main conversation)
 - `/spawn-doc-reviewer <path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
@@ -96,3 +99,7 @@ Independent critical assessment, deeper than automated review:
 
 - **Review mode** (`/exam`): Deep-dive examination of a single document. Reads the automated review doc first, then challenges substance, architectural decisions, unvalidated assumptions, and cross-document contradictions. Reports findings conversationally with a numbered table ranked by severity.
 - **Monitor mode** (`/monitor`): Real-time observation of plan execution. Periodically reads the results doc and performs per-step analysis as steps complete — cross-referencing against plan spec, plan review findings, design items, and expectations doc. The examiner adds judgment the mechanical reviewer cannot: was the concern substantive? Did the fix resolve the real risk?
+
+### Loop Coordination
+
+`/review-doc-run-loop` and `/exam-loop` are paired, long-running tick-driven loop commands that coordinate two independent Claude Code sessions via a shared review doc to run a staggered `R1 → E1 → R2 → E2 → ...` review cycle with no manual hand-off. By default `/review-doc-run-loop` leads (runs R1 immediately) and `/exam-loop` follows (waits for R1 before running E1). The `--first` and `--follow` flags flip this default for exam-first workflows, but they must be paired across both sessions (`--first` on one side AND `--follow` on the other) — missing either flag silently degrades the coordination. For full semantics (argument parsing, role assignment, gate formulas, state encoding, termination rules, tuning constants), see `references/review-loop-guide.md`.
