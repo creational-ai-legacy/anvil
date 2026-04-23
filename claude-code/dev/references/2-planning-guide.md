@@ -290,6 +290,25 @@ List affected test files in Prerequisites:
 - Running tests without knowing what you're testing
 - Using inline checks for implementation step verification (Steps 1+ use test framework)
 - Ignoring environment guide
+- **Under-scoping rename/move/delete steps** — see "Rename Cascade Sub-Step" below
+
+## Rename Cascade Sub-Step
+
+When a step renames, moves, or deletes a symbol, file, module, or bundle, the plan-stated scope almost always under-counts the actual work. The full test suite will surface downstream references (test class names, string literals, version assertions, docstrings) that the bullet-list doesn't anticipate. The executor then either absorbs the cascade into the step (scope bloat) or fragments it across later steps (commit-scope drift).
+
+Every rename/move/delete step should include this standard sub-step between the rename and the acceptance criteria:
+
+```markdown
+### Test fallout audit
+- [ ] Grep the codebase for the old name: `grep -rn "<old-name>" <src-and-test-roots>` (substitute project-specific paths — e.g., `src/ tests/` for Python, `Assets/` for Unity)
+- [ ] Rename affected class names, string literals, version assertions, and docstrings across both test and source files
+- [ ] Run full suite per environment guide (see `references/python-guide.md` or `references/unity-guide.md` for the concrete command)
+- [ ] Record count of cascading edits in results doc's Implementation section (so the PR reviewer sees them)
+```
+
+When the cascade exceeds a single-step size budget, apply the "split if too big" rule from `Tests Must Be In The Same Step` above: Step N handles the rename plus its own acceptance tests; Step N+1 handles the cascade cleanup plus the full-suite pass. Prefer the split when the cascade touches more than ~5 test files or spans multiple concern boundaries.
+
+**Why this matters**: the execution-guide's "ALL tests pass" contract forces the cascade to land somewhere. When the plan doesn't pre-enumerate it, the executor absorbs it (scope bloats) OR it fragments across later steps (commit-scope drifts). Either way, the plan's line-count estimate becomes wrong. The sub-step template captures what would otherwise be invisible scope creep.
 
 ## Next Stage
 → Stage 3: Execution (use 3-execution-guide.md)

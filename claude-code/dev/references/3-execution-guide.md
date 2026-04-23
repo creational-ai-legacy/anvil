@@ -90,11 +90,22 @@ The executor reads the step's **specification** from the plan and writes the imp
 
 **Acceptance criteria self-check**: Before marking a step complete, verify the implementation meets the step's acceptance criteria from the plan. Acceptance criteria are the executor's checklist for what "done" means for this step. If any criterion is not met, the step is not complete.
 
-## Test Guidelines
+## Testing Guidelines
 - Cover critical paths
 - Test edge cases
 - Verify outputs match expectations
 - Use descriptive test names
+
+### Smoke-command pipeline hygiene
+
+When validating a step via shell smoke tests, be careful with pipelines. By default, `cmd 2>&1 | tail -N` reports `tail`'s exit (always 0) as `$?`, masking any non-zero exit from `cmd`. This is a silent failure: a broken command looks successful.
+
+**Patterns to use:**
+- Set `pipefail` at the top of the smoke block: `set -o pipefail` — any non-zero exit in the pipeline propagates to `$?`.
+- When a command's exit code is the signal you care about, append `; echo "Exit: $?"` immediately after the invocation so the code is visible: `<command> ; echo "Exit: $?"`.
+- For multi-line log inspection, prefer capture-then-inspect: `<command> > /tmp/out.log 2>&1; echo "Exit: $?"; tail -20 /tmp/out.log` — `$?` reflects the actual command, not `tail`.
+
+**What NOT to do:** `<command> 2>&1 | tail -10; echo "$?"` — without `pipefail`, this always prints 0 even when the command crashed.
 
 ### Test Scope: Intentional and Incremental
 

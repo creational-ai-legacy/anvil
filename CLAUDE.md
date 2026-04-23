@@ -126,6 +126,7 @@ cd claude-desktop
 - `lessons-learned.md` - Lessons consolidation
 - `diagram.md` - Task diagram template
 - `milestone-summary.md` - Milestone summary template
+- `review.md` - Review block for /dev-review output
 
 ## Reference Guides
 
