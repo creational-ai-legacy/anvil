@@ -55,6 +55,7 @@ OLD_COMMANDS=(
     "agent-verify-doc.md"
     "skill-review.md"
     "agent-skill-review.md"
+    "review-doc-run-loop.md"
 )
 
 # Old agents that should NOT exist (renamed to role-based names)

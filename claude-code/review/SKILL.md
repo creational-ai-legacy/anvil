@@ -52,10 +52,10 @@ This skill consolidates document verification and skill auditing into a single r
 
 - `/review-doc <doc-path> [--auto] [notes]` -- Sequential doc review (main conversation)
 - `/review-doc-run <doc-path> [--auto] [notes]` -- Parallel doc review with background agents (main conversation)
-- `/review-doc-run-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/exam-loop` via the shared review doc; main conversation only. `N` defaults to 2
+- `/review-doc-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/exam-loop` via the shared review doc; main conversation only. `N` defaults to 1
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
 - `/exam <doc-path> [--auto] [notes]` -- Independent critical examination of a document (main conversation)
-- `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-run-loop` via the shared review doc; main conversation only. `N` defaults to 2
+- `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-loop` via the shared review doc; main conversation only. `N` defaults to 2
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports (main conversation)
 - `/spawn-doc-reviewer <doc-path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
@@ -102,4 +102,4 @@ Independent critical assessment, deeper than automated review:
 
 ### Loop Coordination
 
-`/review-doc-run-loop` and `/exam-loop` are paired, long-running tick-driven loop commands that coordinate two independent Claude Code sessions via a shared review doc to run a staggered `R1 → E1 → R2 → E2 → ...` review cycle with no manual hand-off. By default `/review-doc-run-loop` leads (runs R1 immediately) and `/exam-loop` follows (waits for R1 before running E1). The `--first` and `--follow` flags flip this default for exam-first workflows, but they must be paired across both sessions (`--first` on one side AND `--follow` on the other) — missing either flag silently degrades the coordination. For full semantics (argument parsing, role assignment, gate formulas, state encoding, termination rules, tuning constants), see `references/review-loop-guide.md`.
+`/review-doc-loop` and `/exam-loop` are paired, long-running tick-driven loop commands that coordinate two independent Claude Code sessions via a shared review doc to run a staggered review cycle with no manual hand-off. By default `/exam-loop` leads (runs E1 immediately, N=2) and `/review-doc-loop` follows (waits for E1 before running R1, N=1) -- the default cadence is the critic-sandwich `E1 → R1 → E2`. The `--first` and `--follow` flags flip this default for review-first workflows, but they must be paired across both sessions (`--first` on one side AND `--follow` on the other) — missing either flag silently degrades the coordination. For full semantics (argument parsing, role assignment, gate formulas, state encoding, termination rules, tuning constants), see `references/review-loop-guide.md`.

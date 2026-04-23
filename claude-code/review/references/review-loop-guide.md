@@ -1,6 +1,6 @@
 # Loop Guide
 
-This guide is loaded fresh on each `/review-doc-run-loop` or `/exam-loop` invocation to prevent instruction drift. Do NOT treat prior conversation as authoritative for loop semantics -- always re-read this guide on every tick wake per the echo's `Continue per review-loop-guide Continuation` pointer.
+This guide is loaded fresh on each `/review-doc-loop` or `/exam-loop` invocation to prevent instruction drift. Do NOT treat prior conversation as authoritative for loop semantics -- always re-read this guide on every tick wake per the echo's `Continue per review-loop-guide Continuation` pointer.
 
 Scope: loop mechanics only. Per-round execution delegates to the existing guides:
 
@@ -13,14 +13,17 @@ The per-round guides are treated as libraries the loop wraps externally; they ar
 
 ## Tuning
 
-All three tuning constants live in this single section -- edit one place to change cadence, idle tolerance, or round bound.
+All tuning constants live in this single section -- edit one place to change cadence, idle tolerance, or round bound.
 
 ```
 POLL_INTERVAL_SECONDS = 240   # 4 minutes; tweak to change tick cadence
 MAX_IDLE_TICKS = 4            # 4 ticks without counterpart progress triggers idle termination
 MAX_ROUNDS = 20               # upper bound on N; protects against typo-driven runaway
-DEFAULT_ROUNDS = 2            # used when N is omitted (e.g. `/exam-loop doc --first`)
+DEFAULT_REVIEW_ROUNDS = 1     # used when N is omitted on /review-doc-loop
+DEFAULT_EXAM_ROUNDS = 2       # used when N is omitted on /exam-loop
 ```
+
+The two default-N constants are asymmetric by design: the default workflow is exam-led (critic-sandwich `E1 -> R1 -> E2`), so `/exam-loop` runs 2 rounds by default (initial critique + verification) while `/review-doc-loop` runs 1 round (the thorough pass between them). Either constant can be overridden at invocation time by passing an explicit N.
 
 These constants render back into echoes and error messages as literal values (for example, the `N must be between 1 and 20` error embeds the rendered value of `MAX_ROUNDS`, and idle-timer echoes embed `MAX_IDLE_TICKS` in the `idle X/<MAX_IDLE_TICKS>` denominator). If you change a constant here, both the error text and the echo denominators shift accordingly with no other edits needed.
 
@@ -31,7 +34,7 @@ These constants render back into echoes and error messages as literal values (fo
 Both loop commands share the same positional shape:
 
 ```
-/review-doc-run-loop <doc-path> [N] [--first | --follow] [notes]
+/review-doc-loop <doc-path> [N] [--first | --follow] [notes]
 /exam-loop <doc-path> [N] [--first | --follow] [notes]
 ```
 
@@ -41,11 +44,11 @@ The command body does NOT validate arguments. All parsing happens here, in the l
 
 1. Tokenize the arguments string on whitespace. No flag-aware positional parse -- just split.
 2. First token -> `doc_path` (required). If missing, error with usage (`doc_path is required`).
-3. Second token -> `N` (optional; defaults to `DEFAULT_ROUNDS = 2`). Resolution rules, in order:
-   a. If the second token is missing OR begins with `--` (it's a flag, not a number), set `N = DEFAULT_ROUNDS` and leave the token in the stream for flag scanning in steps 4-5.
+3. Second token -> `N` (optional; side-aware default -- `DEFAULT_REVIEW_ROUNDS = 1` on `/review-doc-loop`, `DEFAULT_EXAM_ROUNDS = 2` on `/exam-loop`). Resolution rules, in order (let `DEFAULT_N` bind to the side-appropriate constant):
+   a. If the second token is missing OR begins with `--` (it's a flag, not a number), set `N = DEFAULT_N` and leave the token in the stream for flag scanning in steps 4-5.
    b. Else if the second token parses as an integer in `[1, MAX_ROUNDS]`, that's `N`. Consume the token.
    c. Else if the second token parses as an integer OUTSIDE `[1, MAX_ROUNDS]` (zero, negative, or > 20), error with `N must be between 1 and 20` (the `20` is the rendered value of `MAX_ROUNDS` from the Tuning subsection above).
-   d. Else the second token is a non-flag non-integer (e.g. a typo like `twoo` or the doc author's free-form notes starting in the second position). Set `N = DEFAULT_ROUNDS` and leave the token in the stream; it falls through to `notes` in step 7.
+   d. Else the second token is a non-flag non-integer (e.g. a typo like `twoo` or the doc author's free-form notes starting in the second position). Set `N = DEFAULT_N` and leave the token in the stream; it falls through to `notes` in step 7.
 4. Scan remaining tokens for the literal flag `--first`. If one or more occurrences are present, set `first_flag = true` and remove ALL occurrences from the stream. Duplicates are ignored (treated as one).
 5. Scan remaining tokens for the literal flag `--follow`. If one or more occurrences are present, set `follow_flag = true` and remove ALL occurrences from the stream. Duplicates are ignored.
 6. If both `first_flag` and `follow_flag` are true -> error with usage `--first and --follow are mutually exclusive on the same command`. Do NOT silently pick one.
@@ -54,60 +57,60 @@ The command body does NOT validate arguments. All parsing happens here, in the l
 ### Semantics
 
 - **`N` is additive**. It counts rounds RUN BY THIS INVOCATION, not a cap on total rounds logged. Captured at Initial entry as `target_rounds = N`. Used alongside `entry_r_done` / `entry_e_done` (completed-row counts captured from the doc at entry) to compute `rounds_done = current_done - entry_done` on every tick. `N = 1` against a doc with R3/E3 Applied runs R4 only (review side) or E4 only (exam side). Only rows whose Status is `Applied` or `Clean` count -- a `Pending` row represents an in-flight round that has not yet been consumed by this invocation's round budget.
-- **`N` defaults to `DEFAULT_ROUNDS = 2`** when omitted. This makes `/review-doc-run-loop <doc> --first` and `/exam-loop <doc> --follow` usable without typing a number -- the common case of "run 2 rounds with this role override" becomes a one-liner.
+- **`N` has asymmetric defaults** when omitted: `DEFAULT_REVIEW_ROUNDS = 1` on `/review-doc-loop`, `DEFAULT_EXAM_ROUNDS = 2` on `/exam-loop`. This encodes the default exam-led workflow as a critic-sandwich (E1 -> R1 -> E2): exam bookends one thorough review pass.
 - **`--first`** forces this side to `leader`, overriding the default.
 - **`--follow`** forces this side to `follower`, overriding the default.
-- **Default role by side**: `/review-doc-run-loop` defaults to `leader`; `/exam-loop` defaults to `follower`. This matches the historical review-then-exam workflow.
+- **Default role by side**: `/exam-loop` defaults to `leader`; `/review-doc-loop` defaults to `follower`. The exam-led default matches the "critic leads, review addresses, critic verifies" cadence.
 - **Duplicate-flag handling**: `--first --first` is treated as a single `--first`. Same for `--follow --follow`. Mixing `--first --follow` (in any order, any number of duplicates) is still a mutual-exclusion error.
 - **Unknown flags** pass through as notes (no error).
 
 ### Examples
 
 ```
-# Default workflow -- review leads, exam follows
-/review-doc-run-loop docs/foo.md 2                   -> doc=docs/foo.md, N=2, no flag, review=leader (default)
-/exam-loop docs/foo.md 2                             -> doc=docs/foo.md, N=2, no flag, exam=follower (default)
+# Default workflow -- exam leads (N=2), review follows (N=1). Critic-sandwich: E1 -> R1 -> E2.
+/exam-loop docs/foo.md 2                             -> doc=docs/foo.md, N=2, no flag, exam=leader (default)
+/review-doc-loop docs/foo.md 1                       -> doc=docs/foo.md, N=1, no flag, review=follower (default)
 
 # Resume case -- just rerun with the number of additional rounds
-/review-doc-run-loop docs/foo.md 1                   -> 1 more round (resume), review=leader
-/exam-loop docs/foo.md 1                             -> 1 more round (resume), exam=follower
+/exam-loop docs/foo.md 1                             -> 1 more round (resume), exam=leader
+/review-doc-loop docs/foo.md 1                       -> 1 more round (resume), review=follower
 
-# Exam-first workflow -- COORDINATED PAIR. Both flags required.
-/exam-loop docs/foo.md 2 --first                     -> 2 additive rounds, exam=leader
-/review-doc-run-loop docs/foo.md 2 --follow          -> 2 additive rounds, review=follower
+# Review-first workflow -- COORDINATED PAIR. Both flags required.
+/review-doc-loop docs/foo.md 2 --first               -> 2 additive rounds, review=leader
+/exam-loop docs/foo.md 2 --follow                    -> 2 additive rounds, exam=follower
 
 # No-op flags (for symmetry; accepted without error)
-/review-doc-run-loop docs/foo.md 2 --first           -> review=leader (same as default)
-/exam-loop docs/foo.md 2 --follow                    -> exam=follower (same as default)
+/exam-loop docs/foo.md 2 --first                     -> exam=leader (same as default)
+/review-doc-loop docs/foo.md 1 --follow              -> review=follower (same as default)
 
-# Default N (omit the number; N=2 is assumed)
-/review-doc-run-loop docs/foo.md                     -> doc=docs/foo.md, N=2 (default), review=leader
-/review-doc-run-loop docs/foo.md --first             -> doc=docs/foo.md, N=2 (default), review=leader (no-op flag)
-/exam-loop docs/foo.md --first                       -> doc=docs/foo.md, N=2 (default), exam=leader
-/review-doc-run-loop docs/foo.md --follow            -> doc=docs/foo.md, N=2 (default), review=follower
+# Default N (omit the number; side-aware defaults apply)
+/exam-loop docs/foo.md                               -> doc=docs/foo.md, N=2 (DEFAULT_EXAM_ROUNDS), exam=leader
+/exam-loop docs/foo.md --first                       -> doc=docs/foo.md, N=2 (DEFAULT_EXAM_ROUNDS), exam=leader (no-op flag)
+/review-doc-loop docs/foo.md                         -> doc=docs/foo.md, N=1 (DEFAULT_REVIEW_ROUNDS), review=follower
+/review-doc-loop docs/foo.md --first                 -> doc=docs/foo.md, N=1 (DEFAULT_REVIEW_ROUNDS), review=leader
 
 # With notes
-/review-doc-run-loop docs/foo.md 3 focus on the coordination protocol
-    -> doc=docs/foo.md, N=3, no flag, notes="focus on the coordination protocol"
 /exam-loop docs/foo.md 3 check the gate arithmetic
     -> doc=docs/foo.md, N=3, no flag, notes="check the gate arithmetic"
+/review-doc-loop docs/foo.md 3 focus on the coordination protocol
+    -> doc=docs/foo.md, N=3, no flag, notes="focus on the coordination protocol"
 
 # Error cases
-/review-doc-run-loop docs/foo.md 0                   -> error: N must be between 1 and 20
-/review-doc-run-loop docs/foo.md 21                  -> error: N must be between 1 and 20
-/review-doc-run-loop docs/foo.md 2 --first --follow  -> error: --first and --follow are mutually exclusive on the same command
-/review-doc-run-loop docs/foo.md --auto              -> doc=docs/foo.md, N=2 (default), notes="--auto" (--auto is NOT a recognized flag on loop commands; it passes through silently as notes)
+/exam-loop docs/foo.md 0                             -> error: N must be between 1 and 20
+/review-doc-loop docs/foo.md 21                      -> error: N must be between 1 and 20
+/review-doc-loop docs/foo.md 2 --first --follow      -> error: --first and --follow are mutually exclusive on the same command
+/review-doc-loop docs/foo.md --auto                  -> doc=docs/foo.md, N=1 (DEFAULT_REVIEW_ROUNDS), notes="--auto" (--auto is NOT a recognized flag on loop commands; it passes through silently as notes)
 ```
 
 ### Edge cases
 
 - **Duplicate `--first`**: ignored; treated as one. Same for duplicate `--follow`.
 - **Duplicate `--first` + `--follow`**: still a mutual-exclusion error.
-- **`--auto` on a loop command**: not a recognized flag. Since the loop is always auto-apply (see Fix-application under the loop), there is no user-facing `--auto` flag. Per step 3a of the parser contract, any second token beginning with `--` triggers the `N = DEFAULT_ROUNDS` default and remains in the stream for flag scanning. `--auto` is not matched by steps 4 (`--first`) or 5 (`--follow`), so it falls through to notes in step 7. Behavior: `/<cmd> doc --auto` runs with N=2 and notes="--auto" -- no error, but also no auto-apply override (since the loop already applies fixes by convention).
+- **`--auto` on a loop command**: not a recognized flag. Since the loop is always auto-apply (see Fix-application under the loop), there is no user-facing `--auto` flag. Per step 3a of the parser contract, any second token beginning with `--` triggers the side-aware `N = DEFAULT_N` default and remains in the stream for flag scanning. `--auto` is not matched by steps 4 (`--first`) or 5 (`--follow`), so it falls through to notes in step 7. Behavior: `/<cmd> doc --auto` runs with the side-aware default N (2 for exam, 1 for review) and notes="--auto" -- no error, but also no auto-apply override (since the loop already applies fixes by convention).
 
 ### No-op flags
 
-`--first` on `/review-doc-run-loop` and `--follow` on `/exam-loop` are accepted without error for symmetry, even though each matches the side's default role. Users don't have to remember which command accepts which flag.
+`--first` on `/exam-loop` and `--follow` on `/review-doc-loop` are accepted without error for symmetry, even though each matches the side's default role. Users don't have to remember which command accepts which flag.
 
 ---
 
@@ -121,29 +124,29 @@ Identical on both sides; only the default differs.
 
 1. If `first_flag` is true -> `role = leader`.
 2. Else if `follow_flag` is true -> `role = follower`.
-3. Else -> side default: `leader` for review side, `follower` for exam side.
+3. Else -> side default: `follower` for review side, `leader` for exam side.
 
 ### Role matrix
 
 | Command | Flag | Resulting role |
 |---------|------|----------------|
-| `/review-doc-run-loop` | (none) | leader (default) |
-| `/review-doc-run-loop` | `--first` | leader (same as default; accepted for symmetry) |
-| `/review-doc-run-loop` | `--follow` | **follower** |
-| `/review-doc-run-loop` | `--first --follow` | parser error |
-| `/exam-loop` | (none) | follower (default) |
-| `/exam-loop` | `--first` | **leader** |
-| `/exam-loop` | `--follow` | follower (same as default; accepted for symmetry) |
+| `/exam-loop` | (none) | leader (default) |
+| `/exam-loop` | `--first` | leader (same as default; accepted for symmetry) |
+| `/exam-loop` | `--follow` | **follower** |
 | `/exam-loop` | `--first --follow` | parser error |
+| `/review-doc-loop` | (none) | follower (default) |
+| `/review-doc-loop` | `--first` | **leader** |
+| `/review-doc-loop` | `--follow` | follower (same as default; accepted for symmetry) |
+| `/review-doc-loop` | `--first --follow` | parser error |
 
 See design § Item #2: Role Assignment & Coordination Protocol for the derivation of this matrix.
 
 ### Coordinated usage
 
-- **Default workflow (review leads)**: `/review-doc-run-loop doc N` in one session + `/exam-loop doc N` in another. Neither side needs a flag. Sequence: R1 -> E1 -> R2 -> E2 -> ...
-- **Exam-first workflow (exam leads)**: `/exam-loop doc N --first` in one session + `/review-doc-run-loop doc N --follow` in another. BOTH flags are required.
+- **Default workflow (exam leads)**: `/exam-loop doc` in one session + `/review-doc-loop doc` in another. Neither side needs a flag. With both sides' default N (exam=2, review=1), the sequence is E1 -> R1 -> E2 (critic-sandwich). With larger N, the pattern continues as E1 -> R1 -> E2 -> R2 -> ... until either side's target is met.
+- **Review-first workflow (review leads)**: `/review-doc-loop doc N --first` in one session + `/exam-loop doc N --follow` in another. BOTH flags are required.
 
-The reason both flags are required for the exam-first case: each session is an independent Claude Code main conversation. The review session cannot read the exam session's arguments. If the user passes `--first` to exam but nothing to review, review falls back to its default leader role, both sides see their gates trivially satisfied, and both run round 1 in parallel on a fresh doc -- the interleaving is lost. This is the silent-degrade pitfall documented in the command files' Usage examples.
+The reason both flags are required for the review-first case: each session is an independent Claude Code main conversation. The exam session cannot read the review session's arguments. If the user passes `--first` to review but nothing to exam, exam falls back to its default leader role, both sides see their gates trivially satisfied, and both run round 1 in parallel on a fresh doc -- the interleaving is lost. This is the silent-degrade pitfall documented in the command files' Usage examples.
 
 ---
 
@@ -203,7 +206,7 @@ Every row except the last is invisible to a Review-Log-only follower; `rS`/`eS` 
 
 ### Invocation-relative counts
 
-All gate math uses **invocation-relative** counts, not absolute counts. The invocation is the single `/review-doc-run-loop` or `/exam-loop` call the user made; `N = target_rounds` counts rounds run BY THIS INVOCATION.
+All gate math uses **invocation-relative** counts, not absolute counts. The invocation is the single `/review-doc-loop` or `/exam-loop` call the user made; `N = target_rounds` counts rounds run BY THIS INVOCATION.
 
 - `this_own = own_done - entry_own_done` (own-side progress since Initial entry)
 - `this_counterpart = counterpart_done - entry_counterpart_done` (counterpart progress since Initial entry)
@@ -245,8 +248,8 @@ On invocation round 1 this is `0 >= 1`, NOT satisfied -- follower waits for lead
 
 ### Invariants keyed on resolved roles (invocation-relative)
 
-- **When resolved roles are review=leader, exam=follower** (default workflow, plus `--first` on review and `--follow` on exam as no-op variants): `this_e <= this_r` at all times. E cannot lead R in this invocation because E_k's follower gate requires the invocation's R_k to exist.
-- **When resolved roles are review=follower, exam=leader** (exam-first workflow: `--first` on `/exam-loop` AND `--follow` on `/review-doc-run-loop` -- both flags are role-changing, so there are no paired-no-op variants for this case): `this_r <= this_e` at all times. R cannot lead E in this invocation because R_k's follower gate requires the invocation's E_k to exist.
+- **When resolved roles are review=follower, exam=leader** (default workflow, plus `--first` on exam and `--follow` on review as no-op variants): `this_r <= this_e` at all times. R cannot lead E in this invocation because R_k's follower gate requires the invocation's E_k to exist.
+- **When resolved roles are review=leader, exam=follower** (review-first workflow: `--first` on `/review-doc-loop` AND `--follow` on `/exam-loop` -- both flags are role-changing, so there are no paired-no-op variants for this case): `this_e <= this_r` at all times. E cannot lead R in this invocation because E_k's follower gate requires the invocation's R_k to exist.
 
 Both invariants are keyed on resolved roles, not literal flags, and hold only over the invocation-relative deltas. Absolute counts may already be imbalanced at entry (e.g., doc has `E1 Applied` pre-existing before review-leader is invoked) and that is fine -- the entry counts absorb the imbalance.
 
@@ -255,11 +258,11 @@ Both invariants are keyed on resolved roles, not literal flags, and hold only ov
 - **`--first` on both sides**: both sides are leader; rounds may run in parallel without proper interleaving. The "R sees E's findings" property is lost. Don't do this.
 - **`--follow` on both sides**: both sides wait forever for the counterpart to log round 1. Both exit via idle termination after `MAX_IDLE_TICKS * POLL_INTERVAL_SECONDS` of wall-clock time (~16 min at defaults). On a fresh doc, `counterpart_count == 0 AND role == follower` means both sides exit via Condition #3 (`counterpart never started, stopping`). Harmless but wastes wall-clock.
 - **Mismatched flags** (e.g., `--first` on exam alone with nothing on review): review falls back to default leader, both sides are leader, same as "both `--first`". Silent degrade.
-- **Only one side started** (e.g., `/review-doc-run-loop doc N` alone, `/exam-loop` never invoked): the started side runs its first round (if leader) or waits (if follower), then idles for `MAX_IDLE_TICKS` ticks and exits via Condition #3.
+- **Only one side started** (e.g., `/review-doc-loop doc N` alone, `/exam-loop` never invoked): the started side runs its first round (if leader) or waits (if follower), then idles for `MAX_IDLE_TICKS` ticks and exits via Condition #3.
 
 ### `target_rounds` additive semantics
 
-`target_rounds = N` is additive -- counts rounds run by the current invocation starting at `rounds_done = 0`, regardless of what already exists in the Review Log. A resumed `/review-doc-run-loop doc 2` against a doc that already contains R5/E5 Applied will run R6 + R7 (or E6 + E7 on the exam side) and exit, not cap at R2 total. `entry_r_done` / `entry_e_done` are captured at Initial entry and carried forward in each iteration's TIMER echo string so the loop can compute `rounds_done = current_done - entry_done` on every tick wake. This is what makes resume free -- no special "resume mode" is needed.
+`target_rounds = N` is additive -- counts rounds run by the current invocation starting at `rounds_done = 0`, regardless of what already exists in the Review Log. A resumed `/review-doc-loop doc 2` against a doc that already contains R5/E5 Applied will run R6 + R7 (or E6 + E7 on the exam side) and exit, not cap at R2 total. `entry_r_done` / `entry_e_done` are captured at Initial entry and carried forward in each iteration's TIMER echo string so the loop can compute `rounds_done = current_done - entry_done` on every tick wake. This is what makes resume free -- no special "resume mode" is needed.
 
 ### Resume correctness trace
 
@@ -269,11 +272,11 @@ On a doc with R3/E3 Applied, re-running the loop on either side with `N = 1` (in
 - **Exam-follower side**: entry_r=3, entry_e=3. `this_r=0, this_e=0, k=1`. Follower gate checks `this_r >= k` = `0 >= 1` (NOT satisfied) -- wait one tick, sees R4 land, `this_r=1`, gate becomes `1 >= 1` (satisfied). Runs E4. After E4: `this_e=1, rounds_done=1 >= 1` -> exit.
 - **Exam-first resume variant** (`--first` on exam, `--follow` on review): entry_r=3, entry_e=3 on both sides. Exam-as-leader at entry: `this_e=0, k=1`. Leader gate `this_r >= 0` satisfied. Runs E4, exits. Review-as-follower at entry: `this_r=0, this_e=0, k=1`. Follower gate `this_e >= 1` is `0 >= 1` at entry -- waits -- sees E4 land, `this_e=1`, gate `1 >= 1` satisfied. Runs R4, exits.
 
-A resumed `/review-doc-run-loop doc 2` paired with `/exam-loop doc 2` against a doc with R5/E5 Applied will run R6, E6, R7, E7 interleaved (not R6+R7 then E6+E7 independently) -- each side terminates after `rounds_done = 2`.
+A resumed `/review-doc-loop doc 2` paired with `/exam-loop doc 2` against a doc with R5/E5 Applied will run R6, E6, R7, E7 interleaved (not R6+R7 then E6+E7 independently) -- each side terminates after `rounds_done = 2`.
 
 ### Pre-existing-imbalance trace (the bug scenario)
 
-On a doc with `E1 Applied` only (no R rows yet) from a prior `/exam` pass, running `/review-doc-run-loop 2` paired with `/exam-loop 2` with N=2:
+On a doc with `E1 Applied` only (no R rows yet) from a prior `/exam` pass, running `/review-doc-loop 2` paired with `/exam-loop 2` with N=2:
 
 - entry_r=0, entry_e=1 (review sees 0 R and 1 completed E at entry). entry on exam side is identical.
 
@@ -334,7 +337,7 @@ Armed at the end of every iteration that sleeps. The `idle X/Y` denominator rend
 Review side:
 
 ```
-sleep 240 && echo 'Running /review-doc-run-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /review-doc-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
 ```
 
 Exam side (symmetric):
@@ -350,7 +353,7 @@ Round counts are illustrative. `rS`/`eS` values include summary-table column hea
 **Review-leader default, mid-loop, after R1 completes (Applied), waiting for E1** (10-item doc, 7-concern holistic; after R1 fully applied: 2 R headers accounted for + 17 R cells populated = `rS=19`):
 
 ```
-sleep 240 && echo 'Running /review-doc-run-loop docs/foo.md 2 -- R1 done, waiting for E1 or next tick (idle 0/4, last_sig=1,0,1,0,19,0, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /review-doc-loop docs/foo.md 2 -- R1 done, waiting for E1 or next tick (idle 0/4, last_sig=1,0,1,0,19,0, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
 ```
 
 **Exam-leader `--first`, mid-loop, after E1 completes (Applied), waiting for R1** (same 10+7 doc shape):
@@ -362,7 +365,7 @@ sleep 240 && echo 'Running /exam-loop docs/foo.md 2 --first -- E1 done, waiting 
 **Review-follower `--follow`, Initial entry on fresh doc, waiting for E1 before running R1**:
 
 ```
-sleep 240 && echo 'Running /review-doc-run-loop docs/foo.md 2 --follow -- waiting for E1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /review-doc-loop docs/foo.md 2 --follow -- waiting for E1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
 ```
 
 **Exam-follower default, Initial entry on fresh doc, waiting for R1 before running E1**:
@@ -393,7 +396,7 @@ The last three examples illustrate the load-bearing sig/gate split: `rS` then `r
 
 ### Parser rule
 
-Tool-result text beginning with `Running /review-doc-run-loop ` or `Running /exam-loop ` WITHOUT the `[sentinel]` marker immediately after the command name is a **loop wake** -- proceed with tick-wake logic. Extract all state fields from the suffix with this regex:
+Tool-result text beginning with `Running /review-doc-loop ` or `Running /exam-loop ` WITHOUT the `[sentinel]` marker immediately after the command name is a **loop wake** -- proceed with tick-wake logic. Extract all state fields from the suffix with this regex:
 
 ```
 \(idle (\d+)/\d+, last_sig=(\d+),(\d+),(\d+),(\d+),(\d+),(\d+), entry=(\d+),(\d+), target=(\d+), role=(leader|follower)\)
@@ -403,7 +406,7 @@ Capture groups (in order): `idle_ticks`, `rD` (last_sig completed R), `eD` (last
 
 The `\d+` in the idle-tick denominator accommodates edits to `MAX_IDLE_TICKS` in the Tuning subsection without breaking the parser. The prose narrative (everything between `-- ` and the opening `(`) is free-form and ignored by the parser. Everything after the closing `)` is the guide pointer.
 
-Tool-result text beginning with `Running /review-doc-run-loop [sentinel] ` is a **mid-round breadcrumb** -- IGNORE as wake trigger. The agent is already mid-round, not re-entering the loop.
+Tool-result text beginning with `Running /review-doc-loop [sentinel] ` is a **mid-round breadcrumb** -- IGNORE as wake trigger. The agent is already mid-round, not re-entering the loop.
 
 **The `[sentinel]` marker is a literal 10-character string** (left bracket, `s`, `e`, `n`, `t`, `i`, `n`, `e`, `l`, right bracket), NOT a regex character class. Use literal-prefix string matching for this check, not regex. A naive regex transliteration of `[sentinel]` would match any single character from the set `{s,e,n,t,i,l}`, which is wrong.
 
@@ -411,18 +414,18 @@ Tool-result text beginning with `Running /review-doc-run-loop [sentinel] ` is a 
 
 Side (from prefix) and role (from the `role=` suffix field) are independent. Always read `role` from the suffix, never infer from the prefix.
 
-- Prefix `Running /review-doc-run-loop ` -> **review side**. `own_done = r_done`, `counterpart_done = e_done`, `this_own = r_done - r0`, `this_counterpart = e_done - e0`, `k = this_own + 1`, `rounds_done = this_own`.
+- Prefix `Running /review-doc-loop ` -> **review side**. `own_done = r_done`, `counterpart_done = e_done`, `this_own = r_done - r0`, `this_counterpart = e_done - e0`, `k = this_own + 1`, `rounds_done = this_own`.
 - Prefix `Running /exam-loop ` -> **exam side**. `own_done = e_done`, `counterpart_done = r_done`, `this_own = e_done - e0`, `this_counterpart = r_done - r0`, `k = this_own + 1`, `rounds_done = this_own`.
 - No other prefix is a valid loop wake. A tool result that does not match one of these two prefixes is not a TIMER echo -- ignore it for loop state purposes.
 
-**Side does not imply role.** `/review-doc-run-loop` can run as leader OR follower depending on the `role=` suffix field; same for `/exam-loop`. The prefix only tells you which counter is `own_done` vs `counterpart_done`.
+**Side does not imply role.** `/review-doc-loop` can run as leader OR follower depending on the `role=` suffix field; same for `/exam-loop`. The prefix only tells you which counter is `own_done` vs `counterpart_done`.
 
 ### Role -> gate formula mapping
 
 - `role=leader` -> gate is `this_counterpart >= k - 1`.
 - `role=follower` -> gate is `this_counterpart >= k`.
 
-Side and role are independent. The prefix determines which side you are (and therefore which counter is `own_done`); the `role=` suffix field determines which gate formula to apply. Either side can be either role: `/review-doc-run-loop` with `role=follower` (exam-first workflow) uses `this_e >= k`; `/exam-loop` with `role=leader` (exam-first workflow) uses `this_r >= k - 1`. This decoupling is what lets `--first` / `--follow` on either side flow through the same loop code without branching on side.
+Side and role are independent. The prefix determines which side you are (and therefore which counter is `own_done`); the `role=` suffix field determines which gate formula to apply. Either side can be either role: `/review-doc-loop` with `role=follower` (exam-first workflow) uses `this_e >= k`; `/exam-loop` with `role=leader` (exam-first workflow) uses `this_r >= k - 1`. This decoupling is what lets `--first` / `--follow` on either side flow through the same loop code without branching on side.
 
 ### Doc path shell-quoting constraint
 
@@ -452,10 +455,10 @@ The heading § Phase 2: Background Spawning (Subagents) acts as the drift detect
 
 ### Pre-round sentinel format
 
-The sentinel uses a **distinct prefix** (`Running /review-doc-run-loop [sentinel] `) so the Parser rule can tell it apart from an idle-timer echo:
+The sentinel uses a **distinct prefix** (`Running /review-doc-loop [sentinel] `) so the Parser rule can tell it apart from an idle-timer echo:
 
 ```
-sleep 1 && echo 'Running /review-doc-run-loop [sentinel] <doc> <N> [--first | --follow] -- R<k> in progress, Phase 1 (setup) complete and Phase 2 (background spawning) underway (idle 0/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation after Phase 3.6.'
+sleep 1 && echo 'Running /review-doc-loop [sentinel] <doc> <N> [--first | --follow] -- R<k> in progress, Phase 1 (setup) complete and Phase 2 (background spawning) underway (idle 0/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation after Phase 3.6.'
 ```
 
 The `R<k>` token is a meta-placeholder for the concrete round number being launched (e.g., `R6` when launching the sixth round) -- substitute before emitting. The sentinel shell-quoting constraint is identical to the idle-timer echo.
@@ -475,7 +478,7 @@ If a summarizer elides the sentinel echo during Phase 3.1, the post-compaction a
 ### Post-compaction recovery procedure
 
 - **Post-compaction recovery (idle sleep)**: if a fresh loop-wake echo is received after auto-compaction during idle sleep, parse its suffix as normal -- the idle-timer echo is compaction-immune by construction because it was still pending when compaction fired.
-- **Post-compaction recovery (review side, mid-round)**: if the review-side agent suspects compaction may have fired during Phase 2/3 processing and cannot recall its loop state, scan the transcript for the most recent `Running /review-doc-run-loop [sentinel] ` prefix and parse its suffix to recover `target`, `entry`, `role`. If no such sentinel is found in the transcript, abort the loop cleanly with the explicit error above -- do NOT guess at loop state from the review doc alone.
+- **Post-compaction recovery (review side, mid-round)**: if the review-side agent suspects compaction may have fired during Phase 2/3 processing and cannot recall its loop state, scan the transcript for the most recent `Running /review-doc-loop [sentinel] ` prefix and parse its suffix to recover `target`, `entry`, `role`. If no such sentinel is found in the transcript, abort the loop cleanly with the explicit error above -- do NOT guess at loop state from the review doc alone.
 
 ### Terminal silent-exit failure mode
 
@@ -523,7 +526,7 @@ First iteration. Both sides execute the same outline; only the side default diff
 
 1. **Parse args** per Argument Parsing above. Determine `target_rounds = N`, `first_flag`, `follow_flag`. If both flags are true, error (parser should have prevented this).
 2. **Read the review doc** (if any) and capture `entry_r_done`, `entry_e_done` -- the Applied/Clean-only counts. These are fixed for the whole invocation and used to compute `rounds_done = own_done - entry_own_done` on every subsequent tick wake. On a fresh doc both are 0; on a resumed run against a doc that already contains R5 Applied / E5 Applied they are `(5, 5)`. Pending rows at entry do NOT count toward entry_done -- they are in-flight rounds that will flip to Applied and be detected by the idle-sig comparison as progress.
-3. **Derive role** from own flags per the Role Assignment derivation rule: `--first` -> leader, `--follow` -> follower, neither -> side default (review=leader, exam=follower).
+3. **Derive role** from own flags per the Role Assignment derivation rule: `--first` -> leader, `--follow` -> follower, neither -> side default (review=follower, exam=leader).
 4. **Set `last_sig = (r_done, e_done, r_total, e_total, r_step, e_step)`** (or `(0, 0, 0, 0, 0, 0)` on a missing doc / empty Review Log + no summary tables).
 5. **Evaluate the gate** for round `k = this_own + 1` using the formula for `role` (leader: `this_counterpart >= k - 1`; follower: `this_counterpart >= k`), where `this_own = own_done - entry_own_done` and `this_counterpart = counterpart_done - entry_counterpart_done`.
 
@@ -551,7 +554,7 @@ After Initial entry completes, the current conversation turn ends. No further to
 
 Every subsequent iteration, fired by TIMER notification. Ten steps:
 
-1. **Parse the incoming TIMER echo** per the Parser rule above. The tool result text begins with `Running /review-doc-run-loop ` (-> review side) or `Running /exam-loop ` (-> exam side). Extract all fields from the suffix: `idle_ticks`, `last_sig = (rD, eD, rT, eT, rS, eS)`, `entry = (r0, e0)` (completed-only counts at Initial entry), `target_rounds`, `role`. These plus the side inferred from the prefix are the complete per-iteration state.
+1. **Parse the incoming TIMER echo** per the Parser rule above. The tool result text begins with `Running /review-doc-loop ` (-> review side) or `Running /exam-loop ` (-> exam side). Extract all fields from the suffix: `idle_ticks`, `last_sig = (rD, eD, rT, eT, rS, eS)`, `entry = (r0, e0)` (completed-only counts at Initial entry), `target_rounds`, `role`. These plus the side inferred from the prefix are the complete per-iteration state.
 2. **Re-read the review doc**. If missing or contains no Review Log section and no summary tables with R/E headers: `current_sig = (0, 0, 0, 0, 0, 0)`. Otherwise compute `current_sig = (r_done, e_done, r_total, e_total, r_step, e_step)` per the Counter measurement rules above.
 3. **Compute `rounds_done`**: `r_done - r0` (review side) or `e_done - e0` (exam side). Check Condition #1: `rounds_done >= target_rounds` -> report the locked termination template (see Termination Rules below) and exit without arming another timer.
 4. **Compare `current_sig` with `last_sig`** (6-tuple equality):
@@ -631,7 +634,7 @@ Sig vectors below use the illustrative 10-item / 7-concern doc shape: one comple
 
 - **Follower side, fresh doc**: when a side running with `role = follower` enters a fresh doc, its initial `last_sig = (0, 0, 0, 0, 0, 0)`. On the first tick wake the observed `current_sig` is still `(0, 0, 0, 0, 0, 0)`, which matches `last_sig`, so `idle_ticks` increments on every tick starting from tick 1. `this_counterpart = 0 - 0 = 0`. After `MAX_IDLE_TICKS` ticks that side exits with Condition #3. The initial `(0, 0, 0, 0, 0, 0)` convention is load-bearing here -- without it the first tick would be a "change" and the exit would drift to ~20 minutes.
 - **Leader side, counterpart never starts**: when a side running with `role = leader` enters a fresh doc and runs its round 1 (review side runs R1 Applied), its subsequent `last_sig` lands at something like `(1, 0, 1, 0, 19, 0)` (17 R-cells populated + 2 R-headers from R1). If the counterpart never starts, `current_sig` remains at that 6-tuple on every tick wake, matching `last_sig`, so `idle_ticks` increments from tick 1 after R1 lands. `this_counterpart = 0 - 0 = 0`. After `MAX_IDLE_TICKS` ticks past R1, the leader side exits with Condition #3 -- the same informative message as the follower case.
-- **Leader side with pre-existing counterpart rows, counterpart's current session never starts**: doc has `E3 Applied` pre-existing from a prior run. User runs `/review-doc-run-loop 2` alone (forgot to invoke `/exam-loop` in another session). entry_e_done=3 (entry_r_done=0). Review runs R1 (leader gate `this_e(0) >= 0` satisfied), `last_sig = (1, 3, 1, 3, 19, 63)` (R1 populated the R-column; 3 pre-existing E columns contribute headers + 17 cells each = 3 + 60 = 63 toward `eS`). If no new E row ever appears, `current_sig` stays at that 6-tuple on every tick, `this_counterpart = 3 - 3 = 0`. After `MAX_IDLE_TICKS` ticks, review exits with Condition #3 ("counterpart never started, stopping") -- the informative diagnostic, NOT Condition #2 ("no change for 16 minutes") which would be misleading since the pre-existing E3 was never part of this invocation's counterpart budget.
+- **Leader side with pre-existing counterpart rows, counterpart's current session never starts**: doc has `E3 Applied` pre-existing from a prior run. User runs `/review-doc-loop 2` alone (forgot to invoke `/exam-loop` in another session). entry_e_done=3 (entry_r_done=0). Review runs R1 (leader gate `this_e(0) >= 0` satisfied), `last_sig = (1, 3, 1, 3, 19, 63)` (R1 populated the R-column; 3 pre-existing E columns contribute headers + 17 cells each = 3 + 60 = 63 toward `eS`). If no new E row ever appears, `current_sig` stays at that 6-tuple on every tick, `this_counterpart = 3 - 3 = 0`. After `MAX_IDLE_TICKS` ticks, review exits with Condition #3 ("counterpart never started, stopping") -- the informative diagnostic, NOT Condition #2 ("no change for 16 minutes") which would be misleading since the pre-existing E3 was never part of this invocation's counterpart budget.
 
 The symmetric treatment, keyed on `this_counterpart` rather than absolute `counterpart_done`, means the user gets the diagnostic message regardless of which loop command they forgot to start, even when the doc is not fresh.
 
