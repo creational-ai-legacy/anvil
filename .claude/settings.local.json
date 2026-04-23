@@ -78,7 +78,10 @@
       "Bash(pip3 show:*)",
       "Bash(ssh:*)",
       "Bash(tail:*)",
-      "Bash(rsync:*)"
+      "Bash(rsync:*)",
+      "Bash(mkdir -p /Users/docchang/Development/anvil/docs/staging)",
+      "Bash(cp ~/genesis/.claude/skills/dev/references/2-planning-guide.md /Users/docchang/Development/anvil/docs/staging/2-planning-guide.md)",
+      "Bash(cp ~/genesis/.claude/skills/dev/references/3-execution-guide.md /Users/docchang/Development/anvil/docs/staging/3-execution-guide.md)"
     ]
   },
   "spinnerTipsEnabled": false

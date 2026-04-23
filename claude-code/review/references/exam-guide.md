@@ -264,7 +264,7 @@ This runs in the background so the user can still chat.
 
 - **All steps complete**: Report final summary, stop monitoring
 - **User says stop**: Acknowledge and stop
-- **No changes for 3 consecutive checks**: Notify user and ask whether to continue
+- **No changes for 8 consecutive checks** (~16 minutes at the 2-minute tick cadence): Notify user and ask whether to continue
 
 ### Monitor Rules
 
