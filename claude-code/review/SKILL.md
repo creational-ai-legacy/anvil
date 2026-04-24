@@ -45,6 +45,7 @@ This skill consolidates document verification and skill auditing into a single r
 | Review Tracking Template | `assets/templates/review-tracking.md` |
 | Skill Review Report Template | `assets/templates/skill-review-report.md` |
 | Exam Guide | `references/exam-guide.md` |
+| Walkthrough Guide | `references/walkthrough-guide.md` |
 | Monitor Status Template | `assets/templates/monitor-status.md` |
 | Monitor Issues Template | `assets/templates/monitor-issues.md` |
 | Loop Guide | `references/review-loop-guide.md` |
@@ -58,6 +59,7 @@ This skill consolidates document verification and skill auditing into a single r
 - `/exam <doc-path> [--auto] [notes]` -- Independent critical examination of a document (main conversation)
 - `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-loop` via the shared review doc; main conversation only. `N` defaults to 2
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports; writes `docs/[slug]-monitor-issues.md` (lazy-created, appended across sessions) when issues are found (main conversation)
+- `/walkthrough <doc-path> [notes]` -- Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration and conversational per-unit advance (main conversation)
 - `/spawn-doc-reviewer <doc-path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
 
@@ -100,6 +102,10 @@ Independent critical assessment, deeper than automated review:
 
 - **Review mode** (`/exam`): Deep-dive examination of a single document. Reads the automated review doc first, then challenges substance, architectural decisions, unvalidated assumptions, and cross-document contradictions. Reports findings conversationally with a numbered table ranked by severity.
 - **Monitor mode** (`/monitor`): Real-time observation of plan execution. Periodically reads the results doc and performs per-step analysis as steps complete — cross-referencing against plan spec, plan review findings, design items, and expectations doc. The examiner adds judgment the mechanical reviewer cannot: was the concern substantive? Did the fix resolve the real risk?
+
+### Walkthrough
+
+Operator-side comprehension pass. `/walkthrough` paces the operator through a document unit-by-unit, elaborating each unit from five angles (plain English, motivation, diagram, before/after state delta, usage) and pausing between units for natural-language confirmation. Complements the doc-side (`/review-doc`, `/review-doc-run`, `/review-doc-loop`, `/exam`, `/exam-loop`) and execution-side (`/monitor`) commands by closing the operator-comprehension gap — a doc that passes automated review but leaves the operator with silent gaps is a latent failure that surfaces during execution or QA. Walkthrough is strictly read + elaborate; it never modifies the source doc. Canonical placement: **first** on a freshly produced doc, before the paired `/review-doc-loop` + `/exam-loop`.
 
 ### Loop Coordination
 

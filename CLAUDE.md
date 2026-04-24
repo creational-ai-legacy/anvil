@@ -202,6 +202,7 @@ cd claude-desktop
 - `/exam` - Independent critical examination of a document
 - `/exam-loop` - Tick-driven loop that coordinates with `/review-doc-loop` via the shared review doc (long-running, main conversation only)
 - `/monitor` - Monitor execution progress with periodic status reports
+- `/walkthrough` - Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration (main conversation only)
 
 Commands are deployed to `~/.claude/commands/`
 

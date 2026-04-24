@@ -1,10 +1,10 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-04-18T00:12:50-0700
+> **Last Updated**: 2026-04-23T15:57:50-0700
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking, per-item history, auto-fix support, step-splitting, and now paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`) backed by a single-source-of-truth `review-loop-guide.md`. Sub-step notation (8a, 8b, 8c) supported across plan, execution, and review systems. Marketing milestone 1/6 tasks complete.
+**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking, per-item history, auto-fix support, step-splitting, paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`), and now an operator-facing `/walkthrough` command for pedagogical per-unit elaboration with five-angle rendering. Sub-step notation (8a, 8b, 8c) supported across plan, execution, and review systems. Marketing milestone 1/6 tasks complete.
 
 ---
 
@@ -27,6 +27,7 @@
 | review-tracking | Persistent Review Tracking with Per-Item History | feature | ✅ Complete | `core-review-tracking-*.md` |
 | step-splitting | Sub-Step Support for Plan Step Splitting | feature | ✅ Complete | `core-step-splitting-*.md` |
 | review-auto-loops | Auto Loops: /review-doc-run-loop + /exam-loop (tick-driven staggered review) | feature | ✅ Complete (Step 6 ⏭️ skipped) | `core-review-auto-loops-*.md` |
+| review-walkthrough | Operator-Facing /walkthrough Command (five-angle per-unit elaboration) | feature | ✅ Complete (smoke test ⏸ operator gate) | `core-review-walkthrough-*.md` |
 
 ### Milestone: Marketing
 
@@ -61,62 +62,69 @@
 | 2026-03-10 | Sub-step notation (8a, 8b, 8c) for plan step splitting | Letter suffixes preserve existing step numbers (no renumbering), one level only, review-driven splits with pre-execution guard |
 | 2026-04-18 | Add paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`) with single-source-of-truth `review-loop-guide.md` | Two independent main-conversation sessions coordinate staggered R → E → R → E cycles via shared review doc without manual hand-off. Echo-encoded state survives compaction; tuning constants (POLL_INTERVAL_SECONDS=240, MAX_IDLE_TICKS=4, MAX_ROUNDS=20) defined once in guide. Single-pass `/review-doc-run` and `/exam` untouched. |
 | 2026-04-18 | SKIP Step 6 integration tests entirely for core-review-auto-loops | User directive: exercise new commands in daily use and iterate empirically. Two-session paired integration tests deemed unnecessary overhead; load-bearing wake-up-when-idle assumption accepted as unverified at feature-ship time. Rework cost identical whether discovered now or later. |
+| 2026-04-23 | Thin-wrapper-plus-fat-guide pattern for `/walkthrough` | Mirrors existing review-command pattern (`/exam`, `/monitor`, `/review-doc`); single edit surface for walkthrough behavior; keeps command markdown at ~39 lines while guide owns ~195 lines of semantic rules. Registration trio (Quick Reference row + Commands list entry + Capabilities subsection) enforced via 3 separate acceptance greps — no partial registration possible. |
+| 2026-04-23 | When Specification and Acceptance Criteria contradict, the grep wins | Step 2 Specification said "mention `--auto`" but Acceptance Criterion #6 required `grep -cE "--auto" == 0`. Enforced greps are the binding contract; "mention X" directives are drafting artifacts. Resolved by "No flags." without naming specific disavowed flags. |
+| 2026-04-23 | Live smoke test for `/walkthrough` deferred to operator as manual gate | Executor agent cannot run interactive commands in a fresh Claude Code session with human-in-loop pause semantics. All automatable preconditions (deploy, verify, byte-match, count delta, doc-unchanged) pass, giving the manual test maximum precondition strength. Same pattern as any `disable-model-invocation: true` command requiring operator input. |
 
 ---
 
 ## What's Next
 
 **Recommended Next Steps**:
-1. User manual `/help` check in a fresh Claude Code session: confirm `/review-doc-run-loop` and `/exam-loop` appear with expected `argument-hint`
-2. Exercise new loop commands in actual daily use; log any wake-up, resume-math, or parser issues as follow-up bugs
-3. If the wake-up-when-idle primitive fails in real use, escalate to Monitor-tool pivot per plan's Step 6 Trade-offs (~14–24 hour rework)
-4. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
-5. Begin LinkedIn Launch task (profile optimization, first posts)
+1. **Operator action**: Run `/walkthrough docs/core-review-walkthrough-design.md` in a fresh Claude Code session; confirm first unit renders five angles, `stop` ends the session cleanly with a summary line, and `git diff docs/core-review-walkthrough-design.md` returns empty. Check off the final Success Criterion.
+2. User manual `/help` check in a fresh Claude Code session: confirm `/walkthrough`, `/review-doc-run-loop`, and `/exam-loop` all appear with expected `argument-hint`
+3. Exercise new loop commands + `/walkthrough` in actual daily use; log any wake-up, resume-math, parser, or walkthrough-rendering issues as follow-up bugs
+4. If the wake-up-when-idle primitive fails in real use, escalate to Monitor-tool pivot per plan's Step 6 Trade-offs (~14–24 hour rework)
+5. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing)
+6. Begin LinkedIn Launch task (profile optimization, first posts)
 
-**System Status**: ✅ **Production Ready + Auto Loops**
+**System Status**: ✅ **Production Ready + Auto Loops + Walkthrough**
 - 4 Anvil skills: design, dev, research, review
 - 5-stage design skill v2.0.0 (simplified naming: vision, roadmap, task-spec)
 - 3-stage dev skill with spec-driven plan workflow and sub-step support
-- review skill: persistent review tracking with per-item history, --auto support, step scope check with split suggestions, parallel + sequential doc review, skill auditing, paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`)
+- review skill: persistent review tracking with per-item history, --auto support, step scope check with split suggestions, parallel + sequential doc review, skill auditing, paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`), operator-facing `/walkthrough` for pedagogical per-unit elaboration
 - review-loop-guide.md owns all loop mechanics (parser, roles, gates, tick loop, echo state, termination, tuning) as single source of truth
+- walkthrough-guide.md owns five-angle elaboration rules, three-tier adaptive vocabulary, unit extraction depth detection, per-unit advance semantics
 - All agents use bare role names, all forked commands use /spawn-* prefix
 - research/ skill consolidates market-research and naming-research
 - Marketing milestone 1/6 tasks complete (GitHub Presence)
-- 42 deployed commands, 16 agents, 73/73 verify checks passing
+- 43 deployed commands, 16 agents, 74/74 verify checks passing
 
 ---
 
 ## Latest Health Check
 
-### 2026-04-18 - core-review-auto-loops Finalization
-**Status**: ⚠️ Minor Concerns (structural completion ✅, runtime validation deliberately deferred)
+### 2026-04-23 - core-review-walkthrough Finalization
+**Status**: ⚠️ Minor Concerns (structural completion ✅, live smoke test deferred to operator)
 
 **Context**:
-Finalizing the core-review-auto-loops task — delivered paired tick-driven review loops via two new commands (`/review-doc-run-loop`, `/exam-loop`) and one new reference (`review-loop-guide.md`). All 5 structural steps (0-5) complete. Step 6 integration tests (12 subtests) skipped entirely per explicit user directive; validation deferred to empirical daily use.
+Finalizing the core-review-walkthrough task — delivered an operator-facing `/walkthrough` command with five-angle per-unit elaboration. All 5 implementation steps complete (plus Step 0 baseline). Two new files (`walkthrough.md` command + `walkthrough-guide.md` reference); two additive registrations (SKILL.md + CLAUDE.md). 7/8 Success Criteria auto-verified; 1/8 (live smoke test) is a manual operator gate deferred by plan design.
 
 **Findings**:
-- ✅ Alignment: The new loop commands extend the review skill's value proposition (staggered R → E cycles without manual hand-off) while preserving single-pass `/review-doc-run` and `/exam` behavior unchanged. Additive-only across SKILL.md, CLAUDE.md, README.md documentation surfaces. Matches the review skill's "parallel + sequential doc review, skill auditing" evolution trajectory.
-- ✅ Production: All changes are to production surfaces (commands, references, skill metadata, project docs). `deploy.sh && verify.sh` passes 73/73 checks. Byte-identical deploy diffs across all four review-skill surfaces.
-- ⚠️ Gap: Step 6 runtime validation skipped per user directive. 12 integration subtests NOT executed; the load-bearing wake-up-when-idle primitive (Test 6.1) remains empirically unverified at feature-ship time. Risk accepted: failure would surface on first real-workflow use and trigger reactive rework (~14-24 hours for Monitor-tool pivot per plan's Step 6 Trade-offs).
-- ✅ Scope: Five structural steps executed per plan specification with zero deviations on behavioral content. Two documented deviations are procedural only: (a) Prerequisite 3 baseline capture bypassed per user directive; (b) Step 6 entire block skipped per user directive. Both recorded in Key Decisions with full rationale.
-- ✅ Complexity: Proportionate — 3 new files (1 guide, 2 thin wrappers) + 3 additive documentation edits. Loop guide is 554 lines (within 400-600 target). Each wrapper is ~49 lines (within 40-60 target). Single-source-of-truth principle upheld: all loop mechanics live in `review-loop-guide.md`; wrappers only expose per-side surface area.
-- ✅ Tests: N/A for this task — all changes are documentation/command files validated via structural greps and deploy+verify. Runtime integration tests deliberately skipped per user directive; daily-use iteration is the validation pathway.
+- ✅ Alignment: `/walkthrough` closes the operator-comprehension gap adjacent to existing review commands (`/review-doc`, `/exam`, `/monitor`). Pedagogical per-unit pacing is a net-new capability; additive to the review skill, preserves all existing behavior. Matches the skill's "parallel + sequential doc review, skill auditing, tick-driven loops" evolution trajectory.
+- ✅ Production: All changes are to production surfaces (command, reference, skill metadata, project docs). `deploy.sh && verify.sh` passes 74/74 checks (up from 73 — one new count-assertion for the +1 command). Byte-identical diff between source and deployed for both the command file and the guide file.
+- ⚠️ Gap: Live smoke test (Acceptance Criterion #6) is a manual operator gate by plan design — runtime behavior (argument parsing, doc-type detection, five-angle rendering, per-unit pause semantics) not yet empirically validated. Same shape as `core-review-auto-loops` Step 6 deferral: executor agent provably cannot satisfy "fresh Claude Code session with operator typing `stop`" requirement. Risk: a frontmatter typo or path-resolution bug in the deployed command could survive into production use. Mitigated by byte-for-byte source-to-deployed diff and `disable-model-invocation: true` flag.
+- ✅ Scope: Five implementation steps executed per plan specification. One documented deviation (Step 2): Specification said "mention `--auto`" but Acceptance Criterion #6 required `grep -cE "--auto" == 0`. Resolved in favor of the enforced grep (AC wins); rationale recorded in Key Decisions. No scope drift — 2 new files, 2 additive registrations, 0 deletions, `git diff` on source docs unchanged.
+- ✅ Complexity: Proportionate — guide is ~195 lines (owns five-angle rules, three-tier adaptive vocabulary, per-unit advance semantics), command is 39 lines (thin wrapper). Single-source-of-truth pattern upheld: guide owns semantics, command points at guide via absolute path. No premature abstractions; no redundant surface area across the two files.
+- ✅ Tests: N/A for runtime — walkthrough is operator-interactive (same pattern as `/monitor`, `/exam`, `/review-doc-loop`). Structural checks all pass via acceptance greps: 10/10 on guide, 7/7 on command, 6/6 on SKILL.md, 4/4 on CLAUDE.md, deploy+verify 74/74. No fix-iteration loops on Steps 1, 3, 4; one fix iteration on Step 2 (spec-vs-AC contradiction).
 
 **Challenges**:
-- The load-bearing wake-up-when-idle primitive (tick-driven background timer via echo-encoded state) could not be empirically validated within the `/dev-execute` session — integration phase is structurally user-driven. The executor correctly surfaced this limit rather than fabricating success.
-- User directive to skip Step 6 arrived after the executor had prepared Track A / Track B recipes; the honest response was to record the directive with full Deviation from Plan narrative and preserve `⏭️ SKIPPED` status, not silent ✅.
+- The Step 2 Specification-vs-Acceptance-Criteria contradiction (mention `--auto` vs. grep returns 0) required a resolution path: executor chose the enforced grep as the binding contract, recorded the rationale, and removed the `--auto` disavowal. Future plan authors should cross-check "mention X" directives against "grep for X returns 0" criteria before locking the plan.
+- The live smoke test gate could not be auto-satisfied from within the execution agent (recursive self-invocation blocked + `disable-model-invocation: true` in walkthrough's own frontmatter + no terminal input channel for the operator's `stop` signal). Executor correctly handed off to operator with a single-line "run this next" instruction rather than simulating success.
 
 **Results**:
-- ✅ `review-loop-guide.md` deployed (554 lines): parser, role assignment, coordination protocol, tick-driven loop structure, mid-round compaction recovery, termination rules, tuning constants (single-definition-site)
-- ✅ `/review-doc-run-loop` command deployed with `disable-model-invocation: true` and paired-flag warning in Usage block
-- ✅ `/exam-loop` command deployed with mirror-symmetric Process list (byte-identical across both wrappers)
-- ✅ Three documentation surfaces updated additively (SKILL.md, CLAUDE.md, README.md) with consistent "tick-driven loop" terminology
-- ✅ Non-regression confirmed: `/review-doc-run`, `/exam`, `review-tracking.md` all byte-identical pre/post
-- ✅ `deploy.sh && verify.sh` 73/73 passing; command count rose 40 → 42
+- ✅ `walkthrough-guide.md` deployed (~195 lines): argument parsing, doc-type recognition (references `exam-guide.md` without duplication), three-tier adaptive vocabulary, unit extraction depth detection, five-angle elaboration rules, common pitfalls, per-unit advance semantics, invariants, process outline
+- ✅ `/walkthrough <doc-path> [notes]` command deployed with `disable-model-invocation: true`, thin-wrapper pattern matching `exam.md` / `monitor.md` / `review-doc.md`
+- ✅ SKILL.md extended with the registration trio: Quick Reference row + Commands list entry + Capabilities subsection. `git diff` shows +3 additions, 0 deletions.
+- ✅ CLAUDE.md Review commands list extended by exactly one line immediately after `/monitor`. `git diff` shows +1 addition, 0 deletions.
+- ✅ `deploy.sh && verify.sh` 74/74 passing; command count rose 42 → 43 (+1 delta confirmed via `$((post - baseline))` arithmetic with whitespace-normalized capture)
+- ✅ Non-regression confirmed: source doc `docs/core-review-walkthrough-design.md` byte-identical (`git diff` returns empty); all 9 pre-existing review commands still present
+- ⏸ Live smoke test deferred to operator as final sign-off
 
 **Lessons Learned**:
-- Empirical-use-over-synthetic-tests is a legitimate validation strategy when users have high workflow exposure and failure modes are obvious in use. Preserve skips as explicit `⏭️ SKIPPED` status with Deviation from Plan narrative, not silent completion — keeps decisions auditable.
-- Integration phases needing multiple paired sessions or wall-clock elapse cannot run inside `/dev-execute`. Future plans should mark such steps "user-driven, executor produces readiness checklist only" — extend the Prerequisite 3 ("USER ACTION REQUIRED") pattern into the step itself.
-- Single-source-of-truth bears out: thin wrappers + one fat guide means future loop-semantics changes touch only the guide. "Do NOT duplicate guide content" in surface docs is a forcing function that prevents drift.
+- When Specification and Acceptance Criteria contradict in a plan, the enforced grep is the binding contract; "mention X" directives are drafting artifacts. Future plan authors should cross-check them before locking the plan.
+- Executor agents cannot satisfy interactive manual gates. The correct response is to max-out automatable preconditions and hand off with a clear "run this next" instruction, not simulate the test. `disable-model-invocation: true` commands are designed for operator-only invocation — the flag is their interactive-only contract.
+- `verify.sh` is a structural safety net, not an end-to-end test. It validates file presence, count expectations, and directory structure — deployable-state-wise. Runtime behavior (argument parsing, doc-type detection, pause semantics) lives behind the manual gate. Future skill-authoring plans should keep this split explicit.
+- SKILL.md registration is a three-point trio (Quick Reference row + Commands list entry + Capabilities subsection); acceptance criteria enforce all three via separate greps — no partial registration possible. Worth formalizing as the "skill registration contract" for any future command addition.
 
-**Next**: User runs `/help` in a fresh session to confirm both new commands are discoverable. User exercises `/review-doc-run-loop` and `/exam-loop` in daily use. Any wake-up, resume-math, or parser issues feed a follow-up `/dev-design` cycle; Monitor-tool pivot is the escalation path if the wake-up primitive fails.
+**Next**: Operator runs `/walkthrough docs/core-review-walkthrough-design.md` in a fresh Claude Code session; observes first unit rendering five angles; types `stop`; confirms summary line appears and `git diff docs/core-review-walkthrough-design.md` returns empty. Check off final Success Criterion. Then `/help` sanity check confirms the new command is discoverable. Exercise in daily use; log any rendering/depth-detection/vocabulary-tier issues as follow-up bugs. Separately: when user explicitly requests, run `./deploy-genesis.sh && ./verify-genesis.sh` to propagate to genesis.
