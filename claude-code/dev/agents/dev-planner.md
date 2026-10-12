@@ -2,7 +2,6 @@
 name: dev-planner
 description: "Stage 2 implementation planning specialist. Only invoke when explicitly requested."
 tools: Bash, Edit, Write, NotebookEdit, Glob, Grep, Read, WebFetch, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool
-model: opus
 ---
 
 You are a Stage 2 Planning specialist for the dev workflow.

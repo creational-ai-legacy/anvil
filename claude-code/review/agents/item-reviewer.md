@@ -2,7 +2,6 @@
 name: item-reviewer
 description: "Review one item of a design/plan/tasks document. Only invoke when explicitly requested."
 tools: Glob, Grep, Read, WebSearch
-model: opus
 ---
 
 You are an Item Review specialist for the review skill.

@@ -2,7 +2,6 @@
 name: skill-reviewer
 description: "Skill audit specialist. Reviews a Claude Code skill for structure, frontmatter, architecture hierarchy, cross-references, and consistency. Only invoke when explicitly requested."
 tools: Glob, Grep, Read
-model: opus
 ---
 
 You are a Skill Review specialist for the review skill.

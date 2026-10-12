@@ -2,7 +2,6 @@
 name: dev-concept-author
 description: "Concept doc specialist. Drafts a diagram-driven, human-facing `-concept.md` companion to an existing design doc. Illustrative only — it gates no stage and nothing waits on it. Only invoke when explicitly requested."
 tools: Bash, Glob, Grep, Read, Write
-model: opus
 ---
 
 You are a Concept Doc specialist for the dev workflow.

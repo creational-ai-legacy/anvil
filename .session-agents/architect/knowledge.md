@@ -62,6 +62,8 @@ Durable per-project knowledge for the architect role. Re-read on every activatio
 
 **The flag is a discoverability control, not a guardrail — do not mistake it for containment.** `dev-executor` is spawnable by `subagent_type` with full tool inheritance, so an agent that wants to execute already can. Keeping `/dev-execute` at `true` only keeps it out of the skill listing so a model does not reach for it casually. If anyone ever argues "we must keep it `true` for safety," that argument is false and should be corrected.
 
+**Superseded in part (2026-09-03/04, c1f39a2 + d3b5a18):** `/dev-concept` shipped agent-invocable, and `/dev-ready`, `/monitor` (idle bound now escalates, never asks) and `/exam` were flipped for orchestration callers that are panes, not people. Unlocked dev commands are now Stages 0/1/2 + `/dev-concept` + `/dev-ready`; the code-mutating line (`/dev-execute*`) still holds.
+
 **Revisit trigger:** if a caller ever needs to run Stage 3 *through the command's* one-step-then-stop discipline rather than through the agent, the flag is the blocker — flip it then, with the paced-loop rule reworded for an agent runner the way `/dev-usecases`'s never-confirms rule was.
 
 
@@ -131,6 +133,73 @@ From session-agents' architect. A change that straddles two deploy fences can co
 
 **Generalised test:** whenever a change touches files owned by two different deploy paths, ask *does either path regenerate a file the other edits?* If yes, the edit-then-regenerate order determines whether the third pass is required — and no verifier will tell you.
 
-**Anvil's own instance of the same blindness:** `verify.sh` checks file presence and byte-identity, **not frontmatter**. A `disable-model-invocation` divergence between source and deployed passes **80/80 silently**. Found when session-agents left six anvil files unlocked at source and locked at deploy — a deliberate, correctly-fenced hold that our own verifier could not see. **Check flag parity by hand after any frontmatter change:** compare source / local / genesis directly; `verify.sh` will not.
+**Anvil's own instance of the same blindness — now closed.** `verify.sh` originally checked file presence and byte-identity, **not frontmatter**, so a `disable-model-invocation` divergence between source and deployed passed **80/80 silently**. Found when session-agents left six anvil files unlocked at source and locked at deploy — a deliberate, correctly-fenced hold our verifier could not see. Both `verify.sh` and `verify-genesis.sh` now carry a command-frontmatter parity block (baseline 81). **Absent-at-source is a value, not a skip** — treating it as a skip dropped `/exam` out of coverage in the first cut of the check; absent at source means model-invocable, so deployed must also be absent.
 
 **Family:** this is the same class as file-then-ping without `&&`, the blind read-modify-write inbox clear, and the `Illustrates` tripwire with no reader — *a promised step nothing verifies*. Fourth instance; the pattern is now the most productive diagnostic in this project.
+
+
+## Fifth instance: deploying instructions to things already running (2026-09-05)
+
+From session-agents' architect, unprompted. Their cross-project address separator changed `@` → `:` because `SendMessage`'s validator rejects any `to` containing `@` before their hook runs — so the documented form **had never been sendable**. 872 unit tests, all green, all driving the parser directly and **never the transport**. Second-order: a pane runs the prompt it was composed with, so panes kept following deleted text until relaunched — and because the trailer is hook-stamped, stale and fresh panes emit **byte-identical wires**.
+
+**Anvil's version is structural, not incidental.** Every skill is source in `claude-code/` deployed to `~/.claude/`; a running pane holds whatever was resident at load. Tonight `dev-concept-author` was redeployed 6+ times while its rules changed materially (prose budget replaced a total-line cap; three limits recalibrated; guide-owned numbers dereferenced). A subagent spawned between deploys authors under the ruleset resident at spawn, and the two outputs are byte-plausible either way.
+
+**The mitigation that transfers — stamp the artifact with what its producer read.** The concept doc's `Illustrates` row records the design path **and the line count as read**. Not detection (nothing checks it, and the guide says so) but it converts an invisible divergence into a visible one at inspection time. You cannot make a stale pane notice; you can make its output carry a fingerprint.
+
+**The generalisation worth keeping:** the expensive gap is never *inside* a layer — it is at the **seam** where a layer hands off to something it does not control, and it survives precisely because both sides are individually green. Their parser worked; the validator worked; nothing exercised one against the other. Cheapest fix is one test at the seam asserting only *not rejected*.
+
+
+## Bad limits measure the artifact, not the property (2026-09-05)
+
+Generalised out of the concept-doc cap finding, sharpened by session-agents' architect. The 400-line total cap **passed** the corpus's one wall-of-text doc (404 lines, 216 prose) and **failed** the four most diagram-dense ones. Capping the page caps the pictures.
+
+**The shape:** a limit measures the artifact because the artifact is what is easy to count, not because it is the property anyone cares about. Total length tracks how much was *drawn*; prose length tracks how much was *explained in sentences* — only the second is what the genre is trying to keep small.
+
+**Test before adopting any numeric limit here:** name the property, then check the metric is not merely correlated with the artifact's size. Then **measure it against the whole corpus, not a convenient subset** — I calibrated three numbers on 4 of 11 docs and two were wrong; one (`≤8` longest prose run) would have failed 8 of 11 shipped docs.
+
+**Comms footnote (checked with session-agents' architect, deliberate — do not re-flag):** the cross-project separator differs by layer *on purpose*. `to` takes `:<project>` (tool parameter, never renders, validator rejects `@`); the trailer keeps spaced ` @ <project>` (renders into a chatbox where `@word` reads as an @-mention, and the space keeps a whitespace-split parse working). Conflating a trailer site with a `to` site is the one way that change breaks.
+
+
+## I was the stale pane — a fingerprint with no reader (2026-09-05)
+
+Reproduced the previous entry's failure **in myself**, one hop after theorising it.
+
+comms 0.14.0 changed the trailer to name both endpoints, each spelled as `to` spells them. `~/.claude/skills/session-agents/references/roles/_common.md:10` was updated and is fresh. My **resident** composed prompt still taught the old one-endpoint ` @ <project>` form; its header stamps `composed: 2026-09-06T04:27:29Z`, predating the change.
+
+**The sting:** my composed prompt already carries the exact fingerprint I had just recommended to a peer — a `composed:` timestamp in its header — and it did not help. Nothing compares it to the contributing layers' mtimes, and I had no reason to look. **A fingerprint with no reader is the same class as the `Illustrates` tripwire with no reader.** I answered correctly only because the peer's question named the identity layer, forcing me to read source instead of composing off my resident line.
+
+**Standing habit this earns:** when a wire's form disagrees with my resident instructions, read the source layer before assuming the wire is wrong. Resident text is a snapshot; the file is the state.
+
+**Cheap general fix, offered to session-agents:** have `comms list` compare each pane's composed-at stamp against the newest contributing layer's mtime and surface the lag — one `stat` per row. That is the reader the stamp is missing.
+
+**Not self-refreshed** — `comms refresh <self>` recomposes this pane's prompt and its effect on a live session is untested here; that is an operator call, not same-turn drift maintenance. **Resolved anyway:** a later same-day `comms` redeploy recomposed the prompt without anyone invoking refresh, and this pane picked up the new text (resident line now teaches the two-endpoint trailer). See the next entry — the clearing of the marker is not evidence the pane reloaded.
+
+
+## Validating a whole-artifact indicator against one substring (2026-09-05)
+
+Follow-up to the stale-pane entry. session-agents shipped the reader I proposed — `comms list` (0.15.1) now prints `stale-prompt` when a role's layers no longer fold to the prompt its pane launched with. First run flagged three anvil panes including mine. **The marker was correct.**
+
+**But their ground-truth probe would have refuted it.** They asked me to quote the cross-project *address* syntax from resident context and compare against `comms compose` — with the rule "identical ⇒ false positive." The two are identical (`[comms]<slug>:<project>`, unchanged by the bump). The real divergence is the **trailer** clause in the same bullet; `diff <launched-prompt> <(comms compose <role>)` shows exactly one content line differing out of 11,398 bytes.
+
+**The general error:** validating an indicator that asserts *"the artifact differs somewhere"* by inspecting *one substring*. That probe can only confirm, never refute — a genuinely false marker passes it whenever the sampled substring happens to be stable. **Match the probe's scope to the claim's scope:** whole-artifact claim ⇒ whole-artifact diff.
+
+**Local mechanics:** `comms compose <role>` prints to stdout and writes nothing (verified: on-disk `.system-prompt.md` mtime unchanged) — safe for inspection. `comms refresh` is operator-invoked and destroys the evidence. Compose output omits the 9-line generated header, so line numbers offset by 9 against the on-disk file.
+
+**Why my stale line mattered beyond itself:** it is why I flagged a peer's ` @ <project>` trailer as possibly stale two hops earlier when it was deliberate. Running on outdated instructions does not just make you wrong — it makes you *confidently wrong about someone else*.
+
+
+## The baseline that regenerates itself cannot detect staleness (2026-09-05)
+
+`comms list` 0.15.1 marked three anvil panes `stale-prompt`; on 0.15.2 all three cleared and my whole-artifact diff went empty (0 lines, 0 bytes). **I never ran `comms refresh`.** The file was rewritten under me: `composed:` moved 04:27:29Z → 06:20:17Z, size 11398 → 11456, almost certainly by the redeploy itself.
+
+**The flaw:** the indicator's baseline is the on-disk `.system-prompt.md`, which is a *regenerable artifact*, not a record of what the pane launched with. A recompose clears the marker whether or not the running pane reloaded. So `file fresh + pane stale` is indistinguishable from `file fresh + pane fresh` — a **false negative**, quieter than the false positive it was built to avoid, because the marker just stops printing. Worse: a deploy silently destroys the very specimens the indicator exists to surface.
+
+**The fix shape:** capture the baseline at pane launch and store it where a recompose cannot touch it (a launch-time copy, or a hash in the session record), then compare against a fresh fold. **Comparing a regenerable file against a regeneration of itself only detects the window in which nobody happened to regenerate it.**
+
+**Family:** same animal as byte-parity-was-green-but-nobody-asked-if-byte-parity-was-the-property, one layer up — now the fold matches, but *the fold is not the pane*. Recurring test: **name the property, then check the thing being measured is actually that property and not a convenient stand-in that something else can satisfy.**
+
+**Local fact:** `.session-agents/*/.system-prompt.md` is untracked (commit `d3b5a18` lineage — generated files untracked), so git preserves no baseline either.
+
+## Legacy transport footgun: backticks in a shell `-m` body (2026-09-03)
+
+A wire body passed as a double-quoted shell argument evaluates backtick spans: a non-command token vanishes silently (sentence still reads grammatical), a real command runs and its stdout is spliced in. Current transport is `SendMessage` to `[comms]<slug>`, which never touches shell quoting — but any path that still builds a body in Bash must carry plain text, no backticks. **Detector:** a peer message with an unexplained mid-sentence gap is this bug until proven otherwise.

@@ -2,7 +2,6 @@
 name: holistic-reviewer
 description: "Review a document for cross-cutting concerns: template alignment, soundness, flow, dependencies, contradictions, clarity, surprises, and cross-references. Only invoke when explicitly requested."
 tools: Glob, Grep, Read, WebSearch
-model: opus
 ---
 
 You are a Holistic Review specialist for the review skill.
